@@ -27,7 +27,7 @@
    ║   descem até a seção de contato, sem abrir conversa nenhuma.          ║
    ╚═══════════════════════════════════════════════════════════════════════╝
    =========================================================================== */
-var WHATSAPP = "";
+var WHATSAPP = "5531989356183";
 
 var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melhor pro meu nível.";
 
