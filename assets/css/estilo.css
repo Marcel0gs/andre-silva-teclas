@@ -1,0 +1,315 @@
+/* ===========================================================================
+   André Silva Teclas — base compartilhada (home + páginas de curso)
+
+   Reconstrução 19/09/2026 no modelo de referência definido em
+   identidade/design-guide.md ("Site de cliente: os dois pilares"):
+   imagem impactante carrega o site, e animação vale pela fluidez, não pela
+   complexidade.
+
+   SISTEMA DE MOVIMENTO — as três regras que fazem parecer caro:
+   1. Curva com saída longa (--saida). Entra rápido, desacelera devagar.
+      É o que separa "animação de site" de "animação de template".
+   2. Duração alta (700-900ms) e escalonamento entre irmãos (--i * 90ms).
+      Tudo entrando junto parece barato, mesmo com a curva certa.
+   3. Só transform e opacity. Qualquer outra propriedade força o navegador
+      a recalcular layout a cada quadro, e é daí que vem o engasgo no
+      celular intermediário.
+
+   Paleta vintage quente: vinho, laranja queimado, âmbar e creme.
+   =========================================================================== */
+
+:root {
+  /* ---- cor ---- */
+  --vinho: #7a1f2b;
+  --vinho-claro: #a52f33;
+  --laranja: #c0562a;
+  --ambar: #e0a144;
+  --dourado: #ffc46b;
+  --roxo: #a855f7;
+  --whats: #25D366;
+
+  --fundo: #120c0b;          /* escuro base */
+  --fundo-2: #1a110f;        /* escuro alternado */
+  --carta: #201513;
+  --borda: #34211d;
+  --texto: #f7ece0;
+  --texto-fraco: #c2ab99;
+
+  /* superfície clara: é o que dá o ar editorial da referência.
+     Site só escuro fica pesado; a alternância creme/escuro é metade do efeito. */
+  --creme: #efe7dc;
+  --creme-2: #e5dacb;
+  --creme-borda: #d6c7b4;
+  --tinta: #24150f;          /* texto sobre creme */
+  --tinta-fraca: #6b5647;
+
+  /* ---- movimento ---- */
+  --saida: cubic-bezier(0.16, 1, 0.3, 1);
+  --saida-curta: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 820ms;
+  --dur-curta: 420ms;
+  --passo: 90ms;             /* atraso entre elementos irmãos */
+
+  /* ---- medida ---- */
+  --nav-altura: 72px;
+  --raio: 20px;
+  --limite: 1180px;
+}
+
+/* ---------------------------------------------------------------- reset --- */
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; }
+
+
+body {
+  margin: 0;
+  background: var(--fundo);
+  color: var(--texto);
+  font-family: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img, video, canvas, svg { max-width: 100%; display: block; }
+section { position: relative; }
+a { color: inherit; }
+::selection { background: var(--ambar); color: #1a0f08; }
+
+/* #palco: invólucro de TODO o conteúdo da página. Nada position:fixed pode
+   morar aqui dentro: nav, botão flutuante e canvas do cursor ficam fora.
+   Nada o transforma desde 19/09/2026, quando o scroll por interpolação saiu.
+   Por isso ele NÃO leva will-change: criar camada de composição pra página
+   inteira sem necessidade custa memória e não devolve nada. */
+
+/* ------------------------------------------------------------ tipografia --- */
+/* Duas famílias em contraste, como nos modelos de referência:
+   serifa display pro momento nobre, sans geométrica pro resto. */
+.display {
+  font-family: "Instrument Serif", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+}
+
+h1, h2, h3, h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: -0.025em; }
+
+.titulo-secao {
+  font-family: "Instrument Serif", Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.1rem, 5.6vw, 4rem);
+  letter-spacing: -0.02em;
+  line-height: 1.04;
+  margin-bottom: 1.1rem;
+}
+.titulo-secao .destaque { font-style: italic; color: var(--dourado); }
+.faixa-creme .titulo-secao .destaque { color: var(--laranja); }
+
+.kicker {
+  text-transform: uppercase; letter-spacing: .2em; font-size: .72rem; font-weight: 700;
+  color: var(--ambar); display: inline-flex; align-items: center; gap: .7rem;
+  margin: 0 0 1.1rem; font-family: "Inter Tight", system-ui, sans-serif;
+}
+.kicker::before { content: ""; width: 28px; height: 1px; background: currentColor; opacity: .7; }
+.faixa-creme .kicker { color: var(--laranja); }
+
+.texto { color: var(--texto-fraco); line-height: 1.75; font-size: 1.03rem; margin: 0; }
+.faixa-creme .texto { color: var(--tinta-fraca); }
+.centro { text-align: center; }
+.centro .kicker { justify-content: center; }
+
+/* ---------------------------------------------------------------- layout --- */
+.secao { padding: clamp(4.5rem, 10vw, 8.5rem) 1.5rem; scroll-margin-top: var(--nav-altura); }
+.limite { max-width: var(--limite); margin: 0 auto; }
+.faixa-escura { background: var(--fundo-2); }
+.faixa-creme { background: var(--creme); color: var(--tinta); }
+.faixa-creme h1, .faixa-creme h2, .faixa-creme h3 { color: var(--tinta); }
+
+/* ------------------------------------------------------------- movimento --- */
+/* .revela é o único jeito de um bloco entrar na tela. O atraso vem do --i
+   inline, que é o índice do elemento dentro do grupo. */
+.revela {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition:
+    opacity var(--dur) var(--saida),
+    transform var(--dur) var(--saida);
+  transition-delay: calc(var(--i, 0) * var(--passo));
+}
+.revela.visivel { opacity: 1; transform: translate3d(0, 0, 0); }
+
+/* imagem que cresce ao entrar: o corte fica no pai, a escala no filho,
+   pra continuar sendo só transform */
+.moldura { overflow: hidden; border-radius: var(--raio); position: relative; }
+.moldura > img, .moldura > video {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.16);
+  transition: transform 1.5s var(--saida);
+  transition-delay: calc(var(--i, 0) * var(--passo));
+}
+.moldura.visivel > img, .moldura.visivel > video { transform: scale(1); }
+
+/* ---------------------------------------------------------------- botões --- */
+/* Padrão validado em vídeo (13/09/2026): brilho diagonal atravessa uma vez
+   no hover e some. Sem rotação, sem animação contínua em repouso. */
+.btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: .55rem;
+  background: linear-gradient(135deg, var(--laranja), var(--ambar));
+  color: #24120a; padding: 1rem 1.9rem; border-radius: 999px;
+  text-decoration: none; font-weight: 700; font-size: .95rem; border: none;
+  letter-spacing: -0.01em;
+  box-shadow: 0 10px 30px rgba(192, 86, 42, .32);
+  transition: transform var(--dur-curta) var(--saida), box-shadow var(--dur-curta) var(--saida), filter .2s ease;
+}
+.btn:hover, .btn:focus-visible {
+  transform: translate3d(0, -3px, 0); filter: brightness(1.05);
+  box-shadow: 0 18px 40px rgba(224, 161, 68, .42);
+}
+.btn::before {
+  content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; z-index: 1;
+  background: linear-gradient(115deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: skewX(-20deg); transition: left .7s var(--saida); pointer-events: none;
+}
+.btn:hover::before, .btn:focus-visible::before { left: 130%; }
+
+.btn--whats { background: var(--whats); color: #062c14; box-shadow: 0 10px 30px rgba(37,211,102,.3); }
+.btn--whats:hover { box-shadow: 0 18px 40px rgba(37,211,102,.42); }
+.btn--vazado {
+  background: transparent; color: var(--texto);
+  border: 1px solid rgba(247,236,224,.3); box-shadow: none;
+}
+.btn--vazado:hover { background: rgba(247,236,224,.09); box-shadow: none; }
+.faixa-creme .btn--vazado { color: var(--tinta); border-color: rgba(36,21,15,.25); }
+.faixa-creme .btn--vazado:hover { background: rgba(36,21,15,.06); }
+.btn--pequeno { padding: .65rem 1.2rem; font-size: .84rem; }
+.btn--largo { width: 100%; }
+
+/* link com sublinhado que corre, no lugar de botão quando o peso não cabe */
+.link-seta {
+  display: inline-flex; align-items: center; gap: .5rem; text-decoration: none;
+  font-weight: 600; font-size: .9rem; letter-spacing: .02em; text-transform: uppercase;
+  color: inherit; padding-bottom: .3rem; position: relative;
+}
+.link-seta::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px;
+  background: currentColor; transform: scaleX(1); transform-origin: right;
+  transition: transform .5s var(--saida);
+}
+.link-seta:hover::after { transform: scaleX(0); }
+.link-seta span { transition: transform .5s var(--saida); }
+.link-seta:hover span { transform: translate3d(5px, 0, 0); }
+
+/* ------------------------------------------------------------------- nav --- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40; height: var(--nav-altura);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 clamp(1.1rem, 4vw, 3rem);
+  background: transparent;
+  transition: background var(--dur-curta) ease, border-color var(--dur-curta) ease, backdrop-filter var(--dur-curta) ease;
+  border-bottom: 1px solid transparent;
+}
+/* No topo o nav flutua sobre o hero, que é CLARO: aqui o texto precisa ser
+   escuro. Assim que rola, o vidro escuro entra e o texto vira claro.
+   A home marca .nav--claro; as páginas internas nascem com fundo escuro e
+   não precisam disso. */
+.nav--claro .nav__logo { color: #2b1008; }
+.nav--claro .nav__logo span { color: #9c3520; }
+.nav--claro .nav__links a { color: rgba(43,16,8,.72); }
+.nav--claro .nav__links a:hover { color: #2b1008; }
+.nav--claro .nav__links a::after { background: #9c3520; }
+
+.nav--rolado {
+  background: rgba(18,12,11,.9); backdrop-filter: blur(14px);
+  border-bottom-color: var(--borda);
+}
+.nav--rolado.nav--claro .nav__logo { color: var(--texto); }
+.nav--rolado.nav--claro .nav__logo span { color: var(--dourado); }
+.nav--rolado.nav--claro .nav__links a { color: rgba(247,236,224,.72); }
+.nav--rolado.nav--claro .nav__links a:hover { color: var(--texto); }
+.nav--rolado.nav--claro .nav__links a::after { background: var(--dourado); }
+
+.nav__logo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: 1.35rem; text-decoration: none; letter-spacing: -0.01em; line-height: 1;
+  color: var(--texto); transition: color var(--dur-curta) ease;
+}
+.nav__logo span { font-style: italic; color: var(--dourado); transition: color var(--dur-curta) ease; }
+.nav__links { display: flex; align-items: center; gap: 1.9rem; list-style: none; margin: 0; padding: 0; }
+.nav__links a {
+  text-decoration: none; color: rgba(247,236,224,.72); font-size: .86rem; font-weight: 500;
+  position: relative; padding: .25rem 0; transition: color var(--dur-curta) ease;
+}
+.nav__links a::after {
+  content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px;
+  background: var(--dourado); transform: scaleX(0); transform-origin: left;
+  transition: transform .45s var(--saida);
+}
+.nav__links a:hover { color: var(--texto); }
+.nav__links a:hover::after { transform: scaleX(1); }
+@media (max-width: 900px) { .nav__links { display: none; } }
+
+/* --------------------------------------------------------------- rodapé --- */
+.rodape {
+  background: var(--fundo); border-top: 1px solid var(--borda);
+  padding: clamp(3rem, 6vw, 5rem) 1.5rem 2.5rem; text-align: center;
+  color: var(--texto-fraco); font-size: .88rem;
+}
+.rodape__marca {
+  font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2.4rem, 9vw, 5rem);
+  color: rgba(247,236,224,.1); line-height: 1; margin-bottom: 1.8rem; letter-spacing: -0.02em;
+}
+.rodape__redes { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin-top: 1.3rem; }
+.rodape__redes a {
+  text-decoration: none; border: 1px solid var(--borda); padding: .5rem 1.05rem;
+  border-radius: 999px; font-weight: 600; font-size: .82rem;
+  transition: border-color var(--dur-curta) ease, color var(--dur-curta) ease, transform var(--dur-curta) var(--saida);
+}
+.rodape__redes a:hover { border-color: var(--ambar); color: var(--texto); transform: translate3d(0,-2px,0); }
+
+/* --------------------------------------------------- whatsapp flutuante --- */
+.whats-flutuante {
+  position: fixed; right: 1.2rem; bottom: 1.2rem; z-index: 45;
+  width: 56px; height: 56px; border-radius: 50%; background: var(--whats);
+  display: grid; place-items: center; text-decoration: none;
+  box-shadow: 0 12px 28px rgba(37,211,102,.42);
+  transition: transform var(--dur-curta) var(--saida);
+}
+.whats-flutuante:hover { transform: scale(1.09); }
+
+/* ------------------------------------------------- notas flutuantes (FAQ) --- */
+.notas { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.nota {
+  position: absolute; display: grid; place-items: center;
+  width: 42px; height: 42px; border-radius: 14px; font-size: 1.15rem;
+  background: rgba(192,86,42,.1); border: 1px solid rgba(192,86,42,.22);
+  color: var(--laranja); opacity: .55;
+  animation: nota-flutua 9s ease-in-out infinite;
+}
+/* Em tela estreita não existe margem lateral sobrando: a nota cairia em
+   cima do card. Melhor sumir do que atrapalhar. */
+@media (max-width: 1100px) { .notas { display: none; } }
+@keyframes nota-flutua {
+  0%, 100% { transform: translate3d(0,0,0) rotate(-4deg); }
+  50%      { transform: translate3d(0,-16px,0) rotate(4deg); }
+}
+
+/* ------------------------------------------------------ cursor e rastro --- */
+body.cursor-proprio, body.cursor-proprio a, body.cursor-proprio button { cursor: crosshair; }
+#rastro { position: fixed; inset: 0; z-index: 9999; pointer-events: none; }
+
+/* --------------------------------------------------- acessibilidade base --- */
+:focus-visible { outline: 2px solid var(--ambar); outline-offset: 3px; }
+
+/* Quem pediu menos movimento recebe o site inteiro, parado e legível.
+   Nada aqui pode depender de animação pra aparecer. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .revela { opacity: 1; transform: none; transition: none; }
+  .moldura > img, .moldura > video { transform: none; transition: none; }
+  .nota { animation: none; }
+  #rastro { display: none; }
+  body.cursor-proprio, body.cursor-proprio a { cursor: auto; }
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+}

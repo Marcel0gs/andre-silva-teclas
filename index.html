@@ -1,0 +1,600 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>André Silva Teclas | Aulas de teclado online do zero ao avançado</title>
+<meta name="description" content="Aprenda teclado de verdade com André Silva Teclas: tire música de ouvido, monte acordes que funcionam e toque com liberdade. Cursos online, comunidade no WhatsApp e lives para tirar dúvida.">
+<!-- O canonical aponta pro GitHub Pages porque e a URL que o Google indexa.
+     Quando o dominio proprio entrar no ar, trocar aqui e nas 4 paginas de curso. -->
+<link rel="canonical" href="https://marcel0gs.github.io/andre-silva-teclas/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="André Silva Teclas | Aulas de teclado online">
+<meta property="og:description" content="Tire de ouvido a música que você quiser. Cursos de teclado do zero ao avançado, com comunidade e lives.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:url" content="https://marcel0gs.github.io/andre-silva-teclas/">
+<meta property="og:image" content="https://marcel0gs.github.io/andre-silva-teclas/assets/img/og-capa.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/css/estilo.css">
+<link rel="stylesheet" href="assets/css/componentes.css">
+
+<script>
+/* A silhueta animada é um WebM com transparência de verdade (241 KB, contra
+   31,8 MB do GIF original). Chrome, Edge, Firefox e Android tocam isso com
+   o fundo vazado. O Safari toca o arquivo mas IGNORA a transparência, e a
+   figura sairia dentro de um retângulo preto — por isso ele recebe o SVG
+   estático, que é nítido e tem transparência real.
+   Roda antes da página pintar, então não existe troca piscando na tela. */
+(function () {
+  /* marca que tem JS: é o que autoriza as estrelas do placar a nascerem
+     vazias pra se preencherem depois. Sem JS elas já aparecem cheias. */
+  document.documentElement.className += ' js';
+
+  var v = document.createElement('video');
+  var ehSafari = /^((?!chrome|android|crios|fxios|edg|opr).)*safari/i.test(navigator.userAgent);
+  if (!ehSafari && v.canPlayType && v.canPlayType('video/webm; codecs="vp9"')) {
+    document.documentElement.className += ' alpha-video';
+  }
+})();
+</script>
+</head>
+<body>
+
+<!-- nav, botão flutuante e rastro do cursor ficam FORA do #palco:
+     position:fixed não funciona dentro de um elemento com transform. -->
+<nav class="nav nav--claro">
+  <a class="nav__logo" href="#topo">André <span>Silva Teclas</span></a>
+  <ul class="nav__links">
+    <li><a href="#metodo">Como funciona</a></li>
+    <li><a href="#experimente">Experimente</a></li>
+    <li><a href="#cursos">Cursos</a></li>
+    <li><a href="#videos-secao">Vídeos</a></li>
+    <li><a href="#sobre">Quem ensina</a></li>
+  </ul>
+  <a class="btn btn--whats btn--pequeno" data-whats href="#contato">Falar no WhatsApp</a>
+</nav>
+
+<div id="palco">
+
+<!-- ======================= HERO =======================
+     Composição: gradiente quente CLARO no fundo, marca gigante sangrando
+     na base, e a silhueta ESCURA recortada por cima das duas coisas.
+     Escuro sobre escuro some — ver aviso no topo do componentes.css. -->
+<section class="hero" id="topo">
+  <div class="hero__luz" aria-hidden="true"></div>
+  <div class="hero__marca" data-parallax="0.32" aria-hidden="true">ANDRÉ SILVA</div>
+
+  <div class="hero__arte" data-parallax="1" aria-hidden="true">
+    <div class="hero__arte-svg" data-src="assets/img/silhueta-teclado.webp"></div>
+    <video class="hero__arte-video" autoplay muted loop playsinline preload="auto"
+           data-src="assets/video/silhueta-teclado.webm"
+           data-src-leve="assets/video/silhueta-teclado-leve.webm"></video>
+  </div>
+  <script>
+  /* Os endereços ficam em data-src, não em src, de propósito: se estivessem
+     no HTML o navegador baixaria TODOS (esconder com display:none não impede
+     o download) e a maior parte do peso da primeira tela iria pro lixo.
+     Aqui só o arquivo que vai ser usado é pedido. */
+  (function () {
+    var arte = document.currentScript.previousElementSibling;
+    var video = arte.querySelector('.hero__arte-video');
+    var figura = arte.querySelector('.hero__arte-svg');
+
+    if (!document.documentElement.classList.contains('alpha-video')) {
+      /* Safari e quem não compõe alfa em vídeo: figura parada, mesmo desenho
+         do vídeo, com transparência de verdade e 44 KB. */
+      figura.style.backgroundImage = 'url("' + figura.getAttribute('data-src') + '")';
+      return;
+    }
+
+    /* Duas versões do mesmo vídeo. No celular a figura é desenhada com menos
+       de 400px de largura: mandar o arquivo de 1600px pra lá seria gastar
+       1 MB pra jogar fora quase tudo na hora de desenhar. */
+    var leve = window.matchMedia('(max-width: 860px)').matches;
+    video.src = video.getAttribute(leve ? 'data-src-leve' : 'data-src');
+
+    /* Mais lento, a pedido dele. Fica no playbackRate em vez de ser gravado
+       no arquivo porque assim não custa quadro nenhum de qualidade, e o
+       ajuste é uma linha se ele quiser mais ou menos. 1 = velocidade
+       original, 0.7 = 30% mais devagar. */
+    video.playbackRate = 0.7;
+    video.addEventListener('loadedmetadata', function () { video.playbackRate = 0.7; });
+  })();
+  </script>
+
+  <div class="hero__grao" aria-hidden="true"></div>
+
+  <div class="hero__conteudo">
+    <p class="kicker">Professor de teclado online</p>
+    <h1>Tire de ouvido <em>a música que você quiser</em></h1>
+    <p class="hero__sub">
+      Método prático, na ordem certa, pra você parar de depender de cifra e
+      começar a tocar com liberdade.
+    </p>
+    <div class="hero__acoes">
+      <a class="btn" href="#cursos">Ver os cursos</a>
+      <a class="btn btn--vazado" href="#experimente">Experimentar agora</a>
+    </div>
+  </div>
+
+  <p class="hero__rolar">Role para descobrir</p>
+</section>
+
+<!-- ======================= PROVA SOCIAL =======================
+     Saiu de dentro do hero de propósito: em cima do teclado os números
+     ficavam ilegíveis. Numa faixa própria eles respiram e ainda funcionam
+     como primeira emenda entre o hero claro e o corpo escuro do site. -->
+<section class="provas">
+  <div class="limite provas__grade">
+    <div class="revela"><strong>7,8 mil</strong><span>inscritos no YouTube</span></div>
+    <div class="revela"><strong>4.964</strong><span>seguidores no Instagram</span></div>
+    <div class="revela"><strong>8</strong><span>cursos e materiais próprios</span></div>
+    <div class="revela"><strong>7 dias</strong><span>de garantia nos cursos</span></div>
+  </div>
+</section>
+
+<!-- ======================= FAIXA CORRENDO ======================= -->
+<div class="faixa-marquee" aria-hidden="true">
+  <div class="marquee__trilho">
+    <span class="marquee__item">Harmonia</span>
+    <span class="marquee__item">Tocar de ouvido</span>
+    <span class="marquee__item">Poliacordes</span>
+    <span class="marquee__item">Blues</span>
+    <span class="marquee__item">Louvor</span>
+    <span class="marquee__item">Pad contínuo</span>
+    <span class="marquee__item">Timbres</span>
+  </div>
+  <div class="marquee__trilho">
+    <span class="marquee__item">Harmonia</span>
+    <span class="marquee__item">Tocar de ouvido</span>
+    <span class="marquee__item">Poliacordes</span>
+    <span class="marquee__item">Blues</span>
+    <span class="marquee__item">Louvor</span>
+    <span class="marquee__item">Pad contínuo</span>
+    <span class="marquee__item">Timbres</span>
+  </div>
+</div>
+
+<!-- ======================= DOR ======================= -->
+<section class="secao faixa-escura" id="dor">
+  <div class="limite">
+    <div class="centro revela">
+      <p class="kicker">Se você se reconhece aqui</p>
+      <h2 class="titulo-secao">Você já sabe alguns acordes.<br>Mas na hora de tocar, <span class="destaque">trava</span>.</h2>
+      <p class="texto" style="max-width:56ch;margin:0 auto">
+        A maioria dos tecladistas não para por falta de vontade. Para porque aprendeu
+        solto, sem ordem, juntando pedaço de vídeo com pedaço de cifra.
+      </p>
+    </div>
+
+    <div class="grade-3">
+      <div class="carta revela">
+        <p class="dor">Você decorou posições, mas quando a música muda de tom fica perdido e precisa procurar tudo de novo.</p>
+      </div>
+      <div class="carta revela">
+        <p class="dor">Toca sempre a mesma levada, e por mais que acerte as notas o som continua pobre perto do que você ouve.</p>
+      </div>
+      <div class="carta revela">
+        <p class="dor">Depende de cifra pra tudo. Sem o papel na frente, não consegue tirar nem a música que já escutou mil vezes.</p>
+      </div>
+      <div class="carta revela">
+        <p class="dor">Assiste vídeo solto no YouTube há meses, junta dica com dica, e mesmo assim sente que não saiu do lugar.</p>
+      </div>
+    </div>
+
+    <p class="fecho revela">Não é falta de talento. É <span>falta de método</span>.</p>
+  </div>
+</section>
+
+<!-- ======================= MÉTODO ======================= -->
+<section class="secao faixa-creme" id="metodo">
+  <div class="limite">
+    <div class="centro revela">
+      <p class="kicker">Como funciona</p>
+      <h2 class="titulo-secao">Três passos, na ordem que <span class="destaque">realmente funciona</span></h2>
+      <p class="texto" style="max-width:54ch;margin:0 auto">
+        É a mesma sequência que o André usa com os alunos: primeiro a base que
+        sustenta, depois o ouvido, e só então a aplicação em música de verdade.
+      </p>
+    </div>
+
+    <div class="grade-3">
+      <div class="carta revela">
+        <div class="carta__num">01</div>
+        <h3>Base que sustenta</h3>
+        <p>Acordes, campo harmônico e a lógica por trás de cada escolha. Você entende
+        por que aquele acorde encaixa, em vez de decorar desenho de mão.</p>
+      </div>
+      <div class="carta revela">
+        <div class="carta__num">02</div>
+        <h3>Ouvido treinado</h3>
+        <p>Reconhecer intervalo, progressão e ritmo. É a parte que separa quem toca
+        o que está escrito de quem tira sozinho a música que gosta.</p>
+      </div>
+      <div class="carta revela">
+        <div class="carta__num">03</div>
+        <h3>Aplicação real</h3>
+        <p>Levada, pad, poliacorde e arranjo aplicados em música de verdade, do jeito
+        que você vai precisar tocar no culto, no ensaio ou na gravação.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= EXPERIMENTE ======================= -->
+<section class="secao faixa-escura centro" id="experimente">
+  <div class="limite">
+    <div class="revela">
+      <p class="kicker">Experimente</p>
+      <h2 class="titulo-secao">Toca aí. É assim que <span class="destaque">começa</span>.</h2>
+      <p class="texto" style="max-width:48ch;margin:0 auto">
+        Clica nas teclas e ouça. Simples assim: o primeiro som sai antes de qualquer teoria.
+      </p>
+    </div>
+    <div class="instrumento revela">
+      <div class="instrumento__painel">
+        <div class="instrumento__grade"></div>
+        <div class="instrumento__tela">TOQUE AQUI</div>
+        <div class="instrumento__grade"></div>
+      </div>
+      <div class="teclado" id="teclado" aria-label="Teclado tocável de demonstração"></div>
+      <div class="instrumento__base"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CURSOS ======================= -->
+<section class="secao faixa-creme" id="cursos">
+  <div class="limite">
+    <div class="centro revela">
+      <p class="kicker">Cursos</p>
+      <h2 class="titulo-secao">Escolha por onde <span class="destaque">começar</span></h2>
+      <p class="texto" style="max-width:52ch;margin:0 auto">
+        Cada curso resolve um problema específico. Se estiver em dúvida, chama no
+        WhatsApp que o André indica o caminho certo pro seu nível.
+      </p>
+    </div>
+
+    <div class="cursos">
+
+      <a class="curso revela" href="cursos/tocando-de-ouvido/">
+        <span class="curso__selo">Mais completo</span>
+        <div class="curso__capa"><img src="assets/img/capas/tocando-de-ouvido.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Curso Tocando de Ouvido</h3>
+          <p class="curso__desc">Quatro módulos para treinar o ouvido, reconhecer progressões e tirar música sem depender de cifra. Com comunidade, lives e certificado.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco"><small>R$197</small>R$29,99</span>
+            <span class="curso__ver">Ver curso →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="cursos/poliacordes/">
+        <div class="curso__capa"><img src="assets/img/capas/poliacordes.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Domine os Poliacordes</h3>
+          <p class="curso__desc">Os acordes sofisticados que mudam a densidade do seu som, ensinados nos 12 tons e aplicados em música real.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco">R$79,99</span>
+            <span class="curso__ver">Ver curso →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="cursos/dominando-o-blues/">
+        <div class="curso__capa"><img src="assets/img/capas/dominando-o-blues.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Dominando o Blues</h3>
+          <p class="curso__desc">Ebook de 30 páginas com escala pentatônica, progressões de 12 compassos, mão esquerda e improviso com sotaque de blues.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco"><small>$49</small>$25</span>
+            <span class="curso__ver">Ver curso →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="cursos/harmonia-na-pratica/">
+        <div class="curso__capa"><img src="assets/img/capas/harmonia-na-pratica.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Harmonia na Prática</h3>
+          <p class="curso__desc">A harmonia explicada pelo lado prático: o que tocar, quando tocar e por quê, sem travar na teoria.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco">R$49,99</span>
+            <span class="curso__ver">Ver curso →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="#contato">
+        <div class="curso__capa"><img src="assets/img/capas/blues-no-teclado.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Blues no Teclado</h3>
+          <p class="curso__desc">Curso focado no estilo, pra quem já tem base e quer ganhar repertório e sotaque próprio no instrumento.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco curso__preco--consulta">Sob consulta</span>
+            <span class="curso__ver">Falar no WhatsApp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="#contato">
+        <div class="curso__capa"><img src="assets/img/capas/pacote-timbres.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Pacote de Timbres Casio Privia PX-5S</h3>
+          <p class="curso__desc">Timbres prontos pra carregar direto no seu Privia PX-5S e sair tocando com som de produção.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco curso__preco--consulta">Sob consulta</span>
+            <span class="curso__ver">Falar no WhatsApp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="#contato">
+        <div class="curso__capa"><img src="assets/img/capas/pad-continuo.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Pad Contínuo de Alta Qualidade</h3>
+          <p class="curso__desc">Pads contínuos nos 12 tons pra sustentar o ambiente do começo ao fim, sem corte e sem barulho.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco curso__preco--consulta">Sob consulta</span>
+            <span class="curso__ver">Falar no WhatsApp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="curso revela" href="#contato">
+        <span class="curso__selo">Grátis</span>
+        <div class="curso__capa"><img src="assets/img/capas/aula-gratis.webp" alt="" loading="lazy"></div>
+        <div class="curso__corpo">
+          <h3 class="curso__titulo">Teclado do zero, aula 1</h3>
+          <p class="curso__desc">A primeira aula é gratuita. Serve pra você sentir o jeito de ensinar antes de investir em qualquer curso.</p>
+          <div class="curso__rodape">
+            <span class="curso__preco curso__preco--consulta">Grátis</span>
+            <span class="curso__ver">Quero começar →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ======================= VÍDEOS DO YOUTUBE =======================
+     A lista de vídeos mora em assets/js/videos.js. O André cola o link
+     lá e o card se monta sozinho. O player do YouTube só carrega quando
+     alguém clica, pra não pesar a página. -->
+<section class="secao faixa-escura" id="videos-secao">
+  <div class="limite">
+    <div class="yt-topo">
+      <div class="revela">
+        <p class="kicker">No canal</p>
+        <!-- Era "Aula nova toda semana". Saiu em 19/09/2026: ninguém confirmou
+             com o André que ele publica semanalmente, e promessa de frequência
+             que o canal não cumpre é a primeira coisa que o visitante confere
+             e a primeira que derruba a confiança. O título agora fala do que
+             já existe e é verificável. -->
+        <h2 class="titulo-secao">Aprenda de graça <span class="destaque">antes de comprar</span></h2>
+        <p class="texto">
+          O que sai no canal aparece aqui. Assista direto na página, sem precisar
+          sair e sem perder o que você estava lendo.
+        </p>
+      </div>
+      <a class="btn btn--vazado revela" id="link-canal" href="https://www.youtube.com/@andresilvateclas" target="_blank" rel="noopener">Ver o canal completo</a>
+    </div>
+
+    <div class="videos" id="videos"></div>
+  </div>
+</section>
+
+<!-- ======================= SOBRE ======================= -->
+<section class="secao faixa-creme" id="sobre">
+  <div class="limite sobre__grade">
+    <div class="moldura sobre__foto">
+      <img src="assets/img/sobre-andre.webp" alt="André Silva Teclas tocando teclado em estúdio" loading="lazy">
+    </div>
+    <div class="revela">
+      <p class="kicker">Quem ensina</p>
+      <h2 class="titulo-secao">André Silva Teclas</h2>
+      <p class="texto">
+        Músico e professor de teclado online. Ensina do zero ao avançado com aula
+        prática, sem enrolação e sem teoria que não vira música. O conteúdo dele
+        acompanha quase 13 mil pessoas somando YouTube e Instagram, e os
+        alunos têm comunidade no WhatsApp e live periódica pra tirar dúvida direto
+        com ele.
+      </p>
+      <ul class="sobre__lista">
+        <li>Aulas gravadas em estúdio, com câmera na mão e no teclado, pra você ver exatamente o que está sendo feito</li>
+        <li>Conteúdo aplicado ao que você toca de verdade: louvor, gospel, pop e blues</li>
+        <li>Acompanhamento em comunidade, não é vídeo solto que você assiste e esquece</li>
+      </ul>
+      <div class="hero__acoes" style="margin-top:2rem;justify-content:flex-start">
+        <a class="btn btn--whats" data-whats href="#contato">Falar com o André</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DEPOIMENTOS ======================= -->
+<section class="secao" id="depoimentos">
+  <div class="limite">
+    <div class="centro revela">
+      <p class="kicker">Quem já estudou com ele</p>
+      <h2 class="titulo-secao">O que os alunos <span class="destaque">contam</span></h2>
+    </div>
+    <!-- ⚠️ O NÚMERO DO PLACAR É O ELO FRACO DESSA SEÇÃO.
+         No Realce ele é forte porque vem do Google: 105 avaliações que
+         qualquer um confere. Aqui ele vem das próprias páginas de curso do
+         André, que é prova que depende dele mesmo.
+         O que deve entrar aqui quando existir, em ordem de preferência:
+         1. nota e quantidade de avaliações do Hotmart (é do comprador)
+         2. avaliações do Google Meu Negócio, se ele abrir ficha
+         Até lá o texto diz exatamente de onde o número veio, sem fingir
+         que é do Google. -->
+    <div class="placar" data-placar>
+      <div class="placar__nota" data-conta data-alvo="5.0" data-casas="1">5,0</div>
+      <div>
+        <span class="estrelas-med" data-estrelas aria-hidden="true">
+          <span class="vazias">★★★★★</span>
+          <span class="cheias">★★★★★</span>
+        </span>
+        <span class="placar__contagem">Média de <b data-conta data-alvo="4">4</b> depoimentos de alunos dos cursos</span>
+      </div>
+      <span class="placar__fonte">Fonte: páginas dos cursos · setembro de 2026</span>
+    </div>
+
+    <div class="carrossel" data-carrossel>
+      <div class="carrossel__janela">
+        <div class="avaliacoes" data-trilho>
+
+          <article class="aval">
+            <div class="estrelas" aria-hidden="true">★★★★★</div>
+            <blockquote>“Em apenas 3 semanas já consegui tirar músicas que achava impossíveis. O método é muito prático e vai direto ao ponto.”</blockquote>
+            <div class="aval__quem">
+              <span class="aval__ini" aria-hidden="true">MR</span>
+              <div><b>Marcos Ribeiro</b><span class="fonte">Aluno do Tocando de Ouvido</span></div>
+            </div>
+          </article>
+
+          <article class="aval">
+            <div class="estrelas" aria-hidden="true">★★★★★</div>
+            <blockquote>“Finalmente entendi como funcionam as progressões. Agora consigo acompanhar qualquer música. O curso mudou minha forma de ouvir.”</blockquote>
+            <div class="aval__quem">
+              <span class="aval__ini" aria-hidden="true">AS</span>
+              <div><b>Amanda Santos</b><span class="fonte">Aluna do Tocando de Ouvido</span></div>
+            </div>
+          </article>
+
+          <article class="aval">
+            <div class="estrelas" aria-hidden="true">★★★★★</div>
+            <blockquote>“Os poliacordes deram uma profundidade incrível às minhas músicas. Meu som no teclado mudou completamente.”</blockquote>
+            <div class="aval__quem">
+              <span class="aval__ini" aria-hidden="true">JS</span>
+              <div><b>João Silva</b><span class="fonte">Aluno do Domine os Poliacordes</span></div>
+            </div>
+          </article>
+
+          <article class="aval">
+            <div class="estrelas" aria-hidden="true">★★★★★</div>
+            <blockquote>“A comunidade no WhatsApp é fantástica. Sempre tem alguém para ajudar e o instrutor é super presente.”</blockquote>
+            <div class="aval__quem">
+              <span class="aval__ini" aria-hidden="true">CF</span>
+              <div><b>Carla Fernandes</b><span class="fonte">Aluna, tecladista iniciante</span></div>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="carrossel__controles">
+        <button class="seta" type="button" data-anterior aria-label="Depoimento anterior">‹</button>
+        <div class="pontos" data-pontos></div>
+        <button class="seta" type="button" data-proximo aria-label="Próximo depoimento">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PERGUNTAS ======================= -->
+<section class="secao faixa-creme" id="perguntas">
+  <!-- Notas decorativas: só nas margens laterais, nunca dentro da faixa
+       onde moram os cards. Quando entravam na área de conteúdo pareciam
+       elemento quebrado da interface, não enfeite. -->
+  <div class="notas" aria-hidden="true">
+    <div class="nota" style="top:10%;left:2.5%;animation-delay:-1s">♪</div>
+    <div class="nota" style="top:34%;left:5%;animation-delay:-6s">♬</div>
+    <div class="nota" style="top:62%;left:2%;animation-delay:-5s">♩</div>
+    <div class="nota" style="bottom:10%;left:5.5%;animation-delay:-7s">♪</div>
+    <div class="nota" style="top:14%;right:4%;animation-delay:-3s">♫</div>
+    <div class="nota" style="top:44%;right:2%;animation-delay:-4s">♪</div>
+    <div class="nota" style="top:70%;right:5%;animation-delay:-2s">♬</div>
+    <div class="nota" style="bottom:12%;right:2.5%;animation-delay:-8s">♫</div>
+  </div>
+  <div class="limite">
+    <div class="centro revela">
+      <p class="kicker">Perguntas de verdade</p>
+      <h2 class="titulo-secao">O que sempre <span class="destaque">chega no WhatsApp</span></h2>
+      <p class="texto" style="max-width:46ch;margin:0 auto">
+        Sem resposta pela metade. Se ficar dúvida, chama e pergunta direto.
+      </p>
+    </div>
+
+    <div class="perguntas">
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">Preciso já saber alguma coisa de teclado?</button>
+        <div class="pergunta__corpo"><p>Não. Tem curso começando do zero absoluto, inclusive a primeira aula gratuita. E se você já toca, dá pra pular direto pro que resolve o seu travamento hoje, como ouvido ou harmonia.</p></div>
+      </div>
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">Preciso ter teclado bom pra começar?</button>
+        <div class="pergunta__corpo"><p>Qualquer teclado de 5 oitavas já serve pra fazer os cursos. Instrumento melhor ajuda no timbre, mas não é o que decide se você vai aprender ou não.</p></div>
+      </div>
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">As aulas são ao vivo ou gravadas?</button>
+        <div class="pergunta__corpo"><p>Os cursos são gravados, pra você assistir quando der e repetir quantas vezes precisar. Além disso tem live periódica com o André e comunidade no WhatsApp pra tirar dúvida no meio do caminho.</p></div>
+      </div>
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">Por quanto tempo fico com acesso?</button>
+        <div class="pergunta__corpo"><p>O acesso é vitalício nos cursos completos. Você compra uma vez e volta ao conteúdo sempre que precisar, inclusive nas atualizações.</p></div>
+      </div>
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">E se eu não gostar do curso?</button>
+        <div class="pergunta__corpo"><p>Tem garantia de 7 dias. Você entra, assiste, e se achar que não é pra você é só pedir o reembolso dentro do prazo, sem discussão.</p></div>
+      </div>
+      <div class="pergunta" data-pergunta>
+        <button class="pergunta__topo" aria-expanded="false">Quanto tempo até eu tocar alguma coisa?</button>
+        <div class="pergunta__corpo"><p>Depende do quanto você pratica, mas o método é montado pra você tocar algo já nas primeiras aulas, em vez de passar semanas só na teoria antes de encostar no instrumento.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CHAMADA FINAL ======================= -->
+<section class="secao chamada" id="contato">
+  <div class="chamada__caixa revela">
+    <p class="kicker" style="justify-content:center">Próximo passo</p>
+    <h2 class="titulo-secao">O teclado não aprende sozinho.<br><span class="destaque">Começa hoje.</span></h2>
+    <p class="texto">
+      Se você não sabe qual curso serve pro seu nível, manda mensagem. O André
+      responde, entende onde você está travado e indica por onde começar, sem
+      empurrar curso que não faz sentido pra você.
+    </p>
+    <div class="hero__acoes" style="margin-top:2.2rem">
+      <a class="btn btn--whats" data-whats href="#contato">Chamar no WhatsApp</a>
+      <a class="btn btn--vazado" href="#cursos">Ver os cursos</a>
+    </div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="rodape__marca">André Silva Teclas</div>
+  <p>Aulas de teclado online, do zero ao avançado.</p>
+  <div class="rodape__redes">
+    <a href="https://instagram.com/andresilvateclas" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@andresilvateclas" target="_blank" rel="noopener">YouTube</a>
+    <!-- Facebook e grupo de WhatsApp saem daqui assim que o André mandar os
+         endereços reais. Link que não leva a lugar nenhum passa impressão de
+         site quebrado, então é melhor não ter do que ter morto. Modelo:
+         <a href="COLE_AQUI" target="_blank" rel="noopener">Facebook</a>
+         <a href="COLE_AQUI" target="_blank" rel="noopener">Grupo no WhatsApp</a> -->
+  </div>
+</footer>
+
+</div><!-- /#palco -->
+
+<a class="whats-flutuante" data-whats href="#contato" aria-label="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#062c14"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/></svg>
+</a>
+
+<!-- videos.js vem ANTES do site.js de propósito: ele cria os cards de vídeo,
+     e o site.js precisa encontrá-los prontos pra ligar a entrada em cascata. -->
+<script src="assets/js/videos.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

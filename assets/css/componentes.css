@@ -1,0 +1,692 @@
+/* ===========================================================================
+   André Silva Teclas — componentes.
+   Complementa estilo.css (paleta, tipografia, sistema de movimento).
+
+   ⚠️ COMPOSIÇÃO DO HERO — descoberta de 17/09/2026 que continua valendo:
+   a silhueta é ESCURA. Silhueta escura sobre fundo escuro some. O que faz
+   ela ler é o inverso: gradiente quente CLARO no fundo e a figura escura
+   recortada por cima. Não inverter isso "pra combinar com o resto do site".
+   =========================================================================== */
+
+/* =========================================================== HERO ========= */
+.hero {
+  position: relative; min-height: 100svh; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: calc(var(--nav-altura) + clamp(2rem, 6vh, 4rem)) 1.5rem 0;
+  /* ⚠️ A BASE NÃO PODE FICAR ESCURA. O teclado da figura é preto e cai
+     justamente no rodapé do hero: com a base em vinho quase preto ele
+     desaparecia e sobrava um homem de chapéu sem instrumento, que é o
+     contrário do que a imagem tem pra contar. A base fica em laranja
+     queimado, e quem faz a emenda com a seção seguinte é o ::after, numa
+     faixa curta no finzinho. */
+  background:
+    linear-gradient(176deg,
+      #f7f0e6 0%,
+      #efe0ca 20%,
+      #eab375 42%,
+      #dd7c3e 64%,
+      #c85a2b 84%,
+      #b04a24 100%);
+}
+
+/* grão analógico: tira o aspecto de gradiente digital chapado */
+.hero__grao {
+  position: absolute; inset: 0; z-index: 4; pointer-events: none; opacity: .45;
+  background-image: radial-gradient(rgba(60,20,10,.22) 1px, transparent 1px);
+  background-size: 3px 3px; mix-blend-mode: multiply;
+}
+/* ⚠️ OS PONTOS DESSA RAMPA NÃO SÃO LINEARES DE PROPÓSITO.
+   Com uma rampa reta a emenda não tinha salto de cor nenhum (medido: 19,12,11
+   virando 18,12,11), e AINDA ASSIM aparecia uma linha. O que a vista pega
+   não é o degrau de cor, é o degrau de VELOCIDADE: o gradiente vinha
+   escurecendo num ritmo constante e parava seco ao encostar no fundo.
+   Por isso os últimos pontos são bem juntos: a rampa chega no escuro
+   desacelerando, e os últimos 13% quase não mudam de cor. Sem kink, sem
+   linha.
+   O trecho transparente no começo continua existindo pra rampa só começar
+   ABAIXO das teclas brancas, que precisam ficar acesas. */
+.hero::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 26%;
+  z-index: 4; pointer-events: none;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    transparent 28%,
+    rgba(18,12,11,.08) 40%,
+    rgba(18,12,11,.25) 52%,
+    rgba(18,12,11,.45) 63%,
+    rgba(18,12,11,.64) 72%,
+    rgba(18,12,11,.80) 80%,
+    rgba(18,12,11,.91) 87%,
+    rgba(18,12,11,.97) 93%,
+    var(--fundo) 100%);
+}
+
+/* luz quente atrás da figura: é ela que recorta a silhueta contra o fundo */
+.hero__luz {
+  position: absolute; left: 50%; bottom: -6%; z-index: 1; pointer-events: none;
+  width: min(1100px, 104%); aspect-ratio: 1.4;
+  transform: translate3d(-50%, 0, 0);
+  background:
+    radial-gradient(ellipse 50% 46% at 50% 56%, rgba(255,214,150,.75) 0%, rgba(230,160,80,.4) 40%, transparent 70%),
+    radial-gradient(ellipse 72% 58% at 50% 62%, rgba(255,150,70,.4) 0%, transparent 72%);
+  filter: blur(18px);
+  animation: pulsa-luz 9s ease-in-out infinite;
+}
+@keyframes pulsa-luz {
+  0%, 100% { opacity: .85; transform: translate3d(-50%,0,0) scale(1); }
+  50%      { opacity: 1;   transform: translate3d(-50%,0,0) scale(1.05); }
+}
+
+/* ---- marca gigante sangrando na base, atrás da figura ----
+   É o movimento central da referência: a tipografia é a imagem principal,
+   e a figura passa na frente dela. */
+/* Altura escolhida a dedo: a marca precisa cair ACIMA da linha do teclado,
+   senão o instrumento cobre ela inteira e o efeito vira ruído. Ela aparece
+   dos dois lados do tronco, e é o tronco passando na frente que dá a
+   profundidade. */
+.hero__marca {
+  position: absolute; left: 50%; bottom: 25%; z-index: 2;
+  transform: translate3d(-50%, 0, 0);
+  width: 112%; text-align: center; pointer-events: none; user-select: none;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(2.8rem, 13.5vw, 14rem);
+  line-height: .84; letter-spacing: 0.005em; white-space: nowrap;
+  color: rgba(253,246,236,.9);
+  text-shadow: 0 14px 60px rgba(60,12,8,.35);
+  opacity: 0;
+  animation: marca-entra 1.5s var(--saida) .35s forwards;
+}
+@keyframes marca-entra {
+  from { opacity: 0; transform: translate3d(-50%, 52px, 0); }
+  to   { opacity: 1; transform: translate3d(-50%, 0, 0); }
+}
+
+/* ---- a figura animada (GIF do teclado, convertido pra WebP animado) ---- */
+/* ⚠️ O TAMANHO VEM DA ALTURA DA TELA, NÃO DA LARGURA.
+   Antes era `width: min(990px, 102%)` com `bottom: -13%`, e isso quebrava em
+   monitor grande por dois motivos que se somam: a largura travava em 990px
+   enquanto a marca gigante continuava crescendo (a figura encolhia perto do
+   texto), e os -13% de uma tela alta viram um recuo bem maior em pixels
+   (165px num monitor de 1273 contra 117px num de 900), empurrando a figura
+   pra fora da tela por baixo.
+   Amarrar a largura em svh resolve os dois: a figura cresce junto com a
+   altura disponível, que é o que de fato limita a composição. O recuo virou
+   px fixo pra não escalar com a tela. */
+.hero__arte {
+  position: absolute; left: 50%; bottom: -20px; z-index: 3;
+  width: min(104%, 92vh, 1280px);
+  width: min(104%, 92svh, 1280px);
+  pointer-events: none;
+  transform: translate3d(-50%, 0, 0);
+  will-change: transform, opacity;
+  filter: drop-shadow(0 26px 60px rgba(70,20,10,.42));
+}
+.hero__arte img, .hero__arte video { width: 100%; height: auto; }
+.hero__arte { opacity: 0; animation: arte-entra 1.6s var(--saida) .15s forwards; }
+@keyframes arte-entra {
+  from { opacity: 0; transform: translate3d(-50%, 34px, 0) scale(1.03); }
+  to   { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
+}
+
+/* ---- texto do hero ----
+   Centralizado porque a figura é simétrica e ocupa a largura toda. Texto
+   alinhado à esquerda brigaria com o tronco no meio da tela. */
+.hero__conteudo {
+  position: relative; z-index: 5; max-width: 860px; width: 100%;
+  margin: 0 auto; text-align: center; color: var(--tinta);
+}
+.hero__conteudo .kicker { color: #9c3520; justify-content: center; }
+.hero h1 {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.3rem, 5.6vw, 4.6rem);
+  line-height: 1.0; letter-spacing: -0.025em;
+  max-width: 17ch; margin: 0 auto; color: #2b1008;
+}
+.hero h1 em { font-style: italic; color: #9c3520; }
+.hero__sub {
+  margin: 1.1rem auto 0; max-width: 44ch; color: #67402c;
+  font-size: clamp(.98rem, 1.4vw, 1.08rem); line-height: 1.7;
+}
+.hero__acoes { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.6rem; justify-content: center; }
+/* ⚠️ Escopo obrigatório em .hero: o botão vazado só fica escuro porque o
+   FUNDO do hero é claro. A classe .hero__acoes é reaproveitada na chamada
+   final e nas páginas de curso, que têm fundo escuro — sem o .hero na
+   frente, o botão vira escuro sobre escuro e some. Já aconteceu. */
+.hero .hero__acoes .btn--vazado { color: #2b1008; border-color: rgba(43,16,8,.32); }
+.hero .hero__acoes .btn--vazado:hover { background: rgba(43,16,8,.07); }
+
+/* entrada escalonada das linhas do hero */
+.hero__conteudo > * {
+  opacity: 0; animation: sobe 1s var(--saida) forwards;
+}
+.hero__conteudo > *:nth-child(1) { animation-delay: .10s; }
+.hero__conteudo > *:nth-child(2) { animation-delay: .20s; }
+.hero__conteudo > *:nth-child(3) { animation-delay: .30s; }
+.hero__conteudo > *:nth-child(4) { animation-delay: .40s; }
+@keyframes sobe {
+  from { opacity: 0; transform: translate3d(0, 28px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* ---- faixa de prova social, logo abaixo do hero ----
+   O fundo NÃO é chapado: ele começa exatamente na cor em que o hero termina
+   (#8e3a1c) e dissolve no escuro do site ao longo da própria altura. É a
+   segunda metade da emenda descrita lá em cima, no .hero::after.
+   Se mudar a cor do pé do hero, mudar o primeiro tom daqui junto, senão
+   reaparece a linha de corte. */
+.provas {
+  padding: clamp(2.6rem, 5.5vw, 4rem) 1.5rem clamp(2.4rem, 5vw, 3.6rem);
+  background: var(--fundo);
+}
+.provas__grade {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: clamp(1.4rem, 3vw, 2.5rem); text-align: center;
+}
+.provas__grade > div { display: flex; flex-direction: column; gap: .3rem; }
+.provas__grade strong {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  color: var(--dourado); font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 1.05; letter-spacing: -0.02em;
+}
+.provas__grade span { color: var(--texto-fraco); font-size: .82rem; letter-spacing: .03em; }
+
+.hero__rolar {
+  position: absolute; right: clamp(.6rem, 2.4vw, 2rem); bottom: clamp(3rem, 9vh, 5.5rem);
+  z-index: 5; writing-mode: vertical-rl; margin: 0;
+  color: rgba(250,238,224,.6); font-size: .66rem; letter-spacing: .24em; text-transform: uppercase;
+  display: flex; align-items: center; gap: .8rem;
+}
+.hero__rolar::after {
+  content: ""; width: 1px; height: 46px;
+  background: linear-gradient(rgba(250,238,224,.7), transparent);
+  animation: fio 2.4s ease-in-out infinite;
+  transform-origin: top;
+}
+@keyframes fio { 0%,100% { transform: scaleY(.4); opacity: .5; } 50% { transform: scaleY(1); opacity: 1; } }
+
+/* ======================= HERO NO CELULAR =======================
+   ⚠️ O INIMIGO AQUI É A ALTURA, NÃO A LARGURA.
+
+   No Safari do iPhone, com as barras de endereço e de navegação à mostra,
+   sobra bem menos altura do que os 844px nominais do aparelho. Nesse
+   aperto a composição estourava de um jeito específico e feio: o h1 caía
+   pra três linhas, os dois botões empilhavam um sobre o outro, o bloco de
+   texto descia, e o botão "Ver os cursos" ia parar EM CIMA DO ROSTO do
+   músico.
+
+   O conserto tem três partes, e as três são necessárias:
+   1. os botões viram UMA LINHA SÓ (empilhado custava ~70px de altura)
+   2. o texto encolhe um pouco e as margens apertam
+   3. a figura cabe INTEIRA na tela, sem sangrar pelos lados
+
+   Antes de mexer em qualquer número daqui, testar em 390x700, que é o
+   Safari com barra, e não em 390x844, que é o aparelho sem barra nenhuma.
+   =============================================================== */
+@media (max-width: 860px) {
+  .hero { padding-top: calc(var(--nav-altura) + 1rem); }
+
+  .hero h1 {
+    font-size: clamp(1.85rem, 8vw, 2.6rem);
+    line-height: 1.02; max-width: 16ch;
+  }
+  .hero__sub {
+    margin-top: .8rem; max-width: 34ch;
+    font-size: .95rem; line-height: 1.55;
+  }
+
+  /* uma linha só, os dois botões dividindo a largura em partes iguais */
+  .hero__acoes {
+    margin-top: 1.1rem; flex-wrap: nowrap; gap: .5rem;
+    max-width: 360px; margin-inline: auto;
+  }
+  .hero__acoes .btn {
+    flex: 1 1 0; min-width: 0; padding: .82rem .7rem;
+    font-size: .83rem; white-space: nowrap;
+  }
+
+  /* A figura cabe inteira: nada de teclado cortado nas laterais. O recuo
+     de baixo deixa ela pousar exatamente onde começa a emenda escura. */
+  .hero__arte { width: 100%; bottom: 5%; }
+  .hero__luz { bottom: 2%; width: 118%; }
+  .hero__marca { font-size: clamp(2.4rem, 15.5vw, 6rem); bottom: 30%; }
+  .hero__rolar { display: none; }
+  /* hero mais baixo no celular: a rampa precisa de mais altura relativa
+     pra desacelerar do mesmo jeito */
+  .hero::after { height: 30%; }
+}
+
+/* ======================================================== FAIXA CORRENDO === */
+/* Marquee de uma linha só. Duplicado no HTML pra emendar sem salto. */
+.faixa-marquee {
+  background: var(--fundo); border-block: 1px solid var(--borda);
+  padding: 1.5rem 0; overflow: hidden; display: flex; gap: 0;
+}
+.marquee__trilho {
+  display: flex; flex: none; gap: 3rem; padding-right: 3rem;
+  animation: corre 38s linear infinite;
+}
+.faixa-marquee:hover .marquee__trilho { animation-play-state: paused; }
+@keyframes corre { from { transform: translate3d(0,0,0); } to { transform: translate3d(-100%,0,0); } }
+.marquee__item {
+  display: inline-flex; align-items: center; gap: 3rem; flex: none;
+  font-family: "Instrument Serif", Georgia, serif;
+  font-size: clamp(1.3rem, 2.8vw, 2.1rem); color: rgba(247,236,224,.55);
+  letter-spacing: -0.01em; white-space: nowrap;
+}
+.marquee__item::after { content: "♪"; color: var(--laranja); font-size: .8em; }
+
+/* ============================================================ BLOCOS ====== */
+.grade-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(258px, 1fr)); gap: 1.2rem; margin-top: 3rem; }
+
+.carta {
+  background: var(--carta); border: 1px solid var(--borda); border-radius: 16px; padding: 1.7rem;
+  transition: transform var(--dur-curta) var(--saida), border-color var(--dur-curta) ease;
+}
+.carta:hover { transform: translate3d(0,-4px,0); border-color: rgba(255,196,107,.3); }
+.carta h3 { font-size: 1.08rem; margin-bottom: .6rem; font-weight: 600; }
+.carta p { margin: 0; color: var(--texto-fraco); font-size: .93rem; line-height: 1.68; }
+.faixa-creme .carta {
+  background: var(--creme-2); border-color: var(--creme-borda);
+}
+.faixa-creme .carta:hover { border-color: rgba(192,86,42,.45); }
+.faixa-creme .carta p { color: var(--tinta-fraca); }
+
+.carta__num {
+  display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; margin-bottom: 1.1rem;
+  background: linear-gradient(135deg, var(--vinho), var(--laranja)); color: var(--dourado);
+  font-family: "Instrument Serif", Georgia, serif; font-size: 1.15rem; font-weight: 400;
+}
+.dor { display: flex; gap: .85rem; align-items: flex-start; }
+.dor::before { content: "\2715"; color: var(--vinho-claro); font-weight: 700; line-height: 1.6; flex: none; }
+.fecho {
+  margin-top: 3rem; text-align: center;
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(1.4rem, 3.4vw, 2.3rem); color: var(--texto); line-height: 1.2;
+}
+.fecho span { font-style: italic; color: var(--dourado); }
+
+/* =================================================== INSTRUMENTO TOCÁVEL == */
+.instrumento {
+  max-width: 1000px; margin: 3rem auto 0;
+  background: linear-gradient(180deg, #2a1c18 0%, #1a110f 70%, #140d0c 100%);
+  border-radius: 22px 22px 10px 10px; padding: 1.3rem 1.3rem 0;
+  box-shadow: 0 40px 90px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,196,107,.12);
+  border: 1px solid var(--borda);
+}
+.instrumento__painel { display: flex; align-items: center; gap: 1rem; padding: 0 .5rem 1.1rem; }
+.instrumento__grade {
+  width: 60px; height: 32px; border-radius: 6px; opacity: .5; flex: none;
+  background-image: radial-gradient(circle, #000 1.4px, transparent 1.4px); background-size: 7px 7px;
+}
+.instrumento__tela {
+  flex: 1; height: 32px; background: #0d0706; border-radius: 5px; display: grid; place-items: center;
+  color: var(--ambar); font-family: ui-monospace, monospace; font-size: .7rem; letter-spacing: .14em;
+  box-shadow: inset 0 0 12px rgba(224,161,68,.4);
+}
+.instrumento__base { height: 15px; background: #140d0c; border-radius: 0 0 10px 10px; }
+.teclado {
+  --paleta-0: var(--dourado); --paleta-1: var(--laranja); --paleta-2: var(--roxo);
+  position: relative; width: 100%; height: clamp(115px, 21vw, 180px); display: flex;
+}
+.tecla { cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; }
+.tecla--branca {
+  flex: 1; position: relative; margin: 0 1px; border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, #fdf8f1 0%, #e6dacb 88%, #d3c4b2 100%);
+  box-shadow: 0 8px 0 rgba(0,0,0,.07) inset, 0 10px 16px rgba(0,0,0,.45);
+  transition: transform .07s ease, box-shadow .07s ease;
+}
+.tecla--branca.tecla--ativa { transform: translate3d(0,6px,0); box-shadow: 0 2px 0 rgba(0,0,0,.08) inset, 0 3px 6px rgba(0,0,0,.4); }
+.tecla--preta {
+  position: absolute; top: 0; height: 62%; z-index: 2; border-radius: 0 0 6px 6px;
+  background: linear-gradient(180deg, #3a2823 0%, #140d0c 100%);
+  box-shadow: 0 8px 14px rgba(0,0,0,.65); transition: transform .07s ease;
+}
+.tecla--preta.tecla--ativa { transform: translate3d(0,5px,0); }
+.brilho {
+  position: absolute; left: 50%; bottom: 0; width: 140%; aspect-ratio: 1; border-radius: 50%;
+  transform: translate(-50%, 30%) scale(.4); z-index: 0; opacity: 0; pointer-events: none;
+  background: radial-gradient(circle, var(--cor) 0%, transparent 70%);
+}
+.brilho.brilho--ativa { animation: brilho-pulso .7s ease-out forwards; }
+@keyframes brilho-pulso {
+  0%   { opacity: .6; transform: translate(-50%, 30%) scale(.4); }
+  100% { opacity: 0;  transform: translate(-50%, 30%) scale(1.6); }
+}
+.particula {
+  position: absolute; width: 5px; height: 5px; border-radius: 50%; background: var(--cor);
+  pointer-events: none; z-index: 3; animation: particula-sobe .9s ease-out forwards;
+}
+@keyframes particula-sobe {
+  0%   { transform: translate(0,0); opacity: 1; }
+  100% { transform: translate(var(--dx), -90px); opacity: 0; }
+}
+
+/* ============================================================ CURSOS ====== */
+.cursos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.6rem; margin-top: 3.2rem; }
+.curso {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  border-radius: var(--raio); text-decoration: none; min-height: 380px;
+  background: var(--creme-2); border: 1px solid var(--creme-borda);
+  transition: transform var(--dur) var(--saida), box-shadow var(--dur) var(--saida), border-color var(--dur-curta) ease;
+}
+.curso:hover, .curso:focus-visible {
+  transform: translate3d(0,-10px,0);
+  border-color: rgba(192,86,42,.5);
+  box-shadow: 0 30px 60px rgba(90,45,20,.22);
+}
+.curso__capa { position: relative; height: 190px; overflow: hidden; background: var(--vinho); }
+.curso__capa img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.1s var(--saida);
+}
+.curso:hover .curso__capa img { transform: scale(1.07); }
+/* Véu só no pé da capa, pra emendar com o corpo do card.
+   ⚠️ Era um véu escuro sobre a capa inteira, e isso apagava a cor: as capas
+   novas são vivas de propósito (pedido do André em 19/09/2026, no clima das
+   capas do YouTube dele) e um véu em cima desmanchava justamente o que ele
+   pediu. Escurecer capa é o oposto de capa colorida. */
+.curso__capa::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 45%;
+  background: linear-gradient(180deg, transparent 0%, rgba(20,8,4,.42) 100%);
+}
+.curso__corpo { padding: 1.5rem; display: flex; flex-direction: column; gap: .65rem; flex: 1; }
+.curso__titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: 1.45rem; line-height: 1.12; letter-spacing: -0.015em; color: var(--tinta);
+}
+.curso__desc { color: var(--tinta-fraca); font-size: .9rem; line-height: 1.62; flex: 1; margin: 0; }
+.curso__rodape {
+  display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+  margin-top: .5rem; padding-top: 1rem; border-top: 1px solid var(--creme-borda);
+}
+.curso__preco {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: 1.6rem; color: var(--laranja); line-height: 1;
+}
+.curso__preco small {
+  display: block; font-family: "Inter Tight", sans-serif; font-size: .7rem; font-weight: 500;
+  color: var(--tinta-fraca); text-decoration: line-through; margin-bottom: .15rem;
+}
+.curso__preco--consulta { font-size: 1rem; font-family: "Inter Tight", sans-serif; font-weight: 600; }
+.curso__ver {
+  font-size: .8rem; font-weight: 600; color: var(--vinho); text-transform: uppercase;
+  letter-spacing: .06em; display: inline-flex; align-items: center; gap: .4rem;
+  transition: gap var(--dur-curta) var(--saida);
+}
+.curso:hover .curso__ver { gap: .75rem; }
+.curso__selo {
+  position: absolute; top: 1rem; left: 1rem; z-index: 2;
+  background: rgba(20,10,8,.8); color: var(--dourado); border: 1px solid rgba(255,196,107,.4);
+  font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: .35rem .75rem; border-radius: 999px; backdrop-filter: blur(6px);
+}
+
+/* ============================================================ YOUTUBE ===== */
+/* Galeria alimentada por assets/js/videos.js. O André cola o link lá e o
+   card se monta sozinho: miniatura vem do próprio YouTube, e o player só
+   carrega quando alguém clica (10 iframes de uma vez destruiriam a fluidez). */
+.yt-topo {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem;
+}
+.yt-topo > div { max-width: 46ch; }
+.videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.video {
+  border: 1px solid var(--borda); border-radius: var(--raio); overflow: hidden;
+  background: var(--carta); display: flex; flex-direction: column;
+  transition: transform var(--dur) var(--saida), border-color var(--dur-curta) ease, box-shadow var(--dur) var(--saida);
+}
+.video:hover { transform: translate3d(0,-8px,0); border-color: rgba(255,196,107,.4); box-shadow: 0 26px 54px rgba(0,0,0,.5); }
+.video__tela {
+  position: relative; aspect-ratio: 16 / 9; width: 100%; overflow: hidden;
+  background: #0d0706; border: none; padding: 0; cursor: pointer; display: block;
+}
+.video__tela img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 1.1s var(--saida), opacity var(--dur-curta) ease;
+}
+.video:hover .video__tela img { transform: scale(1.06); }
+.video__tela::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(18,12,11,.05) 40%, rgba(18,12,11,.6) 100%);
+  pointer-events: none;
+}
+.video__play {
+  position: absolute; left: 50%; top: 50%; z-index: 2;
+  width: 64px; height: 64px; border-radius: 50%;
+  transform: translate3d(-50%,-50%,0) scale(1);
+  background: rgba(192,86,42,.94); display: grid; place-items: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  transition: transform var(--dur-curta) var(--saida), background var(--dur-curta) ease;
+  pointer-events: none;
+}
+.video__tela:hover .video__play { transform: translate3d(-50%,-50%,0) scale(1.12); background: var(--laranja); }
+.video__play svg { width: 22px; height: 22px; fill: #fff; margin-left: 4px; }
+.video__duracao {
+  position: absolute; right: .7rem; bottom: .7rem; z-index: 2;
+  background: rgba(10,6,5,.85); color: #fff; font-size: .7rem; font-weight: 600;
+  padding: .2rem .45rem; border-radius: 4px; letter-spacing: .02em;
+}
+.video__corpo { padding: 1.15rem 1.25rem 1.35rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+.video__titulo { font-size: 1rem; font-weight: 600; line-height: 1.35; color: var(--texto); }
+.video__nota { color: var(--texto-fraco); font-size: .84rem; margin: 0; line-height: 1.55; }
+.video iframe { width: 100%; height: 100%; border: 0; display: block; }
+/* estado vazio: se a lista estiver sem link, aparece um aviso em vez de buraco */
+.videos--vazio {
+  border: 1px dashed var(--borda); border-radius: var(--raio); padding: 2.5rem 1.5rem;
+  text-align: center; color: var(--texto-fraco); font-size: .95rem;
+}
+
+/* ============================================================= SOBRE ====== */
+/* Grade assimétrica com a foto deslocada, no padrão editorial da referência. */
+.sobre__grade { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: center; }
+.sobre__foto { aspect-ratio: 3 / 4; box-shadow: 0 30px 70px rgba(90,45,20,.28); }
+.sobre__lista { list-style: none; margin: 1.9rem 0 0; padding: 0; display: grid; gap: .85rem; }
+.sobre__lista li { display: flex; gap: .8rem; color: var(--tinta-fraca); font-size: .96rem; line-height: 1.6; }
+.sobre__lista li::before { content: "\266A"; color: var(--laranja); font-size: 1.1rem; line-height: 1.4; flex: none; }
+@media (max-width: 860px) {
+  .sobre__grade { grid-template-columns: 1fr; }
+  .sobre__foto { max-width: 360px; margin: 0 auto; }
+}
+
+/* ======================================================== DEPOIMENTOS =====
+   Formato trazido do site da Realce Odonto (19/09/2026, a pedido do usuário):
+   placar com a nota antes dos depoimentos, e carrossel de um por vez.
+
+   O porquê do placar vir ANTES: ele é um número, e número não depende de
+   quem lê acreditar em elogio. O porquê do carrossel: quatro cards de uma
+   vez viram parede de texto que ninguém lê. */
+.placar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 1.2rem 2.4rem;
+  padding: 1.7rem 1.9rem; margin: 3rem 0 2.2rem;
+  background: var(--carta); border: 1px solid var(--borda); border-radius: var(--raio);
+}
+.placar__nota {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.8rem, 7vw, 3.6rem); line-height: 1;
+  color: var(--dourado); font-variant-numeric: tabular-nums;
+}
+.placar__contagem { display: block; color: var(--texto-fraco); font-size: .92rem; margin-top: .4rem; }
+.placar__contagem b { color: var(--texto); font-variant-numeric: tabular-nums; }
+.placar__fonte { margin-left: auto; font-size: .8rem; color: var(--texto-fraco); }
+
+/* As estrelas são duas camadas do mesmo glifo: a de baixo apagada, a de cima
+   dourada e recortada por largura. Animar essa largura "preenche" as cinco.
+   Sem imagem, sem SVG, sem biblioteca. */
+.estrelas { color: var(--ambar); letter-spacing: .12em; }
+.estrelas-med { position: relative; display: inline-block; line-height: 1; font-size: 1.25rem; letter-spacing: .12em; }
+.estrelas-med span { display: block; white-space: nowrap; }
+.estrelas-med .vazias { color: rgba(247,236,224,.18); }
+.estrelas-med .cheias { position: absolute; left: 0; top: 0; overflow: hidden; color: var(--ambar); width: 100%; }
+.js .estrelas-med .cheias { width: 0; transition: width 1.5s var(--saida) .15s; }
+.js .estrelas-med.contou .cheias { width: 100%; }
+
+/* Sem JS o carrossel não existe: os depoimentos ficam empilhados e todos
+   legíveis. É o JS que troca o layout pra trilho deslizante. */
+.avaliacoes { display: grid; gap: 1.1rem; }
+.aval {
+  background: var(--carta); border: 1px solid var(--borda); border-radius: var(--raio);
+  padding: 1.9rem 1.8rem; display: flex; flex-direction: column; gap: 1rem;
+}
+.aval blockquote {
+  margin: 0; color: var(--texto); font-size: 1.15rem; line-height: 1.55;
+  font-family: "Instrument Serif", Georgia, serif; font-style: italic;
+}
+.aval__quem { margin-top: auto; display: flex; align-items: center; gap: .85rem; }
+.aval__ini {
+  width: 44px; height: 44px; border-radius: 50%; flex: none;
+  background: linear-gradient(135deg, var(--ambar), var(--laranja)); color: #1a0f08;
+  display: grid; place-items: center; font-weight: 700; font-size: .88rem; letter-spacing: .03em;
+}
+.aval__quem b { display: block; font-weight: 600; color: var(--texto); font-size: .95rem; }
+.aval__quem .fonte { display: block; font-size: .79rem; color: var(--texto-fraco); }
+
+.carrossel__janela { overflow: hidden; }
+.carrossel--on .avaliacoes {
+  display: flex; gap: 0;
+  transition: transform .7s var(--saida-curta); will-change: transform;
+}
+.carrossel--on .carrossel__janela { max-width: 780px; margin-inline: auto; }
+.carrossel--on .aval { flex: 0 0 100%; min-width: 100%; align-self: stretch; }
+/* O que sai apaga enquanto desliza: a troca vira dissolução em vez de
+   empurrão, que é o defeito que mais se nota em carrossel. */
+.carrossel--on .aval { opacity: .15; transition: opacity .7s ease; }
+.carrossel--on .aval[aria-hidden="false"] { opacity: 1; }
+
+.carrossel__controles { display: none; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.7rem; }
+.carrossel--on .carrossel__controles { display: flex; }
+.seta {
+  width: 48px; height: 48px; border-radius: 50%; flex: none;
+  background: var(--carta); border: 1px solid var(--borda); color: var(--texto);
+  display: grid; place-items: center; cursor: pointer; font-size: 1.1rem; line-height: 1;
+  transition: border-color var(--dur-curta) ease, color var(--dur-curta) ease, transform var(--dur-curta) var(--saida);
+}
+.seta:hover { border-color: var(--ambar); color: var(--dourado); transform: translate3d(0,-2px,0); }
+.pontos { display: flex; align-items: center; gap: .45rem; }
+/* A bolinha continua com 8px, mas o botão tem 48px de alvo: o desenho mora
+   no ::after e o <button> é só a área de toque. Sem isso o dedo erra o ponto
+   no celular e o Lighthouse reprova o alvo pequeno. */
+.ponto {
+  position: relative; width: 22px; height: 48px; padding: 0; border: 0;
+  background: none; cursor: pointer; transition: width .3s var(--saida-curta);
+}
+.ponto::after {
+  content: ""; position: absolute; inset: 50% 0 auto 0; transform: translateY(-50%);
+  height: 8px; border-radius: 999px; background: rgba(247,236,224,.22); transition: background .3s;
+}
+.ponto[aria-current="true"] { width: 40px; }
+.ponto[aria-current="true"]::after { background: var(--ambar); }
+
+/* ========================================================== PERGUNTAS ===== */
+.perguntas { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 1rem; margin-top: 2.8rem; position: relative; z-index: 2; }
+.pergunta {
+  background: var(--carta); border: 1px solid var(--borda); border-radius: 14px; overflow: hidden;
+  transition: border-color var(--dur-curta) ease;
+}
+.pergunta:hover { border-color: rgba(255,196,107,.3); }
+.faixa-creme .pergunta { background: var(--creme-2); border-color: var(--creme-borda); }
+.faixa-creme .pergunta:hover { border-color: rgba(192,86,42,.45); }
+.pergunta__topo {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  background: none; border: none; color: inherit; font: inherit; font-weight: 600; font-size: .98rem;
+  padding: 1.2rem 1.3rem; text-align: left; cursor: pointer; line-height: 1.4;
+}
+.pergunta__topo::after {
+  content: "+"; color: var(--laranja); font-size: 1.4rem; line-height: 1; flex: none;
+  transition: transform var(--dur-curta) var(--saida);
+}
+.pergunta--aberta .pergunta__topo::after { transform: rotate(45deg); }
+.pergunta__corpo { max-height: 0; overflow: hidden; transition: max-height var(--dur-curta) var(--saida); }
+.pergunta--aberta .pergunta__corpo { max-height: 420px; }
+.pergunta__corpo p { margin: 0; padding: 0 1.3rem 1.3rem; color: var(--texto-fraco); font-size: .93rem; line-height: 1.68; }
+.faixa-creme .pergunta__corpo p { color: var(--tinta-fraca); }
+
+/* ===================================================== CHAMADA FINAL ====== */
+.chamada {
+  background:
+    radial-gradient(ellipse 70% 120% at 50% 0%, rgba(192,86,42,.3), transparent 62%),
+    var(--fundo-2);
+  text-align: center;
+}
+.chamada__caixa { max-width: 640px; margin: 0 auto; }
+.chamada .hero__acoes { justify-content: center; }
+
+/* ================================================== PÁGINA DE CURSO ======= */
+.curso-topo {
+  padding: calc(var(--nav-altura) + 4.5rem) 1.5rem 4.5rem;
+  background:
+    radial-gradient(ellipse 70% 70% at 25% 10%, rgba(192,86,42,.3), transparent 62%),
+    radial-gradient(ellipse 60% 60% at 85% 40%, rgba(122,31,43,.38), transparent 62%),
+    var(--fundo);
+}
+.curso-topo__grade { display: grid; grid-template-columns: 1.25fr .75fr; gap: 3rem; align-items: center; }
+.curso-topo h1 {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.1rem, 5vw, 3.4rem); letter-spacing: -0.025em; line-height: 1.04;
+}
+.curso-topo h1 .destaque { font-style: italic; color: var(--dourado); }
+.curso-topo__sub { margin-top: 1.4rem; max-width: 52ch; }
+.curso-caixa {
+  background: var(--carta); border: 1px solid var(--borda); border-radius: var(--raio); padding: 2rem;
+  box-shadow: 0 30px 70px rgba(0,0,0,.5); text-align: center;
+}
+.curso-caixa__de { color: var(--texto-fraco); text-decoration: line-through; font-size: .9rem; }
+.curso-caixa__preco {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: 3rem; color: var(--dourado); line-height: 1.05; margin: .2rem 0 .1rem;
+}
+.curso-caixa__obs { color: var(--texto-fraco); font-size: .82rem; margin-bottom: 1.4rem; }
+.curso-caixa__itens { list-style: none; margin: 1.5rem 0 0; padding: 0; display: grid; gap: .6rem; text-align: left; }
+.curso-caixa__itens li { display: flex; gap: .6rem; font-size: .89rem; color: var(--texto-fraco); }
+.curso-caixa__itens li::before { content: "\2713"; color: var(--whats); font-weight: 700; flex: none; }
+.modulos { display: grid; gap: 1rem; margin-top: 2.6rem; }
+.modulo {
+  display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: start;
+  background: var(--carta); border: 1px solid var(--borda); border-left: 3px solid var(--laranja);
+  border-radius: 14px; padding: 1.5rem;
+  transition: transform var(--dur-curta) var(--saida);
+}
+.modulo:hover { transform: translate3d(5px,0,0); }
+.modulo__num { color: var(--dourado); font-family: "Instrument Serif", Georgia, serif; font-size: 1.4rem; }
+.modulo h3 { font-size: 1.04rem; margin-bottom: .45rem; font-weight: 600; }
+.modulo p { margin: 0; color: var(--texto-fraco); font-size: .92rem; line-height: 1.62; }
+.garantia {
+  display: flex; gap: 1.2rem; align-items: center; max-width: 640px; margin: 2.8rem auto 0;
+  background: var(--carta); border: 1px solid var(--borda); border-radius: 16px; padding: 1.5rem 1.7rem;
+}
+.garantia__selo { font-size: 2.2rem; flex: none; }
+.garantia p { margin: 0; color: var(--texto-fraco); font-size: .92rem; line-height: 1.62; }
+@media (max-width: 860px) {
+  .curso-topo__grade { grid-template-columns: 1fr; gap: 2.2rem; }
+}
+
+/* ============================== TROCA DA SILHUETA DO HERO ================== */
+/* Padrão: SVG estático (nítido, transparência real, vale pro Safari e pra
+   qualquer navegador que não componha alpha em vídeo).
+   Com .alpha-video no <html>, entra o WebM animado no lugar. A decisão é
+   tomada por um script no <head>, antes da página pintar. */
+.hero__arte-video { display: none; }
+.alpha-video .hero__arte-video { display: block; }
+.alpha-video .hero__arte-svg { display: none; }
+
+/* A figura de reserva entra como background, não como <img>: assim o arquivo
+   só é pedido quando o elemento realmente aparece na tela.
+   É um WebP com alfa de verdade (44 KB), tirado de um quadro do MESMO vídeo,
+   pra quem cai no plano B ver exatamente a mesma figura e não outro desenho.
+   A proporção é fixa aqui pra a caixa não pular de altura enquanto carrega. */
+.hero__arte-svg {
+  width: 100%; aspect-ratio: 16 / 9;
+  background: center bottom / contain no-repeat;
+  animation: respira 11s ease-in-out infinite;
+}
+@keyframes respira {
+  0%, 100% { transform: translate3d(0,0,0) scale(1); }
+  50%      { transform: translate3d(0,-12px,0) scale(1.01); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__arte-svg { animation: none; }
+  .hero__luz { animation: none; }
+  .hero__marca, .hero__arte, .hero__conteudo > * { opacity: 1 !important; animation: none !important; }
+  .marquee__trilho { animation: none; }
+  .hero__rolar::after { animation: none; }
+}
