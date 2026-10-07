@@ -25,6 +25,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://andreteclas.marcel0gs.workers.dev" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="assets/css/estilo.css">
@@ -38,9 +39,25 @@
    estático, que é nítido e tem transparência real.
    Roda antes da página pintar, então não existe troca piscando na tela. */
 (function () {
+  var d = document.documentElement;
   /* marca que tem JS: é o que autoriza as estrelas do placar a nascerem
      vazias pra se preencherem depois. Sem JS elas já aparecem cheias. */
-  document.documentElement.className += ' js';
+  d.className += ' js';
+
+  /* ABERTURA: uma vez por visita. Quem volta pra home na mesma sessão, quem
+     chega por um link com âncora (#cursos, vindo de outra página) e quem
+     pediu menos movimento no aparelho entram direto.
+     Todo o movimento é CSS; daqui só sai a decisão e a trava da rolagem,
+     que é solta por tempo, então nada depende do resto do JS dar certo. */
+  var reduz = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var vista = false;
+  try { vista = sessionStorage.getItem('andre-abertura') === '1'; } catch (e) {}
+  if (!reduz && !vista && !location.hash) {
+    d.className += ' com-intro intro-trava';
+    try { sessionStorage.setItem('andre-abertura', '1'); } catch (e) {}
+    setTimeout(function () { d.classList.remove('intro-trava'); }, 2300);
+    setTimeout(function () { var i = document.getElementById('intro'); if (i) i.remove(); }, 3400);
+  }
 
   var v = document.createElement('video');
   var ehSafari = /^((?!chrome|android|crios|fxios|edg|opr).)*safari/i.test(navigator.userAgent);
@@ -52,6 +69,27 @@
 </head>
 <body>
 
+<!-- ======================= ABERTURA =======================
+     Teclado tocando um glissando, o nome subindo, e a cortina sobe
+     revelando o hero. Só existe com a classe com-intro no <html> (ver o
+     script do <head>); sem ela, ou sem JS, fica em display:none. -->
+<div class="intro" id="intro" aria-hidden="true">
+  <div class="intro__palco">
+    <div class="intro__teclado">
+      <i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i>
+      <i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i>
+      <i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i>
+      <b style="--x:1"></b><b style="--x:2"></b><b style="--x:4"></b><b style="--x:5"></b><b style="--x:6"></b>
+      <b style="--x:8"></b><b style="--x:9"></b><b style="--x:11"></b><b style="--x:12"></b><b style="--x:13"></b>
+    </div>
+    <p class="intro__nome">
+      <span class="intro__linha"><span>André Silva</span></span>
+      <span class="intro__linha"><em>Teclas</em></span>
+    </p>
+    <span class="intro__fio"></span>
+  </div>
+</div>
+
 <!-- nav, botão flutuante e rastro do cursor ficam FORA do #palco:
      position:fixed não funciona dentro de um elemento com transform. -->
 <nav class="nav nav--claro">
@@ -61,6 +99,7 @@
     <li><a href="#experimente">Experimente</a></li>
     <li><a href="#cursos">Cursos</a></li>
     <li><a href="#videos-secao">Vídeos</a></li>
+    <li><a href="blog/">Blog</a></li>
     <li><a href="#sobre">Quem ensina</a></li>
   </ul>
   <a class="btn btn--whats btn--pequeno" data-whats href="#contato">Falar no WhatsApp</a>
@@ -71,12 +110,16 @@
 <!-- ======================= HERO =======================
      Composição: gradiente quente CLARO no fundo, marca gigante sangrando
      na base, e a silhueta ESCURA recortada por cima das duas coisas.
-     Escuro sobre escuro some — ver aviso no topo do componentes.css. -->
+     Escuro sobre escuro some — ver aviso no topo do componentes.css.
+
+     Hero COBERTO PELO SCROLL (07/10/2026): ele fica parado e o resto da
+     página sobe por cima. A marca, a figura e o texto andam em velocidades
+     diferentes enquanto isso, comandados pela variável --cobre (site.js). -->
 <section class="hero" id="topo">
   <div class="hero__luz" aria-hidden="true"></div>
-  <div class="hero__marca" data-parallax="0.32" aria-hidden="true">ANDRÉ SILVA</div>
+  <div class="hero__marca" aria-hidden="true">ANDRÉ SILVA</div>
 
-  <div class="hero__arte" data-parallax="1" aria-hidden="true">
+  <div class="hero__arte" aria-hidden="true">
     <div class="hero__arte-svg" data-src="assets/img/silhueta-teclado.webp"></div>
     <video class="hero__arte-video" autoplay muted loop playsinline preload="auto"
            data-src="assets/video/silhueta-teclado.webm"
@@ -115,6 +158,7 @@
   </script>
 
   <div class="hero__grao" aria-hidden="true"></div>
+  <div class="hero__cobre" aria-hidden="true"></div>
 
   <div class="hero__conteudo">
     <p class="kicker">Professor de teclado online</p>
@@ -200,6 +244,10 @@
 
 <!-- ======================= MÉTODO ======================= -->
 <section class="secao faixa-creme" id="metodo">
+  <!-- pauta que atravessa a seção de lado conforme a página rola -->
+  <div class="pauta" aria-hidden="true" data-px-x="0.45">
+    <img src="assets/img/pentagrama.svg" alt="" width="2400" height="190" loading="lazy">
+  </div>
   <div class="limite">
     <div class="centro revela">
       <p class="kicker">Como funciona</p>
@@ -243,7 +291,9 @@
         Clica nas teclas e ouça. Simples assim: o primeiro som sai antes de qualquer teoria.
       </p>
     </div>
-    <div class="instrumento revela">
+    <!-- data-inclina: o teclado chega deitado pra trás e vai assentando
+         conforme sobe na tela. Sempre visível; só o ângulo muda. -->
+    <div class="instrumento revela" data-inclina>
       <div class="instrumento__painel">
         <div class="instrumento__grade"></div>
         <div class="instrumento__tela">TOQUE AQUI</div>
@@ -271,7 +321,7 @@
 
       <a class="curso revela" href="cursos/tocando-de-ouvido/">
         <span class="curso__selo">Mais completo</span>
-        <div class="curso__capa"><img src="assets/img/capas/tocando-de-ouvido.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/tocando-de-ouvido.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Curso Tocando de Ouvido</h3>
           <p class="curso__desc">Quatro módulos para treinar o ouvido, reconhecer progressões e tirar música sem depender de cifra. Com comunidade, lives e certificado.</p>
@@ -283,7 +333,7 @@
       </a>
 
       <a class="curso revela" href="cursos/poliacordes/">
-        <div class="curso__capa"><img src="assets/img/capas/poliacordes.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/poliacordes.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Domine os Poliacordes</h3>
           <p class="curso__desc">Os acordes sofisticados que mudam a densidade do seu som, ensinados nos 12 tons e aplicados em música real.</p>
@@ -295,7 +345,7 @@
       </a>
 
       <a class="curso revela" href="cursos/dominando-o-blues/">
-        <div class="curso__capa"><img src="assets/img/capas/dominando-o-blues.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/dominando-o-blues.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Dominando o Blues</h3>
           <p class="curso__desc">Ebook de 30 páginas com escala pentatônica, progressões de 12 compassos, mão esquerda e improviso com sotaque de blues.</p>
@@ -307,7 +357,7 @@
       </a>
 
       <a class="curso revela" href="cursos/harmonia-na-pratica/">
-        <div class="curso__capa"><img src="assets/img/capas/harmonia-na-pratica.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/harmonia-na-pratica.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Harmonia na Prática</h3>
           <p class="curso__desc">A harmonia explicada pelo lado prático: o que tocar, quando tocar e por quê, sem travar na teoria.</p>
@@ -319,7 +369,7 @@
       </a>
 
       <a class="curso revela" href="#contato">
-        <div class="curso__capa"><img src="assets/img/capas/blues-no-teclado.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/blues-no-teclado.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Blues no Teclado</h3>
           <p class="curso__desc">Curso focado no estilo, pra quem já tem base e quer ganhar repertório e sotaque próprio no instrumento.</p>
@@ -331,7 +381,7 @@
       </a>
 
       <a class="curso revela" href="#contato">
-        <div class="curso__capa"><img src="assets/img/capas/pacote-timbres.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/pacote-timbres.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Pacote de Timbres Casio Privia PX-5S</h3>
           <p class="curso__desc">Timbres prontos pra carregar direto no seu Privia PX-5S e sair tocando com som de produção.</p>
@@ -343,7 +393,7 @@
       </a>
 
       <a class="curso revela" href="#contato">
-        <div class="curso__capa"><img src="assets/img/capas/pad-continuo.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/pad-continuo.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Pad Contínuo de Alta Qualidade</h3>
           <p class="curso__desc">Pads contínuos nos 12 tons pra sustentar o ambiente do começo ao fim, sem corte e sem barulho.</p>
@@ -356,7 +406,7 @@
 
       <a class="curso revela" href="#contato">
         <span class="curso__selo">Grátis</span>
-        <div class="curso__capa"><img src="assets/img/capas/aula-gratis.webp" alt="" loading="lazy"></div>
+        <div class="curso__capa"><img data-px-img="18" src="assets/img/capas/aula-gratis.webp" alt="" loading="lazy"></div>
         <div class="curso__corpo">
           <h3 class="curso__titulo">Teclado do zero, aula 1</h3>
           <p class="curso__desc">A primeira aula é gratuita. Serve pra você sentir o jeito de ensinar antes de investir em qualquer curso.</p>
@@ -395,14 +445,30 @@
     </div>
 
     <div class="videos" id="videos"></div>
+
+    <!-- BLOG NA HOME: nasce escondido. O blog.js só mostra se tiver texto
+         publicado; sem texto, ou com o painel fora do ar, a home fica
+         exatamente como era. -->
+    <div class="blog-home" id="blog-home" hidden>
+      <div class="blog-home__topo">
+        <div>
+          <p class="kicker">No blog</p>
+          <h3 class="blog-home__titulo">Pra ler em <span class="destaque">poucos minutos</span></h3>
+        </div>
+        <a class="link-seta" href="blog/">Todos os textos <span>→</span></a>
+      </div>
+      <div class="blog-grade blog-grade--3" data-lista></div>
+    </div>
   </div>
 </section>
 
 <!-- ======================= SOBRE ======================= -->
 <section class="secao faixa-creme" id="sobre">
+  <!-- palavra gigante em contorno, andando mais devagar que o texto -->
+  <div class="sobre__fundo" aria-hidden="true" data-px="-0.18">Teclas</div>
   <div class="limite sobre__grade">
     <div class="moldura sobre__foto">
-      <img src="assets/img/sobre-andre.webp" alt="André Silva Teclas tocando teclado em estúdio" loading="lazy">
+      <img data-px-img="30" src="assets/img/sobre-andre.webp" alt="André Silva Teclas tocando teclado em estúdio" loading="lazy">
     </div>
     <div class="revela">
       <p class="kicker">Quem ensina</p>
@@ -512,14 +578,15 @@
        onde moram os cards. Quando entravam na área de conteúdo pareciam
        elemento quebrado da interface, não enfeite. -->
   <div class="notas" aria-hidden="true">
-    <div class="nota" style="top:10%;left:2.5%;animation-delay:-1s">♪</div>
-    <div class="nota" style="top:34%;left:5%;animation-delay:-6s">♬</div>
-    <div class="nota" style="top:62%;left:2%;animation-delay:-5s">♩</div>
-    <div class="nota" style="bottom:10%;left:5.5%;animation-delay:-7s">♪</div>
-    <div class="nota" style="top:14%;right:4%;animation-delay:-3s">♫</div>
-    <div class="nota" style="top:44%;right:2%;animation-delay:-4s">♪</div>
-    <div class="nota" style="top:70%;right:5%;animation-delay:-2s">♬</div>
-    <div class="nota" style="bottom:12%;right:2.5%;animation-delay:-8s">♫</div>
+    <!-- data-px: cada nota anda numa velocidade, pra lerem como camadas -->
+    <div class="nota" data-px="0.10" style="top:10%;left:2.5%;animation-delay:-1s">♪</div>
+    <div class="nota" data-px="0.26" style="top:34%;left:5%;animation-delay:-6s">♬</div>
+    <div class="nota" data-px="0.06" style="top:62%;left:2%;animation-delay:-5s">♩</div>
+    <div class="nota" data-px="0.20" style="bottom:10%;left:5.5%;animation-delay:-7s">♪</div>
+    <div class="nota" data-px="0.22" style="top:14%;right:4%;animation-delay:-3s">♫</div>
+    <div class="nota" data-px="0.08" style="top:44%;right:2%;animation-delay:-4s">♪</div>
+    <div class="nota" data-px="0.28" style="top:70%;right:5%;animation-delay:-2s">♬</div>
+    <div class="nota" data-px="0.12" style="bottom:12%;right:2.5%;animation-delay:-8s">♫</div>
   </div>
   <div class="limite">
     <div class="centro revela">
@@ -580,6 +647,7 @@
   <div class="rodape__marca">André Silva Teclas</div>
   <p>Aulas de teclado online, do zero ao avançado.</p>
   <div class="rodape__redes">
+    <a href="blog/">Blog</a>
     <a href="https://instagram.com/andresilvateclas" target="_blank" rel="noopener">Instagram</a>
     <a href="https://www.youtube.com/@andresilvateclas" target="_blank" rel="noopener">YouTube</a>
     <!-- Facebook e grupo de WhatsApp saem daqui assim que o André mandar os
@@ -599,6 +667,7 @@
 <!-- videos.js vem ANTES do site.js de propósito: ele cria os cards de vídeo,
      e o site.js precisa encontrá-los prontos pra ligar a entrada em cascata. -->
 <script src="assets/js/videos.js"></script>
+<script src="assets/js/blog.js"></script>
 <script src="assets/js/site.js"></script>
 </body>
 </html>

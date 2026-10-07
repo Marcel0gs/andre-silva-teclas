@@ -4,7 +4,8 @@
    Reconstrução 19/09/2026. O que existe aqui, em ordem:
      1. (o scroll suave por interpolação foi removido, ver o bloco 1)
      2. revelar ao rolar, com cascata
-     3. parallax do hero
+     3. hero coberto pelo scroll (07/10/2026)
+     3b. camadas em parallax pelo resto da página (07/10/2026)
      4. nav que muda ao rolar
      5. rastro do cursor
      6. perguntas (FAQ)
@@ -108,36 +109,129 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
   }
 
   /* ======================================================================
-     3. PARALLAX DO HERO
-     A figura e a marca gigante andam em velocidades diferentes. É o
-     cruzamento das camadas que dá profundidade, não o efeito em si.
-     ====================================================================== */
-  var camadas = document.querySelectorAll('[data-parallax]');
-  if (camadas.length && !reduzMovimento) {
-    var hero = camadas[0].closest('section');
-    var ticando = false;
+     3. HERO COBERTO PELO SCROLL (07/10/2026)
 
-    var aplicar = function () {
-      ticando = false;
-      var altura = hero.offsetHeight || 1;
-      var prog = Math.min(1, Math.max(0, window.scrollY / altura));
-      camadas.forEach(function (c) {
-        var vel = parseFloat(c.getAttribute('data-parallax')) || 1;
-        var y = prog * 70 * vel;
-        var esc = 1 + prog * 0.05 * vel;
-        c.style.transform =
-          'translate3d(-50%,' + y.toFixed(1) + 'px,0) scale(' + esc.toFixed(3) + ')';
-        c.style.opacity = Math.max(0, 1 - prog * 1.15).toFixed(3);
+     O hero fica parado (sticky) e a página sobe por cima dele, como no
+     site do Marcelo. A variável --cobre vai de 0 a 1 conforme ele é
+     coberto, e o CSS usa ela pra mover cada camada numa velocidade: a
+     marca desce devagar, a figura recua, o texto sobe e apaga. É o
+     cruzamento das velocidades que dá profundidade.
+
+     ⚠️ O parallax antigo daqui escrevia style.transform na marca e na
+     figura, e NUNCA FUNCIONOU: as duas têm animação de entrada com
+     `forwards` em transform e opacity, e animação vence estilo inline.
+     As camadas agora mexem nas propriedades `translate` e `scale`, que a
+     animação de entrada não toca.
+
+     A altura do hero fica em cache e só é relida no resize: por quadro,
+     só window.scrollY, que não força recálculo de layout.
+
+     (O parallax de MOUSE saiu em 19/09/2026 a pedido do usuário e
+     continua fora.)
+     ====================================================================== */
+  var heroCobre = document.querySelector('.hero');
+  if (heroCobre) {
+    var provas = document.querySelector('.provas');
+    var videoHero = heroCobre.querySelector('.hero__arte-video');
+    var inicioCobre = 0, pedidoCobre = false, cobertoAntes = false;
+
+    var medirHero = function () {
+      var alturaHero = heroCobre.offsetHeight;
+      // hero mais alto que a tela: só trava depois de mostrar o fim dele
+      heroCobre.style.setProperty('--hero-topo', Math.min(0, window.innerHeight - alturaHero) + 'px');
+      inicioCobre = Math.max(0, alturaHero - window.innerHeight);
+      atualizarCobre();
+    };
+    var atualizarCobre = function () {
+      pedidoCobre = false;
+      var p = (window.scrollY - inicioCobre) / window.innerHeight;
+      p = p < 0 ? 0 : p > 1 ? 1 : p;
+      var valor = reduzMovimento ? '0' : p.toFixed(3);
+      heroCobre.style.setProperty('--cobre', valor);
+      if (provas) provas.style.setProperty('--cobre', valor);
+      // coberto de todo: pausa o vídeo, que ninguém está vendo
+      var coberto = p >= 1;
+      if (videoHero && coberto !== cobertoAntes) {
+        if (coberto) videoHero.pause();
+        else { var tocando = videoHero.play(); if (tocando && tocando.catch) tocando.catch(function () {}); }
+      }
+      cobertoAntes = coberto;
+    };
+    window.addEventListener('scroll', function () {
+      if (!pedidoCobre) { pedidoCobre = true; requestAnimationFrame(atualizarCobre); }
+    }, { passive: true });
+    window.addEventListener('resize', medirHero);
+    medirHero();
+  }
+
+  /* ======================================================================
+     3b. CAMADAS EM PARALLAX PELO RESTO DA PÁGINA
+
+     Quatro tipos, todos marcados no HTML:
+       data-px="v"        anda na vertical (distância do centro da tela × v)
+       data-px-x="v"      anda na horizontal (a pauta do "Como funciona")
+       data-px-img="px"   foto andando dentro da moldura, até ±px
+       data-inclina       chega deitado pra trás e assenta ao subir (o
+                          teclado tocável). Nunca some: só muda o ângulo.
+
+     Escrevem nas propriedades `translate` e `rotate`, nunca em transform:
+     assim não brigam com a animação de entrada (.revela), com o zoom de
+     hover das capas nem com a flutuação das notas.
+     Todas as medições são lidas ANTES de qualquer escrita: ler e escrever
+     intercalado obriga o navegador a refazer o layout a cada elemento.
+     No celular as distâncias caem pela metade (padrão das placas NFC).
+     ====================================================================== */
+  if (!reduzMovimento) {
+    var pxCamadas = [];
+    var juntar = function (sel, tipo, attr) {
+      document.querySelectorAll(sel).forEach(function (el) {
+        // referência da medida: a moldura (foto), o próprio elemento (o
+        // teclado que inclina, senão ele mede a seção e chega quase reto)
+        // ou a seção inteira (camadas soltas)
+        var ref = tipo === 'img' ? el.parentElement
+                : tipo === 'inclina' ? el
+                : (el.closest('section, header') || el.parentElement);
+        pxCamadas.push({ el: el, tipo: tipo, v: parseFloat(el.getAttribute(attr)) || 0, ref: ref });
       });
     };
+    juntar('[data-px]', 'y', 'data-px');
+    juntar('[data-px-x]', 'x', 'data-px-x');
+    juntar('[data-px-img]', 'img', 'data-px-img');
+    juntar('[data-inclina]', 'inclina', 'data-inclina');
 
-    window.addEventListener('scroll', function () {
-      if (!ticando) { ticando = true; requestAnimationFrame(aplicar); }
-    }, { passive: true });
-
-    /* O parallax de mouse foi REMOVIDO em 19/09/2026, a pedido do usuário:
-       a figura mexia quando o cursor passava por cima dela e isso não
-       acrescentava nada. O parallax de ROLAGEM, aqui em cima, fica. */
+    if (pxCamadas.length) {
+      var pedidoPx = false;
+      var aplicarPx = function () {
+        pedidoPx = false;
+        var alt = window.innerHeight, meio = alt / 2;
+        var fator = window.innerWidth < 700 ? 0.5 : 1;
+        // 1) só leitura
+        var medidas = pxCamadas.map(function (c) { return c.ref.getBoundingClientRect(); });
+        // 2) só escrita
+        pxCamadas.forEach(function (c, i) {
+          var r = medidas[i];
+          if (r.bottom < -300 || r.top > alt + 300) return;      // fora da tela: nem mexe
+          var dist = (r.top + r.height / 2) - meio;
+          if (c.tipo === 'y') {
+            c.el.style.translate = '0 ' + (dist * c.v * fator).toFixed(1) + 'px';
+          } else if (c.tipo === 'x') {
+            c.el.style.translate = (dist * c.v * fator).toFixed(1) + 'px 0';
+          } else if (c.tipo === 'img') {
+            var n = Math.max(-1, Math.min(1, dist / alt));       // -1 a 1
+            c.el.style.translate = '0 ' + (n * c.v * fator).toFixed(1) + 'px';
+          } else {
+            // 0 quando o topo encosta no pé da tela, 1 quando chega a 30% dela
+            var prog = Math.max(0, Math.min(1, (alt - r.top) / (alt * 0.7)));
+            c.el.style.rotate = 'x ' + ((1 - prog) * 26 * fator).toFixed(2) + 'deg';
+          }
+        });
+      };
+      var pedirPx = function () { if (!pedidoPx) { pedidoPx = true; requestAnimationFrame(aplicarPx); } };
+      window.addEventListener('scroll', pedirPx, { passive: true });
+      window.addEventListener('resize', pedirPx);
+      window.addEventListener('load', pedirPx);
+      aplicarPx();
+    }
   }
 
   /* ======================================================================

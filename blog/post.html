@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | André Silva Teclas</title>
+<!-- Título, descrição e canonical são trocados pelo blog.js assim que o
+     texto chega. O que está aqui é só o que aparece antes disso. -->
+<meta name="description" content="Texto do blog do André Silva Teclas, professor de teclado online.">
+<link rel="canonical" href="https://marcel0gs.github.io/andre-silva-teclas/blog/">
+
+<!-- Prévia de link: o robô do WhatsApp não roda JavaScript, então aqui ele
+     sempre vê a capa genérica. Pra compartilhar com a capa do texto, o botão
+     da página e o painel usam o link /p/ do Worker, que entrega a certa. -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blog | André Silva Teclas">
+<meta property="og:description" content="Textos pra você tocar melhor, pra ler em poucos minutos.">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:image" content="https://marcel0gs.github.io/andre-silva-teclas/assets/img/og-capa.jpg">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/img/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://andreteclas.marcel0gs.workers.dev" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/css/estilo.css">
+<link rel="stylesheet" href="../assets/css/componentes.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav__logo" href="../">André <span>Silva Teclas</span></a>
+  <ul class="nav__links">
+    <li><a href="../">Início</a></li>
+    <li><a href="../#cursos">Cursos</a></li>
+    <li><a href="./">Blog</a></li>
+  </ul>
+  <a class="btn btn--whats btn--pequeno" data-whats href="../#contato">Falar no WhatsApp</a>
+</nav>
+
+<div id="palco">
+
+<article class="post" id="post">
+  <header class="post-topo">
+    <div class="post-limite">
+      <a class="post-voltar" href="./"><span aria-hidden="true">←</span> Todos os textos</a>
+      <p class="kicker" data-post-meta>&nbsp;</p>
+      <h1 class="post-titulo" data-post-titulo>Carregando o texto…</h1>
+    </div>
+  </header>
+
+  <!-- A capa fica metade no escuro do topo, metade no creme do texto. O
+       data-px-img faz a foto andar mais devagar que a moldura (parallax). -->
+  <div class="post-capa-faixa" data-post-capa>
+    <div class="post-capa"><img data-px-img="34" alt="" decoding="async"></div>
+  </div>
+
+  <div class="post-folha">
+    <div class="post-corpo" data-post-corpo>
+      <div class="post-esqueleto" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <div class="post-partilha">
+      <p>Gostou? Manda pra alguém que toca.</p>
+      <div class="post-partilha__botoes">
+        <a class="btn btn--whats btn--pequeno" data-partilha-whats href="#" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+        <button class="btn btn--vazado btn--pequeno" type="button" data-partilha-copiar>Copiar link</button>
+      </div>
+    </div>
+  </div>
+</article>
+
+<section class="secao post-erro" id="post-erro" hidden>
+  <div class="limite centro">
+    <p class="kicker">Ops</p>
+    <h1 class="titulo-secao">Esse texto <span class="destaque">não está aqui</span></h1>
+    <p class="texto" style="max-width:44ch;margin:0 auto 2rem">
+      Ele pode ter saído do ar ou o link veio cortado. Os outros textos continuam
+      todos no blog.
+    </p>
+    <a class="btn" href="./">Ver todos os textos</a>
+  </div>
+</section>
+
+<section class="secao chamada">
+  <div class="chamada__caixa revela">
+    <p class="kicker" style="justify-content:center">Quer ir além do texto?</p>
+    <h2 class="titulo-secao">Estudar com método <span class="destaque">rende mais</span></h2>
+    <p class="texto">
+      Os cursos do André seguem uma ordem pensada pra você sair do lugar. Se
+      estiver em dúvida, chama no WhatsApp que ele indica por onde começar.
+    </p>
+    <div class="hero__acoes" style="margin-top:2.2rem">
+      <a class="btn" href="../#cursos">Ver os cursos</a>
+      <a class="btn btn--whats" data-whats href="../#contato">Chamar no WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section class="secao faixa-creme" data-outros-secao hidden>
+  <div class="limite">
+    <div class="blog-home__topo">
+      <div>
+        <p class="kicker">No blog</p>
+        <h2 class="titulo-secao" style="margin:0">Continue <span class="destaque">lendo</span></h2>
+      </div>
+      <a class="link-seta" href="./">Todos os textos <span>→</span></a>
+    </div>
+    <div class="blog-grade blog-grade--3" data-outros></div>
+  </div>
+</section>
+
+<footer class="rodape">
+  <div class="rodape__marca">André Silva Teclas</div>
+  <p>Aulas de teclado online, do zero ao avançado.</p>
+  <div class="rodape__redes">
+    <a href="../">Início</a>
+    <a href="./">Blog</a>
+    <a href="https://instagram.com/andresilvateclas" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.youtube.com/@andresilvateclas" target="_blank" rel="noopener">YouTube</a>
+  </div>
+</footer>
+
+</div><!-- /#palco -->
+
+<a class="whats-flutuante" data-whats href="../#contato" aria-label="Falar no WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#062c14"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/></svg>
+</a>
+
+<script src="../assets/js/blog.js"></script>
+<script src="../assets/js/site.js"></script>
+</body>
+</html>

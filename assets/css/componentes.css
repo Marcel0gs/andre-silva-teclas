@@ -94,7 +94,7 @@
   color: rgba(253,246,236,.9);
   text-shadow: 0 14px 60px rgba(60,12,8,.35);
   opacity: 0;
-  animation: marca-entra 1.5s var(--saida) .35s forwards;
+  animation: marca-entra 1.5s var(--saida) calc(var(--atraso-intro, 0s) + .35s) forwards;
 }
 @keyframes marca-entra {
   from { opacity: 0; transform: translate3d(-50%, 52px, 0); }
@@ -122,7 +122,7 @@
   filter: drop-shadow(0 26px 60px rgba(70,20,10,.42));
 }
 .hero__arte img, .hero__arte video { width: 100%; height: auto; }
-.hero__arte { opacity: 0; animation: arte-entra 1.6s var(--saida) .15s forwards; }
+.hero__arte { opacity: 0; animation: arte-entra 1.6s var(--saida) calc(var(--atraso-intro, 0s) + .15s) forwards; }
 @keyframes arte-entra {
   from { opacity: 0; transform: translate3d(-50%, 34px, 0) scale(1.03); }
   to   { opacity: 1; transform: translate3d(-50%, 0, 0) scale(1); }
@@ -159,10 +159,10 @@
 .hero__conteudo > * {
   opacity: 0; animation: sobe 1s var(--saida) forwards;
 }
-.hero__conteudo > *:nth-child(1) { animation-delay: .10s; }
-.hero__conteudo > *:nth-child(2) { animation-delay: .20s; }
-.hero__conteudo > *:nth-child(3) { animation-delay: .30s; }
-.hero__conteudo > *:nth-child(4) { animation-delay: .40s; }
+.hero__conteudo > *:nth-child(1) { animation-delay: calc(var(--atraso-intro, 0s) + .10s); }
+.hero__conteudo > *:nth-child(2) { animation-delay: calc(var(--atraso-intro, 0s) + .20s); }
+.hero__conteudo > *:nth-child(3) { animation-delay: calc(var(--atraso-intro, 0s) + .30s); }
+.hero__conteudo > *:nth-child(4) { animation-delay: calc(var(--atraso-intro, 0s) + .40s); }
 @keyframes sobe {
   from { opacity: 0; transform: translate3d(0, 28px, 0); }
   to   { opacity: 1; transform: translate3d(0, 0, 0); }
@@ -689,4 +689,384 @@
   .hero__marca, .hero__arte, .hero__conteudo > * { opacity: 1 !important; animation: none !important; }
   .marquee__trilho { animation: none; }
   .hero__rolar::after { animation: none; }
+}
+
+/* ================================================================ ABERTURA ==
+   07/10/2026. Teclado tocando um glissando (as teclas brancas acendem em
+   âmbar uma depois da outra), o nome sobe por trás de uma máscara, e a
+   cortina inteira sobe com a borda de baixo curva, revelando o hero.
+
+   Linha do tempo (o hero espera por ela com --atraso-intro):
+     0,05s  teclado aparece
+     0,45s  glissando, 42ms entre teclas (15 teclas = 0,6s)
+     0,95s  nome sobe
+     1,90s  cortina sobe (0,95s)
+     2,05s  hero começa a entrar, ainda com a cortina subindo
+
+   Tudo é CSS: o JS do <head> só decide se acontece e solta a rolagem por
+   tempo. Sem a classe com-intro, o bloco nem existe na tela. */
+.intro { display: none; }
+.com-intro { --atraso-intro: 2.05s; }
+.intro-trava, .intro-trava body { overflow: hidden; }
+/* a barra de rolagem some com o overflow:hidden; sem reservar o espaço
+   dela, o hero inteiro pularia 15px pro lado quando a trava soltasse */
+.intro-trava { scrollbar-gutter: stable; }
+
+.com-intro .intro {
+  display: grid; place-items: center;
+  position: fixed; inset: 0; z-index: 100;
+  background:
+    radial-gradient(ellipse 55% 45% at 50% 52%, rgba(192,86,42,.26), transparent 72%),
+    var(--fundo);
+  animation: intro-sobe .95s cubic-bezier(.76, 0, .24, 1) 1.9s forwards;
+}
+/* borda de baixo curva, que só aparece quando a cortina está subindo */
+.intro::after {
+  content: ""; position: absolute; left: -6%; right: -6%; top: calc(100% - 1px); height: 13vh;
+  background: var(--fundo); border-radius: 0 0 50% 50% / 0 0 100% 100%;
+}
+@keyframes intro-sobe { to { translate: 0 calc(-100% - 14vh); visibility: hidden; } }
+
+.intro__palco { text-align: center; animation: intro-palco-sai .95s cubic-bezier(.76, 0, .24, 1) 1.9s forwards; }
+@keyframes intro-palco-sai { to { translate: 0 -10vh; opacity: 0; } }
+
+.intro__teclado {
+  position: relative; display: flex; gap: 3px;
+  width: min(440px, 78vw); height: clamp(68px, 14vw, 100px); margin: 0 auto 1.9rem;
+  animation: intro-aparece .6s var(--saida) .05s both;
+}
+@keyframes intro-aparece { from { opacity: 0; translate: 0 18px; } }
+.intro__teclado i {
+  flex: 1; position: relative; border-radius: 0 0 5px 5px;
+  background: linear-gradient(180deg, #f3e7d6 0%, #dccab3 100%);
+  box-shadow: 0 6px 14px rgba(0,0,0,.45);
+  animation: intro-tecla .55s ease-out both;
+  animation-delay: calc(.45s + var(--i) * 42ms);
+}
+/* a luz de cada tecla é uma camada por cima, animada só na opacidade */
+.intro__teclado i::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit;
+  background: linear-gradient(180deg, #ffe0a3 0%, #e8a24a 100%);
+  box-shadow: 0 0 22px rgba(255,190,100,.75);
+  opacity: 0; animation: intro-luz .7s ease-out both;
+  animation-delay: calc(.45s + var(--i) * 42ms);
+}
+.intro__teclado b {
+  position: absolute; top: 0; z-index: 2; height: 60%;
+  width: calc(100% / 15 * .6);
+  left: calc(100% / 15 * var(--x) - 100% / 15 * .3);
+  background: linear-gradient(180deg, #3a2823 0%, #120c0b 100%);
+  border-radius: 0 0 4px 4px; box-shadow: 0 4px 8px rgba(0,0,0,.6);
+}
+@keyframes intro-tecla { 0%, 100% { translate: 0 0; } 30% { translate: 0 4px; } }
+@keyframes intro-luz { 0% { opacity: 0; } 25% { opacity: 1; } 100% { opacity: 0; } }
+
+.intro__nome {
+  margin: 0; font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.5rem, 7.5vw, 4.6rem); line-height: 1; letter-spacing: -0.02em; color: var(--texto);
+}
+/* a máscara: cada linha corta o que está abaixo dela, e o texto sobe de
+   dentro do corte. padding-right: o itálico passa da caixa e seria cortado */
+.intro__linha { display: inline-block; overflow: hidden; vertical-align: top; padding: 0 .12em .1em 0; }
+.intro__linha > * { display: inline-block; animation: intro-nome 1s var(--saida) both; }
+.intro__linha:nth-child(1) > * { animation-delay: .95s; }
+.intro__linha:nth-child(2) > * { animation-delay: 1.08s; }
+.intro__nome em { font-style: italic; color: var(--dourado); }
+@keyframes intro-nome { from { translate: 0 108%; } }
+.intro__fio {
+  display: block; width: min(220px, 50vw); height: 1px; margin: 1.5rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--ambar), transparent);
+  animation: intro-fio 1.3s var(--saida) .5s both;
+}
+@keyframes intro-fio { from { scale: 0 1; opacity: 0; } }
+
+/* nav e botão flutuante entram junto com o hero. Só `backwards`: com
+   `both` a animação prenderia o transform e mataria o hover do botão. */
+.com-intro .nav,
+.com-intro .whats-flutuante { animation: sobe .9s var(--saida) calc(var(--atraso-intro) + .3s) backwards; }
+
+/* ======================================================= HERO COBERTO ===
+   07/10/2026. O hero fica parado e o resto da página sobe por cima.
+   --cobre vai de 0 a 1 (site.js). Camada mais "funda" anda menos: a marca
+   quase não sobe, a figura sobe um pouco e recua, o texto sobe mais e
+   apaga. É essa diferença de velocidade que lê como profundidade.
+
+   ⚠️ Toda seção depois do hero PRECISA de fundo opaco, senão o hero
+   travado aparece por trás (já aconteceu na WA Orofacial). O :where zera a
+   especificidade, então seção com fundo próprio continua mandando. */
+.hero { position: sticky; top: var(--hero-topo, 0px); z-index: 0; }
+:where(#palco > :not(.hero)) { position: relative; z-index: 1; background-color: var(--fundo); }
+
+.hero__marca { translate: 0 calc(var(--cobre, 0) * -4vh); }
+.hero__arte  { translate: 0 calc(var(--cobre, 0) * -8vh); scale: calc(1 - var(--cobre, 0) * .07); transform-origin: 50% 100%; }
+.hero__conteudo { translate: 0 calc(var(--cobre, 0) * -16vh); opacity: calc(1 - var(--cobre, 0) * 1.5); }
+/* escurecimento quente e em curva (cobre²): o escuro neutro, entrando
+   reto, deixava o creme com cara de cinza sujo logo no começo da rolagem */
+.hero__cobre {
+  position: absolute; inset: 0; z-index: 6; pointer-events: none;
+  background: #2a120b; opacity: calc(var(--cobre, 0) * var(--cobre, 0) * .78);
+}
+
+/* A faixa de números é a primeira a cobrir: ganha canto arredondado e uma
+   sombra pra cima, pra ler como um cartão deslizando sobre o hero.
+   ⚠️ Em repouso nada disso aparece, de propósito: o pé do hero já é a cor
+   exata da faixa (a emenda que custou três voltas), então o canto some, e a
+   sombra só acende conforme --cobre sobe. Sombra fixa ali escureceria a
+   rampa e devolveria a linha na emenda. */
+.provas { border-radius: 28px 28px 0 0; }
+.provas::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 70px;
+  translate: 0 -100%; pointer-events: none;
+  background: linear-gradient(0deg, rgba(10,6,5,.4), transparent);
+  opacity: var(--cobre, 0);
+}
+
+/* ===================================================== CAMADAS (3b) ====== */
+/* foto andando dentro da moldura: sobra altura em cima e embaixo pra ela
+   poder andar sem mostrar a borda (o JS move até ±data-px-img) */
+.curso__capa img { height: calc(100% + 40px); margin-top: -20px; }
+.sobre__foto img { height: calc(100% + 64px); margin-top: -32px; }
+
+/* pauta atravessando o "Como funciona", por trás dos cartões */
+#metodo { overflow: hidden; }
+#metodo .limite { position: relative; z-index: 1; }
+.pauta {
+  position: absolute; left: 50%; top: 60%; z-index: 0; pointer-events: none;
+  width: 2400px; margin-left: -1200px; transform: translateY(-50%);
+  opacity: .2;
+}
+.pauta img { width: 2400px; max-width: none; height: auto; }
+
+/* palavra gigante em contorno atrás do "Quem ensina" */
+#sobre { overflow: hidden; }
+#sobre .limite { position: relative; z-index: 1; }
+.sobre__fundo {
+  position: absolute; right: -3%; top: 6%; z-index: 0; pointer-events: none; user-select: none;
+  font-family: "Instrument Serif", Georgia, serif; font-style: italic; font-weight: 400;
+  font-size: clamp(7rem, 23vw, 21rem); line-height: .8; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(192,86,42,.26);
+}
+@media (max-width: 860px) { .sobre__fundo { top: auto; bottom: 4%; right: -8%; } }
+
+/* teclado que chega deitado: a perspectiva mora no pai, o giro no filho */
+#experimente .limite { perspective: 1400px; }
+.instrumento { transform-origin: 50% 100%; }
+
+/* ================================================================== BLOG ===
+   07/10/2026. Os textos vêm do painel (blog.js). Cartão claro por padrão;
+   dentro de .faixa-escura (o bloco da home, na seção de vídeos) ele vira
+   escuro. */
+/* auto-fit: dois cartões dividem a linha em vez de deixar um buraco (a
+   regra de quantos cartões vão em destaque está no blog.js, encaixar) */
+.blog-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.6rem; }
+.blog-grade--3 { grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); }
+.post-card--destaque + .blog-grade:not(:empty) { margin-top: 1.6rem; }
+
+.post-card {
+  display: flex; flex-direction: column; overflow: hidden; text-decoration: none;
+  border-radius: var(--raio); color: var(--tinta);
+  background: var(--creme-2); border: 1px solid var(--creme-borda);
+  transition: transform var(--dur) var(--saida), box-shadow var(--dur) var(--saida), border-color var(--dur-curta) ease;
+}
+.post-card:hover, .post-card:focus-visible {
+  transform: translate3d(0,-8px,0); border-color: rgba(192,86,42,.5);
+  box-shadow: 0 28px 56px rgba(90,45,20,.2);
+}
+/* texto sem foto ganha capa de cor com uma nota, em vez de buraco */
+.post-card__capa {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--vinho) 0%, var(--laranja) 70%, var(--ambar) 100%);
+}
+.post-card__capa img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--saida); }
+.post-card:hover .post-card__capa img { transform: scale(1.06); }
+.post-card__nota { font-family: "Instrument Serif", Georgia, serif; font-size: 4.6rem; line-height: 1; color: rgba(255,226,175,.6); }
+.post-card__corpo { padding: 1.4rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: .55rem; flex: 1; }
+.post-card__meta { margin: 0; font-size: .7rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--laranja); }
+.post-card__titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: 1.55rem; line-height: 1.1; letter-spacing: -0.015em;
+}
+.post-card__resumo {
+  margin: 0; flex: 1; color: var(--tinta-fraca); font-size: .92rem; line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.post-card__ler {
+  margin-top: .4rem; display: inline-flex; align-items: center; gap: .4rem;
+  font-size: .76rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--vinho);
+  transition: gap var(--dur-curta) var(--saida);
+}
+.post-card:hover .post-card__ler { gap: .75rem; }
+
+/* o texto mais novo ocupa a linha inteira na página do blog */
+@media (min-width: 860px) {
+  .post-card--destaque { display: grid; grid-template-columns: 1.25fr 1fr; }
+  .post-card--destaque .post-card__capa { aspect-ratio: auto; min-height: 340px; }
+  .post-card--destaque .post-card__corpo { padding: 2.6rem; justify-content: center; }
+  .post-card--destaque .post-card__titulo { font-size: clamp(2.1rem, 3.2vw, 2.8rem); }
+  .post-card--destaque .post-card__resumo { flex: 0 1 auto; -webkit-line-clamp: 4; font-size: 1rem; }
+}
+
+.faixa-escura .post-card { background: var(--carta); border-color: var(--borda); color: var(--texto); }
+.faixa-escura .post-card:hover { border-color: rgba(255,196,107,.4); box-shadow: 0 26px 54px rgba(0,0,0,.5); }
+.faixa-escura .post-card__meta { color: var(--ambar); }
+.faixa-escura .post-card__resumo { color: var(--texto-fraco); }
+.faixa-escura .post-card__ler { color: var(--dourado); }
+
+/* cartão criado pelo JS entra em cascata. Só `backwards`: com `both` a
+   animação prenderia o transform e o cartão não subiria mais no hover. */
+.entra { animation: sobe .9s var(--saida) backwards; animation-delay: calc(var(--i, 0) * 90ms); }
+
+/* esqueleto enquanto a lista carrega */
+.post-card--esqueleto { pointer-events: none; }
+.post-card--esqueleto .post-card__capa,
+.post-card--esqueleto i,
+.post-esqueleto i {
+  background: linear-gradient(90deg, var(--creme-borda) 0%, #f1e7da 50%, var(--creme-borda) 100%);
+  background-size: 200% 100%; animation: esqueleto 1.4s linear infinite;
+}
+.post-card--esqueleto i, .post-esqueleto i { display: block; height: .9rem; border-radius: 6px; }
+.post-card--esqueleto i:nth-child(1) { width: 40%; }
+.post-card--esqueleto i:nth-child(2) { width: 88%; height: 1.6rem; }
+.post-card--esqueleto i:nth-child(3) { width: 70%; }
+@keyframes esqueleto { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+
+/* topo da página do blog */
+.blog-topo {
+  position: relative; overflow: hidden;
+  padding: calc(var(--nav-altura) + clamp(3.5rem, 8vw, 6rem)) 1.5rem clamp(3.5rem, 7vw, 5.5rem);
+  background:
+    radial-gradient(ellipse 70% 80% at 18% 0%, rgba(192,86,42,.3), transparent 62%),
+    radial-gradient(ellipse 60% 70% at 92% 30%, rgba(122,31,43,.36), transparent 62%),
+    var(--fundo);
+}
+.blog-topo .limite { position: relative; z-index: 1; }
+.blog-topo__titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.7rem, 7.4vw, 5.4rem); line-height: 1; letter-spacing: -0.025em;
+  max-width: 13ch; margin-bottom: 1.3rem;
+}
+.blog-topo__titulo .destaque { font-style: italic; color: var(--dourado); }
+.blog-topo .texto { max-width: 50ch; }
+.blog-topo__pauta {
+  position: absolute; left: 50%; bottom: 6%; z-index: 0; pointer-events: none;
+  width: 2400px; margin-left: -1200px; opacity: .18;
+}
+.blog-topo__pauta img { width: 2400px; max-width: none; height: auto; }
+
+.blog-estado { text-align: center; padding: 2.5rem 1rem; max-width: 520px; margin: 0 auto; }
+.blog-estado__titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1.1; margin: 0 0 .6rem; color: var(--tinta);
+}
+.blog-estado .texto { margin-bottom: 1.6rem; }
+
+/* bloco do blog na home, dentro da seção de vídeos */
+.blog-home { margin-top: clamp(3.5rem, 7vw, 5.5rem); padding-top: clamp(2.5rem, 5vw, 3.5rem); border-top: 1px solid var(--borda); }
+.blog-home__topo { display: flex; align-items: flex-end; justify-content: space-between; gap: 1.2rem 2rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.blog-home__titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(1.9rem, 4.4vw, 2.9rem); line-height: 1.05; letter-spacing: -0.02em;
+}
+.blog-home__titulo .destaque { font-style: italic; color: var(--dourado); }
+
+/* ---------------------------------------------------- página do texto --- */
+.post-topo {
+  padding: calc(var(--nav-altura) + clamp(2.5rem, 6vw, 4.5rem)) 1.5rem clamp(2.6rem, 5vw, 3.6rem);
+  background: radial-gradient(ellipse 70% 90% at 12% 0%, rgba(192,86,42,.28), transparent 62%), var(--fundo);
+}
+.post-limite { max-width: 760px; margin: 0 auto; }
+/* flex com largura do conteúdo, e não inline-flex: inline ele dividia a
+   linha com a data logo abaixo */
+.post-voltar {
+  display: flex; width: max-content; align-items: center; gap: .5rem; margin-bottom: 2rem;
+  font-size: .85rem; font-weight: 600; color: var(--texto-fraco); text-decoration: none;
+  transition: color var(--dur-curta) ease, gap var(--dur-curta) var(--saida);
+}
+.post-voltar:hover { color: var(--dourado); gap: .8rem; }
+.post-titulo {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(2.3rem, 6vw, 4.3rem); line-height: 1.02; letter-spacing: -0.025em;
+}
+
+/* a capa fica metade no escuro do topo, metade no creme do texto */
+.post-capa-faixa { padding: 0 1.5rem; background: linear-gradient(180deg, var(--fundo) 50%, var(--creme) 50%); }
+.post-capa {
+  max-width: 1000px; margin: 0 auto; aspect-ratio: 16 / 9; overflow: hidden;
+  border-radius: var(--raio); background: var(--carta); box-shadow: 0 30px 70px rgba(0,0,0,.35);
+}
+.post-capa img { width: 100%; height: calc(100% + 72px); margin-top: -36px; object-fit: cover; }
+
+.post-folha { background: var(--creme); color: var(--tinta); padding: clamp(2.6rem, 6vw, 4.5rem) 1.5rem clamp(3.5rem, 7vw, 5rem); }
+.post-corpo { max-width: 680px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8; color: #3d2a20; }
+.post-corpo p { margin: 0 0 1.4rem; }
+.post-corpo h2 {
+  font-family: "Instrument Serif", Georgia, serif; font-weight: 400;
+  font-size: clamp(1.7rem, 3.6vw, 2.25rem); line-height: 1.1; color: var(--tinta); margin: 2.6rem 0 1rem;
+}
+.post-corpo strong { color: var(--tinta); font-weight: 700; }
+.post-corpo a { color: var(--vinho); text-decoration-thickness: 1px; text-underline-offset: 3px; word-break: break-word; }
+.post-corpo ul, .post-corpo ol { margin: 0 0 1.4rem; padding-left: 1.4rem; }
+.post-corpo li { margin-bottom: .5rem; padding-left: .2rem; }
+.post-corpo li::marker { color: var(--laranja); }
+.post-corpo blockquote {
+  margin: 2.2rem 0; padding: .2rem 0 .2rem 1.4rem; border-left: 3px solid var(--laranja);
+  font-family: "Instrument Serif", Georgia, serif; font-style: italic;
+  font-size: clamp(1.45rem, 3vw, 1.9rem); line-height: 1.3; color: var(--tinta);
+}
+.post-foto { margin: 2.2rem 0; }
+.post-foto img { width: 100%; height: auto; border-radius: 14px; }
+.post-foto figcaption { margin-top: .6rem; font-size: .85rem; color: var(--tinta-fraca); text-align: center; }
+.post-video {
+  margin: 2.2rem 0; aspect-ratio: 16 / 9; overflow: hidden; border-radius: 14px;
+  background: #0d0706; box-shadow: 0 20px 50px rgba(60,30,15,.25);
+}
+.post-video__tela { position: relative; display: block; width: 100%; height: 100%; border: 0; padding: 0; cursor: pointer; background: #0d0706; }
+.post-video__tela img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.1s var(--saida); }
+.post-video__tela:hover img { transform: scale(1.05); }
+.post-video__play {
+  position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; border-radius: 50%;
+  transform: translate(-50%, -50%); background: rgba(192,86,42,.94); box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  transition: transform var(--dur-curta) var(--saida);
+}
+.post-video__play::after {
+  content: ""; position: absolute; left: 27px; top: 21px;
+  border-style: solid; border-width: 13px 0 13px 20px; border-color: transparent transparent transparent #fff;
+}
+.post-video__tela:hover .post-video__play { transform: translate(-50%, -50%) scale(1.1); }
+.post-video iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+.post-esqueleto i { margin-bottom: 1.1rem; }
+.post-esqueleto i:nth-child(2) { width: 92%; }
+.post-esqueleto i:nth-child(3) { width: 96%; }
+.post-esqueleto i:nth-child(4) { width: 78%; }
+.post-esqueleto i:nth-child(5) { width: 60%; }
+.post-falhou { text-align: center; color: var(--tinta-fraca); }
+
+/* o texto entra quando chega da API */
+.post--pronto [data-post-meta],
+.post--pronto .post-titulo,
+.post--pronto .post-corpo { animation: sobe .9s var(--saida) backwards; }
+.post--pronto .post-titulo { animation-delay: .08s; }
+.post--pronto .post-corpo { animation-delay: .2s; }
+.post--pronto .post-capa img { animation: capa-entra 1.6s var(--saida) backwards; }
+@keyframes capa-entra { from { opacity: 0; scale: 1.12; } }
+
+.post-partilha {
+  max-width: 680px; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid var(--creme-borda);
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem 1.5rem; flex-wrap: wrap;
+}
+.post-partilha p { margin: 0; font-family: "Instrument Serif", Georgia, serif; font-size: 1.4rem; line-height: 1.2; color: var(--tinta); }
+.post-partilha__botoes { display: flex; gap: .6rem; flex-wrap: wrap; }
+.post-partilha .btn--vazado { color: var(--tinta); border-color: rgba(36,21,15,.25); }
+.post-partilha .btn--vazado:hover { background: rgba(36,21,15,.06); }
+.post-erro { padding-top: calc(var(--nav-altura) + 5rem); min-height: 72vh; }
+
+.faixa-creme .blog-home__titulo .destaque { color: var(--laranja); }
+.nav__links a[aria-current="page"] { color: var(--texto); }
+.nav__links a[aria-current="page"]::after { transform: scaleX(1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .intro { display: none !important; }
+  .hero__marca, .hero__arte, .hero__conteudo { translate: none; scale: none; }
+  .post-card--esqueleto .post-card__capa, .post-card--esqueleto i, .post-esqueleto i { animation: none; }
 }
