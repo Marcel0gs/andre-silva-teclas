@@ -189,8 +189,8 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
         // teclado que inclina, senão ele mede a seção e chega quase reto)
         // ou a seção inteira (camadas soltas)
         var ref = tipo === 'img' ? el.parentElement
-                : tipo === 'inclina' ? el
-                : (el.closest('section, header') || el.parentElement);
+                : tipo === 'inclina' || tipo === 'preenche' ? el
+                : (el.closest('section, header, footer') || el.parentElement);
         pxCamadas.push({ el: el, tipo: tipo, v: parseFloat(el.getAttribute(attr)) || 0, ref: ref });
       });
     };
@@ -198,6 +198,7 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
     juntar('[data-px-x]', 'x', 'data-px-x');
     juntar('[data-px-img]', 'img', 'data-px-img');
     juntar('[data-inclina]', 'inclina', 'data-inclina');
+    juntar('[data-preenche]', 'preenche', 'data-preenche');
 
     if (pxCamadas.length) {
       var pedidoPx = false;
@@ -219,6 +220,15 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
           } else if (c.tipo === 'img') {
             var n = Math.max(-1, Math.min(1, dist / alt));       // -1 a 1
             c.el.style.translate = '0 ' + (n * c.v * fator).toFixed(1) + 'px';
+          } else if (c.tipo === 'preenche') {
+            // trilho do "Como funciona": vazio com ele a 85% da tela, cheio a
+            // 40%. Os nós acendem quando a linha passa por eles.
+            var enche = Math.max(0, Math.min(1, (alt * 0.85 - r.top) / (alt * 0.45)));
+            c.el.style.scale = enche.toFixed(3) + ' 1';
+            if (!c.nos) c.nos = c.el.closest('.passos-trilho').querySelectorAll('[data-no]');
+            Array.prototype.forEach.call(c.nos, function (no) {
+              no.classList.toggle('aceso', enche >= parseInt(no.getAttribute('data-no'), 10) / 2 - 0.001);
+            });
           } else {
             // 0 quando o topo encosta no pé da tela, 1 quando chega a 30% dela
             var prog = Math.max(0, Math.min(1, (alt - r.top) / (alt * 0.7)));
@@ -428,13 +438,17 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
 
   /* ======================================================================
      7. TECLADO TOCÁVEL
-     Web Audio só nasce no primeiro toque (política de autoplay). A posição
-     das teclas pretas é medida da largura real da branca, nunca chutada.
+     Web Audio só nasce no primeiro toque (política de autoplay).
+
+     Duas oitavas também no celular (07/10/2026, pedido do usuário): com
+     uma só sobravam 8 teclas e o instrumento parecia de brinquedo. As teclas
+     ficam mais finas (~22px num aparelho de 390), e o instrumento estica
+     quase até a borda da tela pra compensar (CSS, .instrumento no celular).
      ====================================================================== */
   var raiz = document.getElementById('teclado');
   if (!raiz) return;
 
-  var OITAVAS = window.innerWidth < 640 ? 1 : 2;
+  var OITAVAS = 2;
   var PALETA = ['var(--paleta-0)', 'var(--paleta-1)', 'var(--paleta-2)'];
   var SEMITOM = { C:-9,'C#':-8, D:-7,'D#':-6, E:-5, F:-4,'F#':-3, G:-2,'G#':-1, A:0,'A#':1, B:2 };
   var ORDEM = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
@@ -516,18 +530,58 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
     ligar(el, n.letra, n.oitava, corIndice++);
   });
 
-  requestAnimationFrame(function () {
-    var largura = brancas[0].getBoundingClientRect().width;
-    var conta = -1;
-    notas.forEach(function (n) {
-      if (!n.preta) { conta++; return; }
-      var el = document.createElement('div');
-      el.className = 'tecla tecla--preta';
-      var lg = largura * .62;
-      el.style.width = lg + 'px';
-      el.style.left = ((conta + 1) * (largura + 2) - lg / 2) + 'px';
-      raiz.appendChild(el);
-      ligar(el, n.letra, n.oitava, corIndice++);
+  /* Teclas pretas em PORCENTAGEM da faixa de cada branca, não em pixel
+     medido: as brancas são fatias iguais (flex:1, margem inclusa), então a
+     divisa entre a branca k e a k+1 cai exatamente em k/n do teclado. Em
+     pixel, girar o celular ou mudar a janela deixava as pretas fora do
+     lugar, e até estourando a largura da página. */
+  var fatia = 100 / brancas.length;
+  var conta = -1;
+  notas.forEach(function (n) {
+    if (!n.preta) { conta++; return; }
+    var el = document.createElement('div');
+    el.className = 'tecla tecla--preta';
+    el.style.width = (fatia * .62) + '%';
+    el.style.left = ((conta + 1) * fatia - fatia * .31) + '%';
+    raiz.appendChild(el);
+    ligar(el, n.letra, n.oitava, corIndice++);
+  });
+
+  /* ======================================================================
+     8. TELAS QUE TOCAM, NO "COMO FUNCIONA" (07/10/2026)
+     Cada passo do método tem uma tela que toca o que ele ensina, com o
+     mesmo som do teclado de cima:
+       data-acorde="C4 E4 G4"   notas, tocadas quase juntas (arpejo curto)
+       data-modo="intervalo"    notas separadas, pra treinar o ouvido; a
+                                tela pergunta e só depois mostra a resposta
+                                (data-resposta)
+     ====================================================================== */
+  document.querySelectorAll('[data-acorde]').forEach(function (tela) {
+    var notas = tela.getAttribute('data-acorde').split(' ').map(function (n) {
+      var m = n.match(/^([A-G]#?)(\d)$/);
+      return m ? freqDe(m[1], parseInt(m[2], 10)) : null;
+    }).filter(Boolean);
+    var intervalo = tela.getAttribute('data-modo') === 'intervalo';
+    var lcd = tela.querySelector('[data-lcd]');
+    var pergunta = lcd ? lcd.innerHTML : '';
+    var resposta = tela.getAttribute('data-resposta');
+    var espera = null;
+
+    tela.addEventListener('click', function () {
+      tela.classList.remove('tocando');
+      void tela.offsetWidth;                 // reinicia a animação se tocar de novo
+      tela.classList.add('tocando');
+      notas.forEach(function (f, i) {
+        setTimeout(function () { tocar(f); }, i * (intervalo ? 480 : 60));
+      });
+      if (intervalo && lcd && resposta) {
+        clearTimeout(espera);
+        lcd.innerHTML = pergunta;
+        espera = setTimeout(function () {
+          lcd.innerHTML = resposta;
+          espera = setTimeout(function () { lcd.innerHTML = pergunta; }, 3200);
+        }, notas.length * 480 + 250);
+      }
     });
   });
 })();

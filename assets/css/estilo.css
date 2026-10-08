@@ -251,22 +251,94 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: 
 @media (max-width: 900px) { .nav__links { display: none; } }
 
 /* --------------------------------------------------------------- rodapé --- */
+/* Refeito em 07/10/2026: era só a marca apagada e três botões ("ficou
+   muito simples"). Agora abre com uma fileira de teclas, tem colunas de
+   cursos e navegação, contato com WhatsApp, e fecha com a marca gigante
+   sangrando no pé, como no hero. Igual nas 7 páginas. */
 .rodape {
-  background: var(--fundo); border-top: 1px solid var(--borda);
-  padding: clamp(3rem, 6vw, 5rem) 1.5rem 2.5rem; text-align: center;
-  color: var(--texto-fraco); font-size: .88rem;
+  position: relative; overflow: hidden; color: var(--texto-fraco); font-size: .9rem;
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(240,138,60,.12), transparent 70%),
+    var(--fundo);
 }
-.rodape__marca {
-  font-family: "Instrument Serif", Georgia, serif; font-size: clamp(2.4rem, 9vw, 5rem);
-  color: rgba(247,236,224,.1); line-height: 1; margin-bottom: 1.8rem; letter-spacing: -0.02em;
+/* fileira de teclas: brancas em degradê repetido, pretas desenhadas na
+   posição certa de uma oitava (7 brancas = 196px; pretas depois da 1ª,
+   2ª, 4ª, 5ª e 6ª branca) */
+.rodape__teclas {
+  height: 30px; opacity: .92;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0 20px, #120c0b 20px 36px, transparent 36px 48px, #120c0b 48px 64px,
+      transparent 64px 104px, #120c0b 104px 120px, transparent 120px 132px, #120c0b 132px 148px,
+      transparent 148px 160px, #120c0b 160px 176px, transparent 176px 196px) 0 0 / 100% 62% no-repeat,
+    repeating-linear-gradient(90deg, #efe4d4 0 26px, #b9a690 26px 28px) 0 0 / 100% 100%;
+  box-shadow: inset 0 -8px 12px rgba(0,0,0,.25), 0 1px 0 rgba(240,138,60,.5), 0 8px 30px rgba(240,138,60,.12);
 }
-.rodape__redes { display: flex; flex-wrap: wrap; gap: .7rem; justify-content: center; margin-top: 1.3rem; }
-.rodape__redes a {
-  text-decoration: none; border: 1px solid var(--borda); padding: .5rem 1.05rem;
-  border-radius: 999px; font-weight: 600; font-size: .82rem;
-  transition: border-color var(--dur-curta) ease, color var(--dur-curta) ease, transform var(--dur-curta) var(--saida);
+
+.rodape__grade {
+  display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.3fr; gap: 2.5rem 2rem;
+  padding: clamp(3.5rem, 7vw, 5rem) 1.5rem 2rem;
 }
-.rodape__redes a:hover { border-color: var(--ambar); color: var(--texto); transform: translate3d(0,-2px,0); }
+.rodape__logo {
+  font-family: "Instrument Serif", Georgia, serif; font-size: 1.9rem; line-height: 1;
+  color: var(--texto); text-decoration: none; letter-spacing: -0.01em;
+}
+.rodape__logo span { font-style: italic; color: var(--dourado); }
+.rodape__sobre p { margin: 1rem 0 1.4rem; line-height: 1.7; max-width: 34ch; }
+.rodape__sociais { display: flex; gap: .55rem; }
+/* cada rede na cor oficial dela, ícone branco por cima (pedido do usuário,
+   07/10/2026). O seletor é pelo aria-label pra não precisar de classe nova
+   nas 7 páginas. No hover, sobe e acende um brilho da mesma cor. */
+.rodape__sociais a {
+  --brilho: rgba(255,255,255,.25);
+  width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center;
+  color: #fff; border: 0;
+  transition: transform var(--dur-curta) var(--saida), box-shadow var(--dur-curta) ease, filter var(--dur-curta) ease;
+}
+.rodape__sociais a[aria-label="Instagram"] {
+  --brilho: rgba(214,36,159,.55);
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+}
+.rodape__sociais a[aria-label="YouTube"] { --brilho: rgba(255,0,0,.5); background: #ff0000; }
+.rodape__sociais a[aria-label="WhatsApp"] { --brilho: rgba(37,211,102,.5); background: #25d366; }
+.rodape__sociais a:hover { transform: translate3d(0,-3px,0); filter: brightness(1.08); box-shadow: 0 10px 24px var(--brilho); }
+.rodape__sociais svg { width: 19px; height: 19px; fill: currentColor; }
+
+.rodape__titulo {
+  margin: .2rem 0 1.1rem; font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--ambar);
+}
+.rodape__col { display: flex; flex-direction: column; align-items: flex-start; gap: .65rem; }
+.rodape__col a:not(.btn) {
+  color: var(--texto-fraco); text-decoration: none; position: relative;
+  transition: color var(--dur-curta) ease, transform var(--dur-curta) var(--saida);
+}
+.rodape__col a:not(.btn):hover { color: var(--texto); transform: translate3d(4px,0,0); }
+.rodape__contato p { margin: 0 0 .5rem; line-height: 1.65; max-width: 30ch; }
+
+/* marca gigante sangrando no pé, apagando pra baixo */
+.rodape__gigante {
+  font-family: "Instrument Serif", Georgia, serif; font-size: clamp(3.2rem, 12.6vw, 13.5rem);
+  line-height: .8; letter-spacing: -0.02em; white-space: nowrap; text-align: center;
+  margin: .5rem 0 -.08em; pointer-events: none; user-select: none;
+  background: linear-gradient(180deg, rgba(247,236,224,.16), rgba(247,236,224,0) 85%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.rodape__base {
+  position: relative; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  padding: 1.3rem 1.5rem 1.6rem; border-top: 1px solid var(--borda); font-size: .8rem;
+}
+.rodape__base a { color: var(--texto-fraco); text-decoration: none; }
+.rodape__base a:hover { color: var(--dourado); }
+
+@media (max-width: 960px) {
+  .rodape__grade { grid-template-columns: 1fr 1fr; }
+  .rodape__sobre, .rodape__contato { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
+  .rodape__base { justify-content: center; text-align: center; }
+  /* o botão flutuante do WhatsApp fica no canto: sobra espaço pra ele */
+  .rodape__base { padding-bottom: 5.5rem; }
+}
 
 /* --------------------------------------------------- whatsapp flutuante --- */
 .whats-flutuante {
