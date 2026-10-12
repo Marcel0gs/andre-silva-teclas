@@ -25,6 +25,15 @@
   var API = 'https://andreteclas.marcel0gs.workers.dev';
   var SITE = 'https://marcel0gs.github.io/andre-silva-teclas';
 
+  /* cartão do curso que ele escolhe no painel ("Curso no fim do texto").
+     A chave é a pasta em cursos/; a frase é a mesma do cartão da home. */
+  var CURSOS = {
+    'tocando-de-ouvido': 'Treine o ouvido e tire música sem depender de cifra, com comunidade e lives.',
+    'harmonia-na-pratica': 'O que tocar, quando tocar e por quê, sem travar na teoria.',
+    'poliacordes': 'Acordes sobrepostos nos 12 tons, pra dar som de banda ao seu teclado.',
+    'dominando-o-blues': 'Ebook com escala, 12 compassos, mão esquerda e improviso com sotaque de blues.',
+  };
+
   function esc(t) {
     return String(t == null ? '' : t)
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -203,6 +212,22 @@
     var corpo = pagPost.querySelector('[data-post-corpo]');
     corpo.innerHTML = p.html;
     ligarVideos(corpo);
+
+    if (p.curso && CURSOS[p.curso.slug]) {
+      var c = document.createElement('aside');
+      c.className = 'post-curso';
+      c.innerHTML =
+        '<a class="post-curso__cartao" href="../cursos/' + esc(p.curso.slug) + '/">' +
+          '<img src="../assets/img/capas/' + esc(p.curso.slug) + '.webp" alt="" loading="lazy" decoding="async">' +
+          '<div class="post-curso__txt">' +
+            '<p class="post-curso__kicker">Curso recomendado</p>' +
+            '<h2 class="post-curso__nome">' + esc(p.curso.nome) + '</h2>' +
+            '<p class="post-curso__desc">' + esc(CURSOS[p.curso.slug]) + '</p>' +
+            '<span class="post-curso__ver">Conhecer o curso <span aria-hidden="true">→</span></span>' +
+          '</div>' +
+        '</a>';
+      corpo.parentNode.insertBefore(c, corpo.nextSibling);
+    }
 
     /* compartilhar: o link do Worker, que entrega a capa certa na prévia do
        WhatsApp (o link do site mostraria a capa genérica) */

@@ -28,7 +28,7 @@
    ║   descem até a seção de contato, sem abrir conversa nenhuma.          ║
    ╚═══════════════════════════════════════════════════════════════════════╝
    =========================================================================== */
-var WHATSAPP = "5531989356183";
+var WHATSAPP = "5531985880475";
 
 var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melhor pro meu nível.";
 
@@ -53,6 +53,21 @@ var WHATSAPP_MENSAGEM = "Oi André! Vi seu site e quero saber qual curso é melh
       a.rel = 'noopener';
     });
   })();
+
+  /* ---- VSL das páginas de curso ----
+     Mesmo princípio da galeria de vídeos: entra só a capa, e o player do
+     YouTube nasce no clique. O código do vídeo fica no data-vsl do botão. */
+  document.querySelectorAll('[data-vsl]').forEach(function (botao) {
+    botao.addEventListener('click', function () {
+      var quadro = document.createElement('iframe');
+      quadro.src = 'https://www.youtube-nocookie.com/embed/' + botao.getAttribute('data-vsl') +
+                   '?autoplay=1&rel=0&modestbranding=1';
+      quadro.title = botao.getAttribute('aria-label') || 'Apresentação do curso';
+      quadro.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+      quadro.allowFullscreen = true;
+      botao.replaceWith(quadro);
+    });
+  });
 
   /* ======================================================================
      1. SCROLL SUAVE: REMOVIDO EM 19/09/2026

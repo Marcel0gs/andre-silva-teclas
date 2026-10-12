@@ -124,7 +124,7 @@ var API_VIDEOS = "https://andreteclas.marcel0gs.workers.dev/api/videos";
     var nota = v.nota || 'Assista sem sair do site';
 
     cartao.innerHTML =
-      '<button class="video__tela" type="button" aria-label="Tocar: ' + escapar(titulo) + '">' +
+      '<button class="video__tela" type="button" data-video="' + v.codigo + '" aria-label="Tocar: ' + escapar(titulo) + '">' +
         '<img src="https://i.ytimg.com/vi/' + v.codigo + '/maxresdefault.jpg" alt="" loading="lazy" ' +
              'onerror="this.onerror=null;this.src=\'https://i.ytimg.com/vi/' + v.codigo + '/hqdefault.jpg\'">' +
         '<span class="video__play">' + PLAY + '</span>' +

@@ -329,6 +329,14 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: 
 }
 .rodape__base a { color: var(--texto-fraco); text-decoration: none; }
 .rodape__base a:hover { color: var(--dourado); }
+/* botão discreto pro André entrar no painel (métricas, blog, vídeos) */
+.rodape__links { display: inline-flex; align-items: center; gap: .6rem 1.4rem; flex-wrap: wrap; justify-content: center; }
+.rodape__painel {
+  display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .85rem;
+  border: 1px solid var(--borda); border-radius: 999px;
+  transition: border-color var(--dur-curta) ease, color var(--dur-curta) ease;
+}
+.rodape__base a.rodape__painel:hover { border-color: rgba(255,196,107,.45); }
 
 @media (max-width: 960px) {
   .rodape__grade { grid-template-columns: 1fr 1fr; }
