@@ -264,7 +264,8 @@
     var u;
     try { u = new URL(a.href, location.href); } catch (err) { return; }
     if (u.host === location.host || !/^https?:$/.test(u.protocol)) return;
-    if (API.indexOf('//' + u.host) > 0) return;   // botão "Painel do André", do rodapé
+    if (API.indexOf('//' + u.host) > 0) return;   // botão "Painel", do rodapé
+    if (u.hostname === 'chat.whatsapp.com') { contar('link', 'grupo-whatsapp'); return; }
     if (/(^|\.)wa\.me$|whatsapp\.com$/.test(u.hostname)) {
       contar('whatsapp', ondeEsta(a));
       avisarPixels('whatsapp');

@@ -314,6 +314,9 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: 
 }
 .rodape__col a:not(.btn):hover { color: var(--texto); transform: translate3d(4px,0,0); }
 .rodape__contato p { margin: 0 0 .5rem; line-height: 1.65; max-width: 30ch; }
+.rodape__grupo { display: inline-flex; gap: .4rem; margin-top: .9rem; font-size: .86rem; font-weight: 600; color: var(--texto-fraco); text-decoration: none; }
+.rodape__grupo:hover { color: var(--whats); }
+.rodape__contato .btn { display: flex; width: max-content; }
 
 /* marca gigante sangrando no pé, apagando pra baixo */
 .rodape__gigante {

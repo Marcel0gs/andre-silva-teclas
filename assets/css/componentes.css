@@ -1289,6 +1289,24 @@
 .post-video__tela:hover .post-video__play { transform: translate(-50%, -50%) scale(1.1); }
 .post-video iframe { width: 100%; height: 100%; border: 0; display: block; }
 
+/* grupo gratuito do WhatsApp, embaixo da grade de vídeos */
+.grupo-zap {
+  display: flex; align-items: center; gap: 1.1rem 1.6rem; flex-wrap: wrap; margin-top: 2.2rem;
+  padding: 1.4rem 1.6rem; border-radius: var(--raio); background: var(--carta); border: 1px solid var(--borda);
+}
+.grupo-zap__icone {
+  flex: none; display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(37,211,102,.14); color: var(--whats);
+}
+.grupo-zap__txt { flex: 1 1 320px; min-width: 0; }
+.grupo-zap__txt h3 { margin: 0 0 .3rem; font-size: 1.12rem; font-weight: 700; color: var(--texto); }
+.grupo-zap__txt p { margin: 0; color: var(--texto-fraco); font-size: .95rem; line-height: 1.6; max-width: 62ch; }
+.grupo-zap .btn { flex: none; }
+@media (max-width: 560px) {
+  .grupo-zap { padding: 1.2rem; }
+  .grupo-zap .btn { flex: 1 1 100%; }
+}
+
 /* o que o editor visual do painel ganhou em 12/10/2026: subtítulo menor,
    itálico, divisória, botão de chamada e o cartão do curso recomendado */
 .post-corpo h3 { font-size: 1.3rem; line-height: 1.3; font-weight: 700; color: var(--tinta); margin: 2.2rem 0 .8rem; }
