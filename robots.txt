@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://marcel0gs.github.io/andre-silva-teclas/sitemap.xml
+Sitemap: https://andresilvateclas.com.br/sitemap.xml
+Sitemap: https://andreteclas.marcel0gs.workers.dev/sitemap-blog.xml

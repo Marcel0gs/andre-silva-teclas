@@ -23,7 +23,7 @@
   'use strict';
 
   var API = 'https://andreteclas.marcel0gs.workers.dev';
-  var SITE = 'https://marcel0gs.github.io/andre-silva-teclas';
+  var SITE = 'https://andresilvateclas.com.br';
 
   /* cartão do curso que ele escolhe no painel ("Curso no fim do texto").
      A chave é a pasta em cursos/; a frase é a mesma do cartão da home. */
