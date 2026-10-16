@@ -178,7 +178,12 @@
     var desc = document.querySelector('meta[name="description"]');
     if (desc && p.resumo) desc.setAttribute('content', p.resumo);
     var canon = document.querySelector('link[rel="canonical"]');
-    if (canon) canon.setAttribute('href', url);
+    if (!canon) {
+      canon = document.createElement('link');
+      canon.rel = 'canonical';
+      document.head.appendChild(canon);
+    }
+    canon.setAttribute('href', url);
 
     /* dado estruturado de artigo: é o que o Google usa pra mostrar data e
        autor no resultado da busca */

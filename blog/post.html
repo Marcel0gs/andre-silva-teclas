@@ -4,10 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Blog | André Silva Teclas</title>
-<!-- Título, descrição e canonical são trocados pelo blog.js assim que o
-     texto chega. O que está aqui é só o que aparece antes disso. -->
+<!-- Título e descrição são trocados pelo blog.js assim que o texto chega.
+     O canonical NÃO vem no HTML de propósito: o blog.js cria o do texto. Se
+     viesse aqui apontando pra /blog/ e o JS trocasse depois, o Google podia
+     tratar todo texto como cópia da lista (ele desaconselha trocar canonical
+     por JS; criar um que não existia é o jeito aceito). -->
 <meta name="description" content="Texto do blog do André Silva Teclas, professor de teclado online.">
-<link rel="canonical" href="https://marcel0gs.github.io/andre-silva-teclas/blog/">
 
 <!-- Prévia de link: o robô do WhatsApp não roda JavaScript, então aqui ele
      sempre vê a capa genérica. Pra compartilhar com a capa do texto, o botão
