@@ -318,6 +318,13 @@ h1, h2, h3, h4 { margin: 0; line-height: 1.1; font-weight: 600; letter-spacing: 
 .rodape__grupo:hover { color: var(--whats); }
 .rodape__contato .btn { display: flex; width: max-content; }
 
+/* assuntos: texto corrido, discreto mas à vista (ver o comentário no index.html) */
+.rodape__assuntos { padding: 0 1.5rem 1.6rem; font-size: .8rem; line-height: 1.75; color: var(--texto-fraco); }
+.rodape__assuntos .rodape__titulo { margin-bottom: .6rem; }
+.rodape__assuntos p { max-width: 110ch; margin: 0 0 .5rem; }
+.rodape__assuntos a { color: var(--texto-fraco); text-decoration: underline; text-decoration-color: rgba(247,236,224,.22); text-underline-offset: 3px; }
+.rodape__assuntos a:hover { color: var(--dourado); text-decoration-color: currentColor; }
+
 /* marca gigante sangrando no pé, apagando pra baixo */
 .rodape__gigante {
   font-family: "Instrument Serif", Georgia, serif; font-size: clamp(3.2rem, 12.6vw, 13.5rem);

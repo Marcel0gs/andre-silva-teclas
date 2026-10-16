@@ -698,6 +698,7 @@
 .pergunta--aberta .pergunta__corpo { max-height: 420px; }
 .pergunta__corpo p { margin: 0; padding: 0 1.3rem 1.3rem; color: var(--texto-fraco); font-size: .93rem; line-height: 1.68; }
 .faixa-creme .pergunta__corpo p { color: var(--tinta-fraca); }
+.pergunta__corpo a { color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ===================================================== CHAMADA FINAL ====== */
 .chamada {
