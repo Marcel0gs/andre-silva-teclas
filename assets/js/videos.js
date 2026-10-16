@@ -4,7 +4,7 @@
    ⚠️ O ANDRÉ NÃO MEXE MAIS NESTE ARQUIVO.
    Desde 20/09/2026 ele troca os vídeos sozinho no painel:
 
-       https://andreteclas.marcel0gs.workers.dev
+       https://painel.andresilvateclas.com.br
 
    Ele cola o link do YouTube, confere a capa e salva. Aparece no site em
    até um minuto.
@@ -59,7 +59,7 @@ var VIDEOS = [
 var CANAL_YOUTUBE = "https://www.youtube.com/@andresilvateclas";
 
 /* De onde vem a lista que o André edita. */
-var API_VIDEOS = "https://andreteclas.marcel0gs.workers.dev/api/videos";
+var API_VIDEOS = "https://painel.andresilvateclas.com.br/api/videos";
 
 
 /* ===========================================================================

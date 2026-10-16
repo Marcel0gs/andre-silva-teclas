@@ -4,7 +4,7 @@
    ⚠️ O ANDRÉ NÃO MEXE NESTE ARQUIVO. Ele escreve e publica pelo painel,
    na aba "Blog":
 
-       https://andreteclas.marcel0gs.workers.dev
+       https://painel.andresilvateclas.com.br
 
    Os textos moram no Worker do painel, não aqui. Este arquivo só busca e
    desenha, em três lugares:
@@ -22,7 +22,7 @@
 (function () {
   'use strict';
 
-  var API = 'https://andreteclas.marcel0gs.workers.dev';
+  var API = 'https://painel.andresilvateclas.com.br';
   var SITE = 'https://andresilvateclas.com.br';
 
   /* cartão do curso que ele escolhe no painel ("Curso no fim do texto").

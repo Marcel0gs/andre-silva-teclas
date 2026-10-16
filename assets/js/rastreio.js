@@ -4,7 +4,7 @@
    ⚠️ O ANDRÉ NÃO MEXE NESTE ARQUIVO. Tudo que muda aqui ele muda no painel,
    na aba "Ajustes":
 
-       https://andreteclas.marcel0gs.workers.dev
+       https://painel.andresilvateclas.com.br
 
    O que este arquivo faz, em toda página:
 
@@ -29,7 +29,7 @@
 (function () {
   'use strict';
 
-  var API = 'https://andreteclas.marcel0gs.workers.dev';
+  var API = 'https://painel.andresilvateclas.com.br';
   var CHAVE_NAO_CONTAR = 'andre-nao-contar';
   var CFG = { whatsapp: {}, comprar: {}, pixels: {} };
 
