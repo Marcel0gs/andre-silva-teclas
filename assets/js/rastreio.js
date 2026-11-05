@@ -86,6 +86,9 @@
 
   function cursoDaPagina() {
     var m = location.pathname.match(/\/cursos\/([^/]+)\//);
+    if (m) return m[1];
+    // curso criado pelo painel: cursos/curso.html?c=<slug>
+    m = /\/cursos\/curso(\.html)?$/.test(location.pathname) && location.search.match(/[?&]c=([a-z0-9-]+)/);
     return m ? m[1] : '';
   }
   function nomeDoCurso() {

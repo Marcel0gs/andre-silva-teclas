@@ -1372,3 +1372,13 @@
   .hero__marca, .hero__arte, .hero__conteudo { translate: none; scale: none; }
   .post-card--esqueleto .post-card__capa, .post-card--esqueleto i, .post-esqueleto i { animation: none; }
 }
+
+/* ---- Página de curso criada pelo painel (cursos/curso.html, 04/11/2026) ---- */
+.curso-previa {
+  position: fixed; left: 1rem; bottom: 1rem; right: 5.5rem; z-index: 90; margin: 0;
+  padding: .75rem 1rem; border-radius: 12px; font-size: .88rem; font-weight: 600; line-height: 1.4;
+  background: #f0c27a; color: #1a0f08; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+.curso-texto { max-width: 62ch; margin: 1.4rem auto 0; }
+.curso-texto p + p { margin-top: 1em; }
+.curso-texto strong { color: var(--creme, inherit); }
