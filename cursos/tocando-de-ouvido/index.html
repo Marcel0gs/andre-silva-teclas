@@ -37,205 +37,78 @@
   <a class="btn btn--pequeno" href="#comprar">Quero o curso</a>
 </nav>
 
+<!-- ⚠️ Desde 05/11/2026 o conteúdo deste curso mora na aba Cursos do painel e o
+     curso.js monta a página. A cópia abaixo só aparece se o painel não responder. -->
+<script type="application/json" id="curso-reserva">{"slug":"tocando-de-ouvido","nome":"Curso Tocando de Ouvido","frase":"Treine o ouvido e tire música sem depender de cifra, com comunidade e lives.","capa":"","vsl":"66Y-5ED-t78","selo":"Mais completo","nivel":"ini-inter","kickerTopo":"Curso online - do iniciante ao intermediário","titulo":"Tire música de ouvido e *nunca mais dependa de cifra*","sub":"Você escuta a música, reconhece a progressão e toca. Sem papel na frente, sem travar quando muda o tom. É isso que o Tocando de Ouvido treina, em quatro módulos práticos que você faz no seu ritmo.","preco":"R$29,90","precoAntigo":"R$197,00","obs":"pagamento único, acesso vitalício","link":"https://pay.hotmart.com/A80003490V","botao":"Garantir minha vaga","itens":["4 módulos completos, do básico à aplicação","Comunidade exclusiva no WhatsApp","Lives periódicas com o professor","Aulas bônus de reforço","Certificado de conclusão","Garantia de 7 dias"],"chamadaTitulo":"R$29,90 hoje, *ouvido treinado pra sempre*","chamadaTexto":"Acesso vitalício, comunidade, lives e garantia de 7 dias. Se não servir, você pede o dinheiro de volta.","secoes":[{"tipo":"cartoes","kicker":"Pra quem é","titulo":"Se você já tentou tirar música sozinho e *desistiu no meio*","intro":"","numerar":false,"itens":[{"t":"Toca, mas só com cifra","d":"Você até se vira no instrumento, mas sem a cifra aberta na tela não sai do lugar. O ouvido nunca foi treinado pra assumir esse trabalho."},{"t":"Erra o tom na hora do improviso","d":"Quando a banda muda de tom ou alguém puxa uma música que você não ensaiou, você fica procurando nota por nota até a música acabar."},{"t":"Quer liberdade, não decoreba","d":"Você não quer decorar mais dez músicas. Quer entender a lógica por trás delas e conseguir tocar qualquer uma que escutar."}]},{"tipo":"modulos","kicker":"Conteúdo completo","titulo":"Os 4 módulos, *na ordem certa*","intro":"Um curso estruturado pra quem quer desenvolver a técnica de tocar de ouvido de forma eficiente e progressiva.","itens":[{"t":"Apresentação e introdução","d":"Fundamentos essenciais pra começar a jornada. Entenda os princípios básicos que fazem toda a diferença no resto do curso."},{"t":"Identificação e ditado sonoro","d":"Treine o ouvido pra reconhecer notas, intervalos e melodias, com exercícios práticos de ditado musical."},{"t":"Reconhecimento de acordes","d":"Aprenda a identificar acordes e sequências harmônicas. É aqui que os segredos por trás das progressões deixam de ser mistério."},{"t":"Aplicações gerais","d":"Coloque tudo em prática: tire músicas, improvise e aplique seu novo ouvido musical no dia a dia, no ensaio e no palco."}]},{"tipo":"cartoes","kicker":"Além das aulas","titulo":"O que vem *junto*","intro":"","numerar":false,"itens":[{"t":"Comunidade no WhatsApp","d":"Grupo exclusivo de alunos pra tirar dúvida, trocar ideia e não estudar sozinho."},{"t":"Lives periódicas","d":"Encontros ao vivo com o professor pra resolver o que travou na semana."},{"t":"Aulas bônus","d":"Conteúdo extra de reforço, pra fixar o que foi visto nos módulos principais."},{"t":"Certificado","d":"Certificado de conclusão ao terminar o curso."}]},{"tipo":"depoimentos","kicker":"Quem já fez","titulo":"O que os alunos *contam*","intro":"","itens":[{"texto":"\"Em apenas 3 semanas já consegui tirar músicas que achava impossíveis. O método é muito prático e vai direto ao ponto.\"","nome":"Marcos Ribeiro","papel":"Guitarrista iniciante"},{"texto":"\"Finalmente entendi como funcionam as progressões. Agora consigo acompanhar qualquer música. O curso mudou minha forma de ouvir música.\"","nome":"Amanda Santos","papel":"Violonista"},{"texto":"\"Comecei do zero e hoje já toco minhas músicas favoritas sem precisar de cifra. A comunidade do WhatsApp também ajuda muito.\"","nome":"Carla Fernandes","papel":"Tecladista iniciante"}]},{"tipo":"garantia","kicker":"","titulo":"","intro":"*Garantia de 7 dias.* Você entra, assiste e testa o método. Se sentir que não é pra você, pede o reembolso dentro do prazo e recebe o valor de volta."}],"perguntas":[{"p":"Serve pra quem nunca tocou?","r":"Serve. O primeiro módulo começa pelos fundamentos. Se você nunca encostou num teclado, vale começar pelas 10 aulas grátis do zero, no YouTube, e depois entrar aqui."},{"p":"Funciona pra outro instrumento?","r":"O treino de ouvido é o mesmo pra qualquer instrumento harmônico. As demonstrações são no teclado, mas violonistas e guitarristas também acompanham."},{"p":"Quanto tempo leva pra terminar?","r":"Depende do seu ritmo. Como o acesso é vitalício, dá pra fazer em poucas semanas ou espalhar ao longo dos meses, voltando sempre que precisar."},{"p":"Como recebo o acesso?","r":"O curso é entregue pela Hotmart. Assim que o pagamento é aprovado, você recebe os dados de acesso no e-mail cadastrado."}],"publicado":true,"data":1793848538101,"caminho":"/cursos/tocando-de-ouvido/"}</script>
 <div id="palco">
 
-<section class="curso-topo">
+<!-- ⚠️ Molde da página de curso criado pelo painel. O curso.js preenche tudo
+     (ver o topo dele). Nada aqui é texto de curso de verdade. -->
+<p class="curso-previa" id="c-previa" hidden>Prévia: este curso ainda não está no site. Só quem tem este link consegue ver.</p>
+
+<section class="curso-topo" id="curso-topo">
   <div class="limite curso-topo__grade">
     <div>
-      <p class="kicker">Curso online - do iniciante ao intermediário</p>
-      <h1>Tire música de ouvido e <span class="destaque">nunca mais dependa de cifra</span></h1>
-      <p class="curso-topo__sub texto">
-        Você escuta a música, reconhece a progressão e toca. Sem papel na frente, sem
-        travar quando muda o tom. É isso que o Tocando de Ouvido treina, em quatro
-        módulos práticos que você faz no seu ritmo.
-      </p>
-      <div class="vsl">
-        <button class="video__tela" type="button" data-vsl="66Y-5ED-t78" aria-label="Assistir a apresentação do curso Tocando de Ouvido">
-          <img src="https://i.ytimg.com/vi/66Y-5ED-t78/maxresdefault.jpg" alt="" width="1280" height="720">
-          <span class="video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-      </div>
-      <div class="hero__acoes" style="justify-content:flex-start">
-        <a class="btn" href="#comprar">Quero destravar meu ouvido</a>
+      <p class="kicker" id="c-kicker">Curso online</p>
+      <h1 id="c-titulo">Carregando o curso...</h1>
+      <p class="curso-topo__sub texto" id="c-sub"></p>
+      <div class="vsl" id="c-vsl" hidden></div>
+      <div class="hero__acoes" style="justify-content:flex-start" id="c-acoes" hidden>
+        <a class="btn" href="#comprar">Quero o curso</a>
         <a class="btn btn--vazado" href="#conteudo">Ver o conteúdo</a>
       </div>
     </div>
-
     <div class="curso-caixa" id="comprar">
-      <p class="curso-caixa__de">De R$197,00</p>
-      <p class="curso-caixa__preco">R$29,90</p>
-      <p class="curso-caixa__obs">pagamento único, acesso vitalício</p>
-      <a data-comprar="tocando-de-ouvido" class="btn btn--largo" href="https://pay.hotmart.com/A80003490V" target="_blank" rel="noopener">Garantir minha vaga</a>
-      <ul class="curso-caixa__itens">
-        <li>4 módulos completos, do básico à aplicação</li>
-        <li>Comunidade exclusiva no WhatsApp</li>
-        <li>Lives periódicas com o professor</li>
-        <li>Aulas bônus de reforço</li>
-        <li>Certificado de conclusão</li>
-        <li>Garantia de 7 dias</li>
-      </ul>
+      <p class="curso-caixa__obs" id="c-de" hidden style="text-decoration:line-through"></p>
+      <p class="curso-caixa__preco" id="c-preco"></p>
+      <p class="curso-caixa__obs" id="c-obs"></p>
+      <a data-comprar="" class="btn btn--largo" href="../../#contato">Quero me inscrever</a>
+      <ul class="curso-caixa__itens" id="c-itens"></ul>
     </div>
   </div>
 </section>
 
-<section class="secao faixa-escura">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Pra quem é</p>
-      <h2 class="titulo-secao">Se você já tentou tirar música sozinho e <span class="destaque">desistiu no meio</span></h2>
-    </div>
-    <div class="grade-3">
-      <div class="carta revela">
-        <h3>Toca, mas só com cifra</h3>
-        <p>Você até se vira no instrumento, mas sem a cifra aberta na tela não sai do lugar. O ouvido nunca foi treinado pra assumir esse trabalho.</p>
-      </div>
-      <div class="carta revela">
-        <h3>Erra o tom na hora do improviso</h3>
-        <p>Quando a banda muda de tom ou alguém puxa uma música que você não ensaiou, você fica procurando nota por nota até a música acabar.</p>
-      </div>
-      <div class="carta revela">
-        <h3>Quer liberdade, não decoreba</h3>
-        <p>Você não quer decorar mais dez músicas. Quer entender a lógica por trás delas e conseguir tocar qualquer uma que escutar.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- as seções do meio (cartões, módulos, depoimentos, texto, garantia) entram aqui -->
+<div id="c-secoes"></div>
 
-<section class="secao" id="conteudo">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Conteúdo completo</p>
-      <h2 class="titulo-secao">Os 4 módulos, <span class="destaque">na ordem certa</span></h2>
-      <p class="texto" style="max-width:52ch;margin:0 auto">
-        Um curso estruturado pra quem quer desenvolver a técnica de tocar de ouvido
-        de forma eficiente e progressiva.
-      </p>
-    </div>
-
-    <div class="modulos">
-      <div class="modulo revela">
-        <div class="modulo__num">01</div>
-        <div>
-          <h3>Apresentação e introdução</h3>
-          <p>Fundamentos essenciais pra começar a jornada. Entenda os princípios básicos que fazem toda a diferença no resto do curso.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">02</div>
-        <div>
-          <h3>Identificação e ditado sonoro</h3>
-          <p>Treine o ouvido pra reconhecer notas, intervalos e melodias, com exercícios práticos de ditado musical.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">03</div>
-        <div>
-          <h3>Reconhecimento de acordes</h3>
-          <p>Aprenda a identificar acordes e sequências harmônicas. É aqui que os segredos por trás das progressões deixam de ser mistério.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">04</div>
-        <div>
-          <h3>Aplicações gerais</h3>
-          <p>Coloque tudo em prática: tire músicas, improvise e aplique seu novo ouvido musical no dia a dia, no ensaio e no palco.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa-escura">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Além das aulas</p>
-      <h2 class="titulo-secao">O que vem <span class="destaque">junto</span></h2>
-    </div>
-    <div class="grade-3">
-      <div class="carta revela"><h3>Comunidade no WhatsApp</h3><p>Grupo exclusivo de alunos pra tirar dúvida, trocar ideia e não estudar sozinho.</p></div>
-      <div class="carta revela"><h3>Lives periódicas</h3><p>Encontros ao vivo com o professor pra resolver o que travou na semana.</p></div>
-      <div class="carta revela"><h3>Aulas bônus</h3><p>Conteúdo extra de reforço, pra fixar o que foi visto nos módulos principais.</p></div>
-      <div class="carta revela"><h3>Certificado</h3><p>Certificado de conclusão ao terminar o curso.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="secao">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Quem já fez</p>
-      <h2 class="titulo-secao">O que os alunos <span class="destaque">contam</span></h2>
-    </div>
-    <div class="depoimentos">
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Em apenas 3 semanas já consegui tirar músicas que achava impossíveis. O método é muito prático e vai direto ao ponto."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">MR</div><div><div class="depo__nome">Marcos Ribeiro</div><div class="depo__papel">Guitarrista iniciante</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Finalmente entendi como funcionam as progressões. Agora consigo acompanhar qualquer música. O curso mudou minha forma de ouvir música."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">AS</div><div><div class="depo__nome">Amanda Santos</div><div class="depo__papel">Violonista</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Comecei do zero e hoje já toco minhas músicas favoritas sem precisar de cifra. A comunidade do WhatsApp também ajuda muito."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">CF</div><div><div class="depo__nome">Carla Fernandes</div><div class="depo__papel">Tecladista iniciante</div></div></div>
-      </div>
-    </div>
-
-    <div class="garantia revela">
-      <div class="garantia__selo">🛡️</div>
-      <p><strong>Garantia de 7 dias.</strong> Você entra, assiste e testa o método. Se sentir que não é pra você, pede o reembolso dentro do prazo e recebe o valor de volta.</p>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa-escura" id="perguntas">
+<section class="secao" id="perguntas" hidden>
   <div class="notas" aria-hidden="true">
-    <div class="nota" style="top:12%;left:7%;animation-delay:-1s">♪</div>
-    <div class="nota" style="top:30%;right:9%;animation-delay:-4s">♫</div>
-    <div class="nota" style="bottom:14%;left:10%;animation-delay:-6s">🎹</div>
-    <div class="nota" style="bottom:22%;right:12%;animation-delay:-3s">♬</div>
+    <div class="nota" style="top:15%;left:8%;animation-delay:-3s">♪</div>
+    <div class="nota" style="top:40%;right:10%;animation-delay:-5s">🎼</div>
+    <div class="nota" style="bottom:18%;left:13%;animation-delay:-1s">♫</div>
   </div>
   <div class="limite">
     <div class="centro revela">
       <p class="kicker">Perguntas</p>
       <h2 class="titulo-secao">Antes de <span class="destaque">decidir</span></h2>
     </div>
-    <div class="perguntas">
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Serve pra quem nunca tocou?</button>
-        <div class="pergunta__corpo"><p>Serve. O primeiro módulo começa pelos fundamentos. Se você nunca encostou num teclado, vale começar pelas 10 aulas grátis do zero, no YouTube, e depois entrar aqui.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Funciona pra outro instrumento?</button>
-        <div class="pergunta__corpo"><p>O treino de ouvido é o mesmo pra qualquer instrumento harmônico. As demonstrações são no teclado, mas violonistas e guitarristas também acompanham.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Quanto tempo leva pra terminar?</button>
-        <div class="pergunta__corpo"><p>Depende do seu ritmo. Como o acesso é vitalício, dá pra fazer em poucas semanas ou espalhar ao longo dos meses, voltando sempre que precisar.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Como recebo o acesso?</button>
-        <div class="pergunta__corpo"><p>O curso é entregue pela Hotmart. Assim que o pagamento é aprovado, você recebe os dados de acesso no e-mail cadastrado.</p></div>
-      </div>
-    </div>
+    <div class="perguntas" id="c-perguntas"></div>
   </div>
 </section>
 
-<section class="secao chamada">
+<section class="secao chamada" id="c-chamada" hidden>
   <div class="chamada__caixa revela">
-    <p class="kicker" style="justify-content:center">Última chamada</p>
-    <h2 class="titulo-secao">R$29,90 hoje, <span class="destaque">ouvido treinado pra sempre</span></h2>
-    <p class="texto">Acesso vitalício, comunidade, lives e garantia de 7 dias. Se não servir, você pede o dinheiro de volta.</p>
+    <p class="kicker" style="justify-content:center">Próximo passo</p>
+    <h2 class="titulo-secao" id="c-chamada-titulo"></h2>
+    <p class="texto" id="c-chamada-texto"></p>
     <div class="hero__acoes" style="margin-top:2rem">
-      <a data-comprar="tocando-de-ouvido" class="btn" href="https://pay.hotmart.com/A80003490V" target="_blank" rel="noopener">Quero o curso agora</a>
+      <a data-comprar="" class="btn" href="../../#contato">Quero me inscrever</a>
       <a class="btn btn--vazado" href="../../#cursos">Ver outros cursos</a>
     </div>
   </div>
 </section>
 
+<section class="secao chamada" id="c-nao-achou" hidden>
+  <div class="chamada__caixa">
+    <p class="kicker" style="justify-content:center">Curso</p>
+    <h2 class="titulo-secao" id="c-nao-achou-titulo">Esse curso <span class="destaque">não está mais aqui</span></h2>
+    <p class="texto" id="c-nao-achou-texto">Ele pode ter saído do ar ou mudado de endereço. Veja os cursos que estão abertos agora, ou chame o André no WhatsApp.</p>
+    <div class="hero__acoes" style="margin-top:2rem">
+      <a class="btn" href="../../#cursos">Ver os cursos</a>
+      <a class="btn btn--vazado" data-whats href="../../#contato">Chamar no WhatsApp</a>
+    </div>
+  </div>
+</section>
 
 <footer class="rodape">
   <!-- borda de teclado: o rodapé "abre" com uma fileira de teclas -->
@@ -295,7 +168,7 @@
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#062c14"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/></svg>
 </a>
 
-<script src="../../assets/js/site.js"></script>
-<script src="../../assets/js/rastreio.js"></script>
+<!-- o curso.js carrega o site.js e o rastreio.js depois de montar a página -->
+<script src="../../assets/js/curso.js"></script>
 </body>
 </html>

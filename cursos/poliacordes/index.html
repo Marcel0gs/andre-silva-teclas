@@ -37,200 +37,78 @@
   <a data-comprar="poliacordes" class="btn btn--pequeno" href="https://pay.hotmart.com/O92395409P" target="_blank" rel="noopener">Quero o curso</a>
 </nav>
 
+<!-- ⚠️ Desde 05/11/2026 o conteúdo deste curso mora na aba Cursos do painel e o
+     curso.js monta a página. A cópia abaixo só aparece se o painel não responder. -->
+<script type="application/json" id="curso-reserva">{"slug":"poliacordes","nome":"Domine os Poliacordes","frase":"Acordes sobrepostos nos 12 tons, pra dar som de banda ao seu teclado.","capa":"","vsl":"xpWZCmMDAM0","selo":"","nivel":"inter-avan","kickerTopo":"Curso online - intermediário e avançado","titulo":"O acorde que faz o teclado soar *profissional*","sub":"Você já ouviu aquele som cheio, encorpado, que parece que tem uma banda inteira tocando junto. Não é efeito, nem teclado caro. É poliacorde. E dá pra aprender em semanas, sem anos de teoria.","preco":"R$79,99","precoAntigo":"","obs":"pagamento único, acesso vitalício","link":"https://pay.hotmart.com/O92395409P","botao":"Inscrever agora","itens":["11 poliacordes ensinados nos 12 tons","Aulas extras de reforço pra fixação","Comunidade exclusiva no WhatsApp","Lives periódicas com o instrutor","Acesso vitalício, no seu ritmo","Certificado de conclusão"],"chamadaTitulo":"Não perca tempo: *transforme seu teclado numa ferramenta profissional*","chamadaTexto":"Chegou a hora de elevar seu nível musical. Comece agora e ouça a diferença que os poliacordes fazem no seu som.","secoes":[{"tipo":"cartoes","kicker":"Por que esse curso muda seu jeito de tocar","titulo":"Mesmo teclado, mesma música, *outro som*","intro":"","numerar":true,"itens":[{"t":"Aprendizado rápido e prático","d":"Acordes sofisticados de forma prática e rápida, sem precisar de anos de estudo teórico. Foco no que realmente importa: tocar."},{"t":"Aplicação imediata","d":"Transforme suas composições e performances com sons mais ricos. Dá pra aplicar no dia a dia e ver resultado desde a primeira aula."},{"t":"Confiança musical","d":"Toque em qualquer tom com segurança, amplie seu repertório e impressione quem estiver ouvindo, seja no culto ou no palco."}]},{"tipo":"modulos","kicker":"O que você vai aprender","titulo":"Quatro aulas, *do conceito à música real*","intro":"","itens":[{"t":"Entenda os poliacordes","d":"Descubra o que são poliacordes e por que eles mudam completamente o seu som. A teoria básica explicada de forma simples e prática."},{"t":"Formação dos poliacordes","d":"Passo a passo de como formar cada poliacorde. Método direto pra criar esses acordes sofisticados no seu teclado, sem enrolação."},{"t":"Onde e como aplicar","d":"Dicas práticas pra usar poliacordes em diferentes estilos. Quando entra, onde entra, e como escolher pra obter o melhor resultado sonoro."},{"t":"Aplicando em músicas reais","d":"Exercícios de mão na massa pra integrar tudo em canções conhecidas. Pratique com música que você já ama e ouça a transformação."}]},{"tipo":"cartoes","kicker":"Bônus inclusos","titulo":"O que vem *junto com o curso*","intro":"","numerar":false,"itens":[{"t":"11 poliacordes nos 12 tons","d":"Centenas de variações, prontas pra aplicar em qualquer tonalidade que a música pedir."},{"t":"Aulas extras de reforço","d":"Conteúdo adicional pra fixar o que foi ensinado e não esquecer na semana seguinte."},{"t":"Comunidade no WhatsApp","d":"Suporte contínuo com outros alunos e com o instrutor, pra não travar sozinho."},{"t":"Lives periódicas","d":"Encontros ao vivo pra tirar dúvida direto com o André."},{"t":"Acesso vitalício","d":"Compra uma vez, assiste quando quiser, quantas vezes precisar."},{"t":"Certificado de conclusão","d":"Certificado ao finalizar todo o conteúdo do curso."}]},{"tipo":"depoimentos","kicker":"Quem já fez","titulo":"O que os alunos *contam*","intro":"","itens":[{"texto":"\"Graças a esse curso, meu som no teclado mudou completamente. Os poliacordes deram uma profundidade incrível às minhas músicas.\"","nome":"João Silva","papel":"Músico intermediário"},{"texto":"\"Aprendi rápido e já aplico nas minhas músicas. A explicação é clara e direta, sem enrolação.\"","nome":"Maria Santos","papel":"Musicista amadora"},{"texto":"\"Nunca imaginei que conseguiria tocar acordes tão sofisticados. Agora me sinto muito mais confiante ao tocar em público.\"","nome":"Pedro Oliveira","papel":"Tecladista iniciante"}]}],"perguntas":[{"p":"Preciso saber teoria musical avançada?","r":"Não. O curso ensina o conceito do zero, de forma prática. Se você já monta acordes simples no teclado, consegue acompanhar."},{"p":"Serve pra tocar na igreja?","r":"Serve, e é onde mais aparece resultado. Poliacorde é o que dá corpo ao som em momento de adoração, ministração e transição."},{"p":"Por quanto tempo tenho acesso?","r":"Acesso vitalício. Você compra uma vez e volta ao conteúdo sempre que precisar, no seu ritmo."},{"p":"Como funciona o pagamento?","r":"Pagamento único de R$79,99 pela Hotmart, com acesso imediato depois da aprovação."}],"publicado":true,"data":1793848535101,"caminho":"/cursos/poliacordes/"}</script>
 <div id="palco">
 
-<section class="curso-topo">
+<!-- ⚠️ Molde da página de curso criado pelo painel. O curso.js preenche tudo
+     (ver o topo dele). Nada aqui é texto de curso de verdade. -->
+<p class="curso-previa" id="c-previa" hidden>Prévia: este curso ainda não está no site. Só quem tem este link consegue ver.</p>
+
+<section class="curso-topo" id="curso-topo">
   <div class="limite curso-topo__grade">
     <div>
-      <p class="kicker">Curso online - intermediário e avançado</p>
-      <h1>O acorde que faz o teclado soar <span class="destaque">profissional</span></h1>
-      <p class="curso-topo__sub texto">
-        Você já ouviu aquele som cheio, encorpado, que parece que tem uma banda inteira
-        tocando junto. Não é efeito, nem teclado caro. É poliacorde. E dá pra aprender
-        em semanas, sem anos de teoria.
-      </p>
-      <div class="vsl">
-        <button class="video__tela" type="button" data-vsl="xpWZCmMDAM0" aria-label="Assistir a apresentação do curso Domine os Poliacordes">
-          <img src="https://i.ytimg.com/vi/xpWZCmMDAM0/maxresdefault.jpg" alt="" width="1280" height="720">
-          <span class="video__play"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span>
-        </button>
-      </div>
-      <div class="hero__acoes" style="justify-content:flex-start">
-        <a data-comprar="poliacordes" class="btn" href="https://pay.hotmart.com/O92395409P" target="_blank" rel="noopener">Quero esse som no meu teclado</a>
+      <p class="kicker" id="c-kicker">Curso online</p>
+      <h1 id="c-titulo">Carregando o curso...</h1>
+      <p class="curso-topo__sub texto" id="c-sub"></p>
+      <div class="vsl" id="c-vsl" hidden></div>
+      <div class="hero__acoes" style="justify-content:flex-start" id="c-acoes" hidden>
+        <a class="btn" href="#comprar">Quero o curso</a>
         <a class="btn btn--vazado" href="#conteudo">Ver o conteúdo</a>
       </div>
     </div>
-
     <div class="curso-caixa" id="comprar">
-      <p class="curso-caixa__preco">R$79,99</p>
-      <p class="curso-caixa__obs">pagamento único, acesso vitalício</p>
-      <a data-comprar="poliacordes" class="btn btn--largo" href="https://pay.hotmart.com/O92395409P" target="_blank" rel="noopener">Inscrever agora</a>
-      <ul class="curso-caixa__itens">
-        <li>11 poliacordes ensinados nos 12 tons</li>
-        <li>Aulas extras de reforço pra fixação</li>
-        <li>Comunidade exclusiva no WhatsApp</li>
-        <li>Lives periódicas com o instrutor</li>
-        <li>Acesso vitalício, no seu ritmo</li>
-        <li>Certificado de conclusão</li>
-      </ul>
+      <p class="curso-caixa__obs" id="c-de" hidden style="text-decoration:line-through"></p>
+      <p class="curso-caixa__preco" id="c-preco"></p>
+      <p class="curso-caixa__obs" id="c-obs"></p>
+      <a data-comprar="" class="btn btn--largo" href="../../#contato">Quero me inscrever</a>
+      <ul class="curso-caixa__itens" id="c-itens"></ul>
     </div>
   </div>
 </section>
 
-<section class="secao faixa-escura">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Por que esse curso muda seu jeito de tocar</p>
-      <h2 class="titulo-secao">Mesmo teclado, mesma música, <span class="destaque">outro som</span></h2>
-    </div>
-    <div class="grade-3">
-      <div class="carta revela">
-        <div class="carta__num">01</div>
-        <h3>Aprendizado rápido e prático</h3>
-        <p>Acordes sofisticados de forma prática e rápida, sem precisar de anos de estudo teórico. Foco no que realmente importa: tocar.</p>
-      </div>
-      <div class="carta revela">
-        <div class="carta__num">02</div>
-        <h3>Aplicação imediata</h3>
-        <p>Transforme suas composições e performances com sons mais ricos. Dá pra aplicar no dia a dia e ver resultado desde a primeira aula.</p>
-      </div>
-      <div class="carta revela">
-        <div class="carta__num">03</div>
-        <h3>Confiança musical</h3>
-        <p>Toque em qualquer tom com segurança, amplie seu repertório e impressione quem estiver ouvindo, seja no culto ou no palco.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- as seções do meio (cartões, módulos, depoimentos, texto, garantia) entram aqui -->
+<div id="c-secoes"></div>
 
-<section class="secao" id="conteudo">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">O que você vai aprender</p>
-      <h2 class="titulo-secao">Quatro aulas, <span class="destaque">do conceito à música real</span></h2>
-    </div>
-
-    <div class="modulos">
-      <div class="modulo revela">
-        <div class="modulo__num">01</div>
-        <div>
-          <h3>Entenda os poliacordes</h3>
-          <p>Descubra o que são poliacordes e por que eles mudam completamente o seu som. A teoria básica explicada de forma simples e prática.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">02</div>
-        <div>
-          <h3>Formação dos poliacordes</h3>
-          <p>Passo a passo de como formar cada poliacorde. Método direto pra criar esses acordes sofisticados no seu teclado, sem enrolação.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">03</div>
-        <div>
-          <h3>Onde e como aplicar</h3>
-          <p>Dicas práticas pra usar poliacordes em diferentes estilos. Quando entra, onde entra, e como escolher pra obter o melhor resultado sonoro.</p>
-        </div>
-      </div>
-      <div class="modulo revela">
-        <div class="modulo__num">04</div>
-        <div>
-          <h3>Aplicando em músicas reais</h3>
-          <p>Exercícios de mão na massa pra integrar tudo em canções conhecidas. Pratique com música que você já ama e ouça a transformação.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa-escura">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Bônus inclusos</p>
-      <h2 class="titulo-secao">O que vem <span class="destaque">junto com o curso</span></h2>
-    </div>
-    <div class="grade-3">
-      <div class="carta revela"><h3>11 poliacordes nos 12 tons</h3><p>Centenas de variações, prontas pra aplicar em qualquer tonalidade que a música pedir.</p></div>
-      <div class="carta revela"><h3>Aulas extras de reforço</h3><p>Conteúdo adicional pra fixar o que foi ensinado e não esquecer na semana seguinte.</p></div>
-      <div class="carta revela"><h3>Comunidade no WhatsApp</h3><p>Suporte contínuo com outros alunos e com o instrutor, pra não travar sozinho.</p></div>
-      <div class="carta revela"><h3>Lives periódicas</h3><p>Encontros ao vivo pra tirar dúvida direto com o André.</p></div>
-      <div class="carta revela"><h3>Acesso vitalício</h3><p>Compra uma vez, assiste quando quiser, quantas vezes precisar.</p></div>
-      <div class="carta revela"><h3>Certificado de conclusão</h3><p>Certificado ao finalizar todo o conteúdo do curso.</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="secao">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Quem já fez</p>
-      <h2 class="titulo-secao">O que os alunos <span class="destaque">contam</span></h2>
-    </div>
-    <div class="depoimentos">
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Graças a esse curso, meu som no teclado mudou completamente. Os poliacordes deram uma profundidade incrível às minhas músicas."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">JS</div><div><div class="depo__nome">João Silva</div><div class="depo__papel">Músico intermediário</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Aprendi rápido e já aplico nas minhas músicas. A explicação é clara e direta, sem enrolação."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">MS</div><div><div class="depo__nome">Maria Santos</div><div class="depo__papel">Musicista amadora</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Nunca imaginei que conseguiria tocar acordes tão sofisticados. Agora me sinto muito mais confiante ao tocar em público."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">PO</div><div><div class="depo__nome">Pedro Oliveira</div><div class="depo__papel">Tecladista iniciante</div></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa-escura" id="perguntas">
+<section class="secao" id="perguntas" hidden>
   <div class="notas" aria-hidden="true">
-    <div class="nota" style="top:14%;left:8%;animation-delay:-2s">♪</div>
-    <div class="nota" style="top:34%;right:10%;animation-delay:-5s">🎹</div>
-    <div class="nota" style="bottom:16%;left:12%;animation-delay:-7s">♬</div>
-    <div class="nota" style="bottom:26%;right:14%;animation-delay:-3s">♫</div>
+    <div class="nota" style="top:15%;left:8%;animation-delay:-3s">♪</div>
+    <div class="nota" style="top:40%;right:10%;animation-delay:-5s">🎼</div>
+    <div class="nota" style="bottom:18%;left:13%;animation-delay:-1s">♫</div>
   </div>
   <div class="limite">
     <div class="centro revela">
       <p class="kicker">Perguntas</p>
       <h2 class="titulo-secao">Antes de <span class="destaque">decidir</span></h2>
     </div>
-    <div class="perguntas">
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Preciso saber teoria musical avançada?</button>
-        <div class="pergunta__corpo"><p>Não. O curso ensina o conceito do zero, de forma prática. Se você já monta acordes simples no teclado, consegue acompanhar.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Serve pra tocar na igreja?</button>
-        <div class="pergunta__corpo"><p>Serve, e é onde mais aparece resultado. Poliacorde é o que dá corpo ao som em momento de adoração, ministração e transição.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Por quanto tempo tenho acesso?</button>
-        <div class="pergunta__corpo"><p>Acesso vitalício. Você compra uma vez e volta ao conteúdo sempre que precisar, no seu ritmo.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Como funciona o pagamento?</button>
-        <div class="pergunta__corpo"><p>Pagamento único de R$79,99 pela Hotmart, com acesso imediato depois da aprovação.</p></div>
-      </div>
-    </div>
+    <div class="perguntas" id="c-perguntas"></div>
   </div>
 </section>
 
-<section class="secao chamada">
+<section class="secao chamada" id="c-chamada" hidden>
   <div class="chamada__caixa revela">
     <p class="kicker" style="justify-content:center">Próximo passo</p>
-    <h2 class="titulo-secao">Não perca tempo: <span class="destaque">transforme seu teclado numa ferramenta profissional</span></h2>
-    <p class="texto">Chegou a hora de elevar seu nível musical. Comece agora e ouça a diferença que os poliacordes fazem no seu som.</p>
+    <h2 class="titulo-secao" id="c-chamada-titulo"></h2>
+    <p class="texto" id="c-chamada-texto"></p>
     <div class="hero__acoes" style="margin-top:2rem">
-      <a data-comprar="poliacordes" class="btn" href="https://pay.hotmart.com/O92395409P" target="_blank" rel="noopener">Inscrever agora por R$79,99</a>
+      <a data-comprar="" class="btn" href="../../#contato">Quero me inscrever</a>
       <a class="btn btn--vazado" href="../../#cursos">Ver outros cursos</a>
     </div>
   </div>
 </section>
 
+<section class="secao chamada" id="c-nao-achou" hidden>
+  <div class="chamada__caixa">
+    <p class="kicker" style="justify-content:center">Curso</p>
+    <h2 class="titulo-secao" id="c-nao-achou-titulo">Esse curso <span class="destaque">não está mais aqui</span></h2>
+    <p class="texto" id="c-nao-achou-texto">Ele pode ter saído do ar ou mudado de endereço. Veja os cursos que estão abertos agora, ou chame o André no WhatsApp.</p>
+    <div class="hero__acoes" style="margin-top:2rem">
+      <a class="btn" href="../../#cursos">Ver os cursos</a>
+      <a class="btn btn--vazado" data-whats href="../../#contato">Chamar no WhatsApp</a>
+    </div>
+  </div>
+</section>
 
 <footer class="rodape">
   <!-- borda de teclado: o rodapé "abre" com uma fileira de teclas -->
@@ -290,7 +168,7 @@
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#062c14"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/></svg>
 </a>
 
-<script src="../../assets/js/site.js"></script>
-<script src="../../assets/js/rastreio.js"></script>
+<!-- o curso.js carrega o site.js e o rastreio.js depois de montar a página -->
+<script src="../../assets/js/curso.js"></script>
 </body>
 </html>

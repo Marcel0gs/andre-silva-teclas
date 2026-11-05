@@ -2,11 +2,13 @@
    CURSOS DO PAINEL NA PÁGINA INICIAL (04/11/2026)
 
    ⚠️ O ANDRÉ NÃO MEXE NESTE ARQUIVO. Curso novo nasce na aba "Cursos" do
-   painel; aqui só entra o cartão dele no começo da lista de cursos (curso
-   novo é lançamento, vai na frente). Os cartões fixos do index.html ficam
-   como estão.
+   painel, e desde 05/11/2026 os 4 cursos antigos também moram lá. Os cartões
+   deles continuam no index.html (data-curso) só como reserva: com o painel
+   respondendo, saem todos e entram os do painel, na ordem dele (o mais novo
+   na frente), no lugar onde o primeiro estava. Curso que ele tirou do ar ou
+   apagou some da home assim.
 
-   Painel fora do ar = a lista fica só com os cursos fixos, sem buraco.
+   Painel fora do ar = ficam os cartões de reserva, sem buraco.
    =========================================================================== */
 (function () {
   'use strict';
@@ -36,7 +38,7 @@
       : c.vsl ? 'https://i.ytimg.com/vi/' + c.vsl + '/hqdefault.jpg' : 'assets/img/og-capa.jpg';
     var a = document.createElement('a');
     a.className = 'curso';
-    a.href = 'cursos/curso.html?c=' + encodeURIComponent(c.slug);
+    a.href = c.caminho ? c.caminho.replace(/^\//, '') : 'cursos/curso.html?c=' + encodeURIComponent(c.slug);
     a.innerHTML =
       '<div class="curso__capa"><img src="' + esc(capa) + '" alt="" loading="lazy">' +
         (c.selo ? '<span class="curso__selo">' + esc(c.selo) + '</span>' : '') + '</div>' +
@@ -58,9 +60,11 @@
   fetch(API + '/api/cursos', { credentials: 'omit' })
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (d) {
-      if (!d || !Array.isArray(d.cursos) || !d.cursos.length) return;
-      var primeiro = grade.firstElementChild;
-      d.cursos.forEach(function (c) { grade.insertBefore(cartao(c), primeiro); });
+      if (!d || !Array.isArray(d.cursos)) return;
+      var reservas = grade.querySelectorAll('[data-curso]');
+      var lugar = reservas.length ? reservas[0] : grade.firstElementChild;
+      d.cursos.forEach(function (c) { grade.insertBefore(cartao(c), lugar); });
+      Array.prototype.forEach.call(reservas, function (r) { r.remove(); });
     })
     .catch(function () { /* silêncio: a lista fica com os cursos fixos */ });
 })();

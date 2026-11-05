@@ -218,16 +218,21 @@
     corpo.innerHTML = p.html;
     ligarVideos(corpo);
 
-    if (p.curso && CURSOS[p.curso.slug]) {
+    /* desde 05/11/2026 o curso vem da aba Cursos do painel, com endereço,
+       capa e frase. Sem "caminho" é o formato antigo, dos 4 cursos fixos */
+    if (p.curso && (p.curso.caminho || CURSOS[p.curso.slug])) {
+      var novo = !!p.curso.caminho;
+      var capa = novo ? (/^\//.test(p.curso.capa || '') ? API + p.curso.capa : p.curso.capa || '../assets/img/og-capa.jpg')
+        : '../assets/img/capas/' + p.curso.slug + '.webp';
       var c = document.createElement('aside');
       c.className = 'post-curso';
       c.innerHTML =
-        '<a class="post-curso__cartao" href="../cursos/' + esc(p.curso.slug) + '/">' +
-          '<img src="../assets/img/capas/' + esc(p.curso.slug) + '.webp" alt="" loading="lazy" decoding="async">' +
+        '<a class="post-curso__cartao" href="' + esc(novo ? '..' + p.curso.caminho : '../cursos/' + p.curso.slug + '/') + '">' +
+          '<img src="' + esc(capa) + '" alt="" loading="lazy" decoding="async">' +
           '<div class="post-curso__txt">' +
             '<p class="post-curso__kicker">Curso recomendado</p>' +
             '<h2 class="post-curso__nome">' + esc(p.curso.nome) + '</h2>' +
-            '<p class="post-curso__desc">' + esc(CURSOS[p.curso.slug]) + '</p>' +
+            '<p class="post-curso__desc">' + esc(novo ? p.curso.frase : CURSOS[p.curso.slug]) + '</p>' +
             '<span class="post-curso__ver">Conhecer o curso <span aria-hidden="true">→</span></span>' +
           '</div>' +
         '</a>';

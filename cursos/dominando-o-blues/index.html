@@ -37,142 +37,78 @@
   <a class="btn btn--pequeno" href="#comprar">Quero o ebook</a>
 </nav>
 
+<!-- ⚠️ Desde 05/11/2026 o conteúdo deste curso mora na aba Cursos do painel e o
+     curso.js monta a página. A cópia abaixo só aparece se o painel não responder. -->
+<script type="application/json" id="curso-reserva">{"slug":"dominando-o-blues","nome":"Dominando o Blues","frase":"Ebook com escala, 12 compassos, mão esquerda e improviso com sotaque de blues.","capa":"","vsl":"","selo":"","nivel":"ini-inter","kickerTopo":"Ebook - iniciantes e intermediários","titulo":"O blues é o atalho pra *improvisar sem medo*","sub":"Quem toca blues aprende a escutar, responder e improvisar. São 30 páginas diretas ao ponto, com os fundamentos que todo tecladista precisa dominar pra tirar o pé da partitura e começar a criar.","preco":"$25","precoAntigo":"$49","obs":"pagamento único, acesso imediato","link":"https://pay.hotmart.com/I104281028R","botao":"Garantir meu ebook","itens":["30 páginas de conteúdo prático","PDF de alta qualidade","Exercícios práticos em cada capítulo","Acesso imediato depois da compra","Garantia de 7 dias"],"chamadaTitulo":"Por $25 você começa a tocar blues *ainda hoje*","chamadaTexto":"Acesso imediato, PDF de alta qualidade e garantia de 7 dias.","secoes":[{"tipo":"cartoes","kicker":"O que você vai aprender","titulo":"Conteúdo completo e prático em *30 páginas*","intro":"","numerar":true,"itens":[{"t":"Escala de blues","d":"Domine a escala pentatônica blues e suas variações pra criar solos autênticos, com o sotaque certo."},{"t":"Progressões I-IV-V","d":"Aprenda as progressões harmônicas clássicas do blues de 12 compassos, a base de praticamente todo o estilo."},{"t":"Técnicas de mão esquerda","d":"Desenvolva padrões de acompanhamento que dão groove às suas músicas, em vez de só segurar o acorde."},{"t":"Improvisação blues","d":"Técnicas pra improvisar com confiança usando licks e frases tradicionais do estilo."}]},{"tipo":"depoimentos","kicker":"Quem já leu","titulo":"O que dizem *quem já está tocando*","intro":"","itens":[{"texto":"\"Finalmente entendi a lógica por trás do blues! O ebook é direto ao ponto e os exercícios são incríveis. Em 2 semanas já estava improvisando.\"","nome":"Marcos Ribeiro","papel":"São Paulo, SP"},{"texto":"\"Toco há 3 anos e nunca conseguia dar aquele feeling blues. O ebook explica exatamente como conseguir esse som autêntico.\"","nome":"Carlos Santos","papel":"Rio de Janeiro, RJ"},{"texto":"\"Comecei do zero e em 1 mês já estava tocando blues com minha banda. O material é muito bem organizado e fácil de seguir.\"","nome":"Pedro Lima","papel":"Curitiba, PR"}]},{"tipo":"garantia","kicker":"","titulo":"","intro":"*Garantia de 7 dias.* Leia, aplique os exercícios e, se não fizer sentido pra você, peça o reembolso dentro do prazo. Pagamento seguro via Hotmart."}],"perguntas":[{"p":"É ebook ou videoaula?","r":"É um ebook em PDF, de 30 páginas, com conteúdo prático e exercícios. Serve pra estudar com o material aberto ao lado do teclado."},{"p":"Preciso saber improvisar pra começar?","r":"Não. O ebook começa pela escala e pela progressão básica. O improviso é a última etapa, construída em cima do que vem antes."},{"p":"Quando recebo o material?","r":"Acesso imediato. Assim que o pagamento é aprovado pela Hotmart, o PDF fica disponível pra você baixar."}],"publicado":true,"data":1793848536101,"caminho":"/cursos/dominando-o-blues/"}</script>
 <div id="palco">
 
-<section class="curso-topo">
+<!-- ⚠️ Molde da página de curso criado pelo painel. O curso.js preenche tudo
+     (ver o topo dele). Nada aqui é texto de curso de verdade. -->
+<p class="curso-previa" id="c-previa" hidden>Prévia: este curso ainda não está no site. Só quem tem este link consegue ver.</p>
+
+<section class="curso-topo" id="curso-topo">
   <div class="limite curso-topo__grade">
     <div>
-      <p class="kicker">Ebook - iniciantes e intermediários</p>
-      <h1>O blues é o atalho pra <span class="destaque">improvisar sem medo</span></h1>
-      <p class="curso-topo__sub texto">
-        Quem toca blues aprende a escutar, responder e improvisar. São 30 páginas
-        diretas ao ponto, com os fundamentos que todo tecladista precisa dominar
-        pra tirar o pé da partitura e começar a criar.
-      </p>
-      <div class="hero__acoes" style="justify-content:flex-start">
-        <a class="btn" href="#comprar">Quero o ebook</a>
+      <p class="kicker" id="c-kicker">Curso online</p>
+      <h1 id="c-titulo">Carregando o curso...</h1>
+      <p class="curso-topo__sub texto" id="c-sub"></p>
+      <div class="vsl" id="c-vsl" hidden></div>
+      <div class="hero__acoes" style="justify-content:flex-start" id="c-acoes" hidden>
+        <a class="btn" href="#comprar">Quero o curso</a>
         <a class="btn btn--vazado" href="#conteudo">Ver o conteúdo</a>
       </div>
     </div>
-
     <div class="curso-caixa" id="comprar">
-      <p class="curso-caixa__de">De $49</p>
-      <p class="curso-caixa__preco">$25</p>
-      <p class="curso-caixa__obs">pagamento único, acesso imediato</p>
-      <a data-comprar="dominando-o-blues" class="btn btn--largo" href="../../#contato">Garantir meu ebook</a>
-      <ul class="curso-caixa__itens">
-        <li>30 páginas de conteúdo prático</li>
-        <li>PDF de alta qualidade</li>
-        <li>Exercícios práticos em cada capítulo</li>
-        <li>Acesso imediato depois da compra</li>
-        <li>Garantia de 7 dias</li>
-      </ul>
+      <p class="curso-caixa__obs" id="c-de" hidden style="text-decoration:line-through"></p>
+      <p class="curso-caixa__preco" id="c-preco"></p>
+      <p class="curso-caixa__obs" id="c-obs"></p>
+      <a data-comprar="" class="btn btn--largo" href="../../#contato">Quero me inscrever</a>
+      <ul class="curso-caixa__itens" id="c-itens"></ul>
     </div>
   </div>
 </section>
 
-<section class="secao faixa-escura" id="conteudo">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">O que você vai aprender</p>
-      <h2 class="titulo-secao">Conteúdo completo e prático em <span class="destaque">30 páginas</span></h2>
-    </div>
-    <div class="grade-3">
-      <div class="carta revela">
-        <div class="carta__num">01</div>
-        <h3>Escala de blues</h3>
-        <p>Domine a escala pentatônica blues e suas variações pra criar solos autênticos, com o sotaque certo.</p>
-      </div>
-      <div class="carta revela">
-        <div class="carta__num">02</div>
-        <h3>Progressões I-IV-V</h3>
-        <p>Aprenda as progressões harmônicas clássicas do blues de 12 compassos, a base de praticamente todo o estilo.</p>
-      </div>
-      <div class="carta revela">
-        <div class="carta__num">03</div>
-        <h3>Técnicas de mão esquerda</h3>
-        <p>Desenvolva padrões de acompanhamento que dão groove às suas músicas, em vez de só segurar o acorde.</p>
-      </div>
-      <div class="carta revela">
-        <div class="carta__num">04</div>
-        <h3>Improvisação blues</h3>
-        <p>Técnicas pra improvisar com confiança usando licks e frases tradicionais do estilo.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- as seções do meio (cartões, módulos, depoimentos, texto, garantia) entram aqui -->
+<div id="c-secoes"></div>
 
-<section class="secao">
-  <div class="limite">
-    <div class="centro revela">
-      <p class="kicker">Quem já leu</p>
-      <h2 class="titulo-secao">O que dizem <span class="destaque">quem já está tocando</span></h2>
-    </div>
-    <div class="depoimentos">
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Finalmente entendi a lógica por trás do blues! O ebook é direto ao ponto e os exercícios são incríveis. Em 2 semanas já estava improvisando."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">MR</div><div><div class="depo__nome">Marcos Ribeiro</div><div class="depo__papel">São Paulo, SP</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Toco há 3 anos e nunca conseguia dar aquele feeling blues. O ebook explica exatamente como conseguir esse som autêntico."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">CS</div><div><div class="depo__nome">Carlos Santos</div><div class="depo__papel">Rio de Janeiro, RJ</div></div></div>
-      </div>
-      <div class="depo revela">
-        <div class="depo__estrelas">★★★★★</div>
-        <p class="depo__texto">"Comecei do zero e em 1 mês já estava tocando blues com minha banda. O material é muito bem organizado e fácil de seguir."</p>
-        <div class="depo__pessoa"><div class="depo__avatar">PL</div><div><div class="depo__nome">Pedro Lima</div><div class="depo__papel">Curitiba, PR</div></div></div>
-      </div>
-    </div>
-
-    <div class="garantia revela">
-      <div class="garantia__selo">🛡️</div>
-      <p><strong>Garantia de 7 dias.</strong> Leia, aplique os exercícios e, se não fizer sentido pra você, peça o reembolso dentro do prazo. Pagamento seguro via Hotmart.</p>
-    </div>
-  </div>
-</section>
-
-<section class="secao faixa-escura" id="perguntas">
+<section class="secao" id="perguntas" hidden>
   <div class="notas" aria-hidden="true">
-    <div class="nota" style="top:16%;left:9%;animation-delay:-2s">♪</div>
-    <div class="nota" style="top:38%;right:11%;animation-delay:-6s">🎵</div>
-    <div class="nota" style="bottom:18%;left:14%;animation-delay:-4s">♬</div>
+    <div class="nota" style="top:15%;left:8%;animation-delay:-3s">♪</div>
+    <div class="nota" style="top:40%;right:10%;animation-delay:-5s">🎼</div>
+    <div class="nota" style="bottom:18%;left:13%;animation-delay:-1s">♫</div>
   </div>
   <div class="limite">
     <div class="centro revela">
       <p class="kicker">Perguntas</p>
       <h2 class="titulo-secao">Antes de <span class="destaque">decidir</span></h2>
     </div>
-    <div class="perguntas">
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">É ebook ou videoaula?</button>
-        <div class="pergunta__corpo"><p>É um ebook em PDF, de 30 páginas, com conteúdo prático e exercícios. Serve pra estudar com o material aberto ao lado do teclado.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Preciso saber improvisar pra começar?</button>
-        <div class="pergunta__corpo"><p>Não. O ebook começa pela escala e pela progressão básica. O improviso é a última etapa, construída em cima do que vem antes.</p></div>
-      </div>
-      <div class="pergunta" data-pergunta>
-        <button class="pergunta__topo" aria-expanded="false">Quando recebo o material?</button>
-        <div class="pergunta__corpo"><p>Acesso imediato. Assim que o pagamento é aprovado pela Hotmart, o PDF fica disponível pra você baixar.</p></div>
-      </div>
-    </div>
+    <div class="perguntas" id="c-perguntas"></div>
   </div>
 </section>
 
-<section class="secao chamada">
+<section class="secao chamada" id="c-chamada" hidden>
   <div class="chamada__caixa revela">
-    <p class="kicker" style="justify-content:center">Comece hoje</p>
-    <h2 class="titulo-secao">Por $25 você começa a tocar blues <span class="destaque">ainda hoje</span></h2>
-    <p class="texto">Acesso imediato, PDF de alta qualidade e garantia de 7 dias.</p>
+    <p class="kicker" style="justify-content:center">Próximo passo</p>
+    <h2 class="titulo-secao" id="c-chamada-titulo"></h2>
+    <p class="texto" id="c-chamada-texto"></p>
     <div class="hero__acoes" style="margin-top:2rem">
-      <a data-comprar="dominando-o-blues" class="btn" href="../../#contato">Garantir meu ebook</a>
+      <a data-comprar="" class="btn" href="../../#contato">Quero me inscrever</a>
       <a class="btn btn--vazado" href="../../#cursos">Ver outros cursos</a>
     </div>
   </div>
 </section>
 
+<section class="secao chamada" id="c-nao-achou" hidden>
+  <div class="chamada__caixa">
+    <p class="kicker" style="justify-content:center">Curso</p>
+    <h2 class="titulo-secao" id="c-nao-achou-titulo">Esse curso <span class="destaque">não está mais aqui</span></h2>
+    <p class="texto" id="c-nao-achou-texto">Ele pode ter saído do ar ou mudado de endereço. Veja os cursos que estão abertos agora, ou chame o André no WhatsApp.</p>
+    <div class="hero__acoes" style="margin-top:2rem">
+      <a class="btn" href="../../#cursos">Ver os cursos</a>
+      <a class="btn btn--vazado" data-whats href="../../#contato">Chamar no WhatsApp</a>
+    </div>
+  </div>
+</section>
 
 <footer class="rodape">
   <!-- borda de teclado: o rodapé "abre" com uma fileira de teclas -->
@@ -232,7 +168,7 @@
   <svg width="28" height="28" viewBox="0 0 24 24" fill="#062c14"><path d="M17.5 14.4c-.3-.1-1.7-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.3-.5.1-.2 0-.4 0-.5C10 9 9.4 7.6 9.1 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.3-.1-.2-.3-.3-.6-.4z"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.6 1.4 5.1L2 22l5-1.3c1.4.8 3.1 1.2 4.9 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.6 0-3.1-.4-4.5-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4 15 3.5 13.5 3.5 12c0-4.7 3.8-8.5 8.5-8.5s8.5 3.8 8.5 8.5-3.8 8.5-8.5 8.5z"/></svg>
 </a>
 
-<script src="../../assets/js/site.js"></script>
-<script src="../../assets/js/rastreio.js"></script>
+<!-- o curso.js carrega o site.js e o rastreio.js depois de montar a página -->
+<script src="../../assets/js/curso.js"></script>
 </body>
 </html>
